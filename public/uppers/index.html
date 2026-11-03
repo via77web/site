@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Uppers is a chocolate rice bubble protein bar with Kakadu plum, macadamia, walnut and blueberry.">
+<meta property="og:title" content="Uppers">
+<meta property="og:description" content="The rice bubble bar. Chocolate, Kakadu plum, macadamia, walnut and blueberry.">
+<meta property="og:image" content="https://www.via77.com.au/uppers/assets/photo-hand.webp">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Uppers</title>
+</head>
+<body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap">
+<style>
+/* Layout: colour-blocked bands lifted from the business cards — black hero with the bar torn open,
+   pink ingredient band, white nutrition panel, orange photo band, black shop, pink footer wordmark. */
+:root{
+  --ink:#000000;      /* rich black, C100 M100 Y100 K100 */
+  --pink:#EC1C4E;     /* C1 M98 Y63 K0 */
+  --tang:#F38134;     /* C0 M61 Y92 K0 */
+  --paper:#FFFFFF;
+  --ink-2:#2A0710;    /* black pulled toward the pink, for quiet text on pink */
+  --mute:#A9A3A4;     /* grey on black, faintly warm */
+  --display:"Archivo","Arial Narrow",Helvetica,Arial,sans-serif;
+  --body:"Archivo",Helvetica,Arial,sans-serif;
+  --gutter:max(16px,env(safe-area-inset-left,0px));
+  --gutter-r:max(16px,env(safe-area-inset-right,0px));
+  --max:1360px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--body);font-size:17px;line-height:1.5;font-variation-settings:"wdth" 100;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+a{color:inherit}
+img{height:auto}
+.nip table{color:inherit}
+:focus-visible{outline:3px solid var(--tang);outline-offset:3px;border-radius:4px}
+.wm{display:block;fill:currentColor;height:auto}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* Display type: Archivo pushed wide and heavy in italic, like the pack's "THE RICE BUBBLE BAR" */
+.hd{font-family:var(--display);font-style:italic;font-weight:820;font-variation-settings:"wdth" 118;line-height:.9;letter-spacing:-.025em;text-wrap:balance;margin:0}
+.h1{font-size:clamp(48px,7vw,112px)}
+.h2{font-size:clamp(40px,6vw,92px)}
+.lede{font-size:clamp(17px,1.5vw,20px);max-width:34ch;margin:0}
+
+/* Buttons: white pill like the reference cart button */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:52px;padding:0 28px;border-radius:999px;border:2px solid var(--paper);background:var(--paper);color:var(--ink);font:700 16px/1 var(--body);font-variation-settings:"wdth" 108;text-decoration:none;cursor:pointer;transition:background .15s,color .15s}
+.btn.ghost{background:transparent;color:var(--paper)}
+.btn:hover{background:var(--pink);border-color:var(--pink);color:var(--ink)}
+.btn.ghost:hover{background:var(--paper);border-color:var(--paper)}
+
+/* Header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ink);border-bottom:1px solid #262122}
+.top .wrap{display:flex;align-items:center;gap:28px;min-height:72px}
+.top .wm{width:118px;color:var(--pink)}
+.top nav{display:flex;gap:24px;font-weight:500;font-size:16px}
+.top nav a{text-decoration:none}
+.top nav a:hover{color:var(--pink)}
+.cart{margin-left:auto;min-height:44px;padding:0 20px;font-size:15px}
+.cart b{font-variant-numeric:tabular-nums;margin-left:.15em}
+@media (max-width:720px){.top nav{display:none}}
+
+/* Hero: the scrollbar tears the bar open. The section's height is the scroll budget;
+   the stage sticks under the header while both registered frames scrub. */
+.hero{position:relative;height:230vh}
+.hero-stage{position:sticky;top:calc(env(safe-area-inset-top,0px) + 72px);height:calc(100svh - 72px - env(safe-area-inset-top,0px));min-height:540px;overflow:hidden;background:var(--ink)}
+.plate{position:absolute;inset:0;transform-origin:50% 50%;will-change:transform,opacity;backface-visibility:hidden}
+.plate img{display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:56% 40%}
+#plateA{z-index:1}
+#plateB{z-index:2;opacity:0}
+#plateMB{z-index:3;opacity:0}
+#heroTint{position:absolute;inset:0;z-index:4;background:var(--ink);opacity:0;pointer-events:none;will-change:opacity}
+/* Scrim sized to the copy block: bottom-up for the headline, a softer sweep from the left */
+.hero-scrim{position:absolute;inset:0;z-index:5;pointer-events:none;background:
+  linear-gradient(to top,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 22%,rgba(0,0,0,.32) 42%,rgba(0,0,0,0) 56%),
+  linear-gradient(100deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.18) 34%,rgba(0,0,0,0) 56%)}
+.hero-copy,.hero-after{position:absolute;inset:0;z-index:6;display:flex;align-items:flex-end;will-change:transform,opacity}
+.hero-copy .wrap,.hero-after .wrap{width:100%;display:grid;gap:22px;padding-block:0 clamp(40px,8vh,88px)}
+.hero-copy .wrap>*{max-width:620px}
+.hero .h1{font-size:clamp(44px,6.2vw,100px);max-width:11ch}
+.hero-copy .actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero-after{opacity:0;pointer-events:none}
+.hero-after .wrap>*{max-width:760px}
+.hero-after .hd{margin:0;font-size:clamp(36px,5vw,76px)}
+.hero-after .wrap>p:not(.hd){margin:0;font-size:18px;color:#D9D4D5;max-width:40ch}
+.scroll-hint{position:absolute;z-index:6;right:max(16px,env(safe-area-inset-right,0px));bottom:clamp(40px,8vh,88px);margin-right:clamp(0px,3vw,40px);display:flex;align-items:center;gap:12px;font-size:14px;color:var(--mute)}
+.scroll-hint i{display:block;width:2px;height:36px;background:linear-gradient(to bottom,var(--pink),transparent);transform-origin:top}
+@media (prefers-reduced-motion:no-preference){.scroll-hint i{animation:hintDrop 1.6s cubic-bezier(.65,0,.35,1) infinite}
+  @keyframes hintDrop{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}}
+/* Portrait viewports get their own composition and a stronger bottom-up scrim */
+@media (max-aspect-ratio:1/1){
+  .hero{height:200vh}
+  .plate img{object-position:50% 30%}
+  .hero-scrim{background:linear-gradient(to top,rgba(0,0,0,.96) 0%,rgba(0,0,0,.86) 30%,rgba(0,0,0,.4) 46%,rgba(0,0,0,0) 58%)}
+  .hero .h1{font-size:clamp(40px,11vw,64px)}
+  .hero .lede{font-size:16px}
+  .hero-copy .wrap,.hero-after .wrap{gap:18px;padding-block:0 32px}
+  .scroll-hint{display:none}
+}
+@media (max-aspect-ratio:1/1) and (max-width:420px){
+  .hero-copy .actions .btn{flex:1;padding:0 16px}
+}
+
+/* The bite: the frame opens out of the black stage into daylight as it scrolls in */
+.moment{background:var(--ink);padding-block:clamp(12px,2vw,24px) 0}
+.moment-frame picture{display:block;height:min(calc(100svh - 72px),54vw);min-height:440px;overflow:hidden}
+.moment-frame{position:relative;overflow:hidden;background:var(--ink);
+  --inset:0%;--round:0px;--zoom:1;
+  clip-path:inset(var(--inset) calc(var(--inset) * 1.4) var(--inset) calc(var(--inset) * 1.4) round var(--round))}
+.moment-frame img{display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:62% 38%;transform:scale(var(--zoom));transform-origin:68% 55%;will-change:transform}
+.moment-copy{position:absolute;inset:0;color:var(--ink);pointer-events:none}
+.moment-copy .wrap{display:grid;gap:18px;padding-block:clamp(36px,6vw,88px) 0}
+.moment-copy .hd{font-size:clamp(36px,4.8vw,76px);max-width:10ch}
+.moment-copy p:not(.hd){margin:0;font-size:clamp(17px,1.4vw,20px);font-weight:600;max-width:24ch}
+@media (max-aspect-ratio:1/1){
+  .moment-frame picture{height:min(52svh,460px);min-height:340px}
+  .moment-frame img{object-position:30% 45%;transform-origin:60% 60%}
+  .moment-copy{position:static;color:var(--paper)}
+  .moment-copy .wrap{padding-block:28px 8px}
+  .moment-copy .hd{max-width:12ch}
+}
+
+/* Ticker, using the "+" the pack uses for its ingredient list */
+.ticker{background:var(--pink);color:var(--ink);overflow:hidden;white-space:nowrap;font-weight:700;font-variation-settings:"wdth" 110;font-size:17px;padding-block:14px}
+.ticker .track{display:inline-flex;gap:0}
+.ticker span{padding-right:36px}
+.ticker span::before{content:"+";margin-right:36px;font-weight:500}
+@media (prefers-reduced-motion:no-preference){.ticker .track{animation:tick 38s linear infinite}@keyframes tick{to{transform:translateX(-50%)}}}
+
+/* Inside: pink band */
+.inside{background:var(--pink);color:var(--ink);overflow:hidden;padding-block:clamp(64px,9vw,128px)}
+.inside .wrap{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px;align-items:center}
+.inside .intro{display:grid;gap:20px;margin-bottom:clamp(36px,5vw,64px)}
+.inside .intro .hd{max-width:15ch}
+.inside .intro p{max-width:40ch}
+.inside .intro p{margin:0;font-size:18px;color:var(--ink-2)}
+.ing{list-style:none;margin:0;padding:0;display:grid}
+.ing li{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:20px;padding-block:18px;border-top:2px solid var(--ink)}
+.ing li:last-child{border-bottom:2px solid var(--ink)}
+.ing .plus{font:500 clamp(32px,3.6vw,52px)/1 var(--body);grid-row:span 2;padding-top:2px}
+.ing .name{font-family:var(--display);font-style:italic;font-weight:820;font-variation-settings:"wdth" 118;font-size:clamp(30px,3.8vw,56px);line-height:1;letter-spacing:-.02em}
+.ing .note{margin:8px 0 0;font-size:16px;color:var(--ink-2);max-width:46ch}
+.ing li{cursor:default;border-radius:0;outline-offset:6px}
+.ing li .name,.ing li .plus{transition:color .3s}
+.ing li.on .name,.ing li.on .plus{color:var(--paper)}
+/* The burst: a Lottie of the ingredients flying out of the bar, then floating.
+   A list item lights up its ingredient; the rest of the scene drops back. */
+.burst{position:relative;aspect-ratio:1087/1446;max-width:100%;border-radius:10px;overflow:hidden;background:#5DA0E4;box-shadow:0 30px 60px -20px rgba(42,7,16,.45)}
+.burst svg{display:block}
+.burst .ing{transition:filter .45s ease}
+.burst[data-focus] .ing{filter:saturate(.2) brightness(.55)}
+.burst[data-focus] .sky{filter:brightness(.7) saturate(.6);transition:filter .45s ease}
+.burst .sky{transition:filter .45s ease}
+.burst[data-focus~="plum"] .ing-plum,.burst[data-focus~="mac"] .ing-mac,.burst[data-focus~="walnut"] .ing-walnut,
+.burst[data-focus~="blueberry"] .ing-blueberry,.burst[data-focus~="choc"] .ing-choc,.burst[data-focus~="dust"] .ing-dust{filter:drop-shadow(0 0 18px rgba(255,255,255,.55)) saturate(1.1)}
+@media (max-width:860px){
+  .inside .wrap{grid-template-columns:1fr}
+  .inside .burst-wrap{order:-1}
+  .burst{max-width:520px;margin-inline:auto}
+}
+
+/* Numbers: white band with an Australian nutrition information panel */
+.numbers{background:var(--paper);color:var(--ink);padding-block:clamp(64px,9vw,128px)}
+.numbers .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:start}
+.numbers .copy{display:grid;gap:24px}
+.numbers .copy p{margin:0;max-width:40ch;font-size:18px}
+.facts{display:flex;flex-wrap:wrap;gap:10px}
+.facts span{border:2px solid var(--ink);border-radius:999px;padding:8px 16px;font-weight:700;font-variation-settings:"wdth" 108;font-size:15px}
+.nip{border:3px solid var(--ink);padding:18px 20px 16px;font-variation-settings:"wdth" 92}
+.nip h3{margin:0 0 6px;font-size:24px;font-weight:900;font-variation-settings:"wdth" 100;letter-spacing:-.01em}
+.nip .serve{margin:0;font-size:15px;line-height:1.6;padding-bottom:10px;border-bottom:8px solid var(--ink)}
+.nip-scroll{overflow-x:auto}
+.nip table{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+.nip th,.nip td{padding:8px 0;border-bottom:1px solid var(--ink);text-align:right}
+.nip th:first-child,.nip td:first-child{text-align:left}
+.nip thead th{font-weight:700;font-size:13px;vertical-align:bottom;padding-top:10px}
+.nip td.sub{padding-left:16px}
+.nip tbody tr:last-child td{border-bottom:4px solid var(--ink)}
+.nip .tbc{color:#8a8486}
+.nip .nip-note{margin:10px 0 0;font-size:13px;color:#5a5355}
+@media (max-width:860px){.numbers .wrap{grid-template-columns:1fr}}
+
+/* Photos: orange band */
+.photos{background:var(--tang);color:var(--ink);padding-block:clamp(64px,9vw,120px);overflow:hidden}
+.photos .head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px 32px;margin-bottom:clamp(32px,5vw,56px)}
+.photos .head a{font-weight:700;font-size:17px;text-underline-offset:4px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,2vw,28px)}
+.grid figure{margin:0}
+.grid img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px}
+.grid figcaption{margin-top:10px;font-size:15px}
+.grid figure:nth-child(even){margin-top:clamp(24px,5vw,72px)}
+@media (max-width:640px){.grid{grid-template-columns:1fr 1fr}.grid figure:nth-child(even){margin-top:32px}}
+
+/* Shop: black band */
+.shop{overflow:hidden;padding-block:clamp(64px,9vw,128px)}
+.shop .wrap{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(32px,5vw,80px);align-items:center}
+.shop .pic{position:relative}
+/* Packet: the bar sits inside the open-ended packet. --p (0..1) draws it out of the mouth
+   while the packet slides the other way. Layers back to front: bar, packet. */
+.packet{position:relative;aspect-ratio:1673/599;max-width:none;--p:0}
+.packet img{position:absolute;max-width:none;height:auto}
+.packet .sleeve{inset:0;width:100%;transform:translateX(calc(var(--p) * -52%)) rotate(calc(var(--p) * -2deg))}
+.packet .naked{width:95%;left:2%;top:50%;transform:translate(calc(var(--p) * 12.8%),-50%)}
+.packet .sleeve{filter:drop-shadow(0 30px 40px rgba(236,28,78,.22))}
+/* scroll version, in the nutrition section */
+.pull{grid-column:1/-1;padding-top:clamp(24px,4vw,56px)}
+.pull .packet{width:min(78%,880px);margin-left:4%;transform:rotate(-3deg)}
+.pull .naked{filter:drop-shadow(0 22px 22px rgba(42,7,16,.28))}
+.unwrap-note{margin:28px 0 0 4%;font-size:15px;color:#5a5355;opacity:var(--p)}
+/* hover version, in the shop: the bar peeks out, hovering or tapping pulls it out */
+.peek{width:90%;margin-left:6%;--p:.1;transform:rotate(-4deg);cursor:pointer;transition:transform .7s cubic-bezier(.2,.8,.2,1);-webkit-tap-highlight-color:transparent;border-radius:12px}
+.peek img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.peek .naked{filter:drop-shadow(0 26px 30px rgba(0,0,0,.55))}
+.peek.out{--p:.58;transform:rotate(-7deg) scale(1.03)}
+@media (hover:hover){.peek:hover{--p:.58;transform:rotate(-7deg) scale(1.03)}}
+.peek-hint{margin:26px 0 0 6%;font-size:14px;color:var(--mute)}
+@media (prefers-reduced-motion:reduce){.peek,.peek img{transition:none}}
+.buy{display:grid;gap:24px;position:relative;z-index:1}
+.buy .price{font-size:clamp(28px,2.6vw,36px);font-weight:800;font-variation-settings:"wdth" 112;font-variant-numeric:tabular-nums;margin:0}
+.buy .price small{font-size:16px;font-weight:500;color:var(--mute);margin-left:8px}
+.buy p{margin:0;color:#D9D4D5;max-width:38ch}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:10px}
+legend{font-weight:700;margin-bottom:10px;font-size:15px}
+.sizes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.size{position:relative}
+.size input{position:absolute;opacity:0}
+.size label{display:grid;gap:2px;padding:14px 18px;border:2px solid #3A3334;border-radius:14px;cursor:pointer;transition:border-color .15s,background .15s}
+.size label b{font-size:17px}
+.size label span{font-size:14px;color:var(--mute);font-variant-numeric:tabular-nums}
+.size input:checked+label{border-color:var(--pink);background:rgba(236,28,78,.12)}
+.size input:focus-visible+label{outline:3px solid var(--tang);outline-offset:3px}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.qty{display:inline-flex;align-items:center;border:2px solid #3A3334;border-radius:999px;min-height:52px}
+.qty button{width:48px;height:48px;border:0;background:none;color:var(--paper);font-size:22px;cursor:pointer;border-radius:50%}
+.qty button:hover{color:var(--pink)}
+.qty output{min-width:2ch;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.add{flex:1;min-width:200px;background:var(--pink);border-color:var(--pink);color:var(--ink)}
+.add:hover{background:var(--paper);border-color:var(--paper)}
+.status{min-height:1.5em;font-size:15px;color:var(--mute);margin:0}
+.ship{font-size:14px;color:var(--mute)}
+@media (max-width:860px){.shop .wrap{grid-template-columns:1fr}.peek{width:86%;margin-left:8%}.pull .packet{width:92%;margin-left:2%}}
+
+/* Footer: the wordmark at full width on pink */
+.foot{background:var(--pink);color:var(--ink);padding-block:clamp(48px,6vw,80px) 28px;overflow:hidden}
+.foot .cols{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px 48px;margin-bottom:clamp(40px,6vw,72px);font-size:16px}
+.foot .cols ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.foot .cols a{text-decoration:none}
+.foot .cols a:hover{text-decoration:underline}
+.foot .wm{width:100%}
+.foot .legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;margin-top:24px;font-size:14px;color:var(--ink-2)}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wm" viewBox="0 0 850 253"><path fill-rule="evenodd" d="M520.2 49.0L517.5 50.0L515.5 50.2L510.3 52.0L505.0 54.7L501.3 57.2L497.0 61.3L493.3 66.2L490.2 72.2L489.8 73.7L489.2 74.7L488.8 76.2L488.0 77.8L488.0 78.8L487.0 81.2L487.0 82.7L486.0 85.2L485.8 87.5L485.0 89.5L484.8 92.7L484.0 94.5L483.8 98.5L483.0 101.0L483.0 105.0L482.0 109.2L482.0 116.0L481.5 117.8L481.5 120.3L481.0 122.2L481.0 146.7L481.5 148.3L481.5 150.5L482.0 152.0L482.0 156.5L483.0 159.7L483.0 162.0L484.0 164.3L484.0 165.7L484.8 167.5L485.2 169.2L485.8 170.2L487.0 173.5L489.0 177.3L492.5 182.5L495.0 185.5L499.0 189.3L501.0 190.5L503.0 192.2L507.0 194.5L514.5 197.8L515.5 197.8L517.2 198.7L519.5 199.0L521.5 199.8L523.7 199.8L526.5 200.8L532.0 200.8L533.8 201.3L541.3 201.3L542.8 200.8L548.3 200.8L551.7 199.8L553.5 199.8L555.5 199.0L557.8 198.7L559.3 197.8L560.8 197.7L569.0 193.7L574.0 190.2L578.2 186.0L581.5 180.8L583.8 175.3L583.8 167.2L582.3 164.3L581.3 163.3L578.8 162.0L571.7 162.0L563.8 165.0L562.2 165.2L560.5 166.0L559.2 166.0L556.2 167.0L554.2 167.0L550.5 168.0L544.5 168.0L543.2 168.5L539.3 168.5L537.7 168.0L531.7 168.0L528.5 167.0L526.2 167.0L524.3 166.2L522.3 166.0L520.8 165.2L519.0 164.8L518.0 164.2L516.5 163.8L515.2 163.0L512.5 162.0L507.3 158.8L504.7 156.5L498.8 150.3L497.2 147.7L494.8 142.5L494.8 141.5L493.8 139.2L493.8 135.5L493.3 132.7L493.8 130.5L494.8 129.2L497.2 128.0L500.0 127.8L503.5 128.8L505.7 128.8L508.2 129.8L509.5 129.8L511.2 130.7L512.8 130.8L515.2 131.8L516.3 131.8L518.5 132.8L519.7 132.8L522.2 133.8L523.5 133.8L525.8 134.8L527.5 134.8L530.2 135.8L533.3 136.0L535.5 136.8L546.5 136.8L548.3 136.0L550.2 135.8L553.0 134.7L559.2 131.0L564.5 126.8L567.7 123.5L570.8 119.3L572.7 116.5L574.8 112.2L576.0 108.7L576.8 107.3L576.8 106.2L577.8 103.8L578.0 101.8L578.8 100.0L578.8 97.2L579.8 93.3L579.8 79.3L578.8 75.3L578.8 73.2L577.8 70.7L577.7 69.0L573.8 61.5L571.7 59.0L567.3 55.0L562.2 52.2L560.7 51.8L559.2 51.0L557.8 50.8L556.7 50.2L554.7 50.0L552.0 49.0L549.0 49.0L544.8 48.0L526.8 48.0L523.2 49.0ZM510.7 66.2L514.0 65.0L515.5 65.0L518.7 65.8L520.5 65.8L522.0 66.7L523.7 67.0L527.3 68.8L530.2 70.7L535.2 75.0L540.3 80.8L542.8 84.3L546.8 91.2L549.8 97.8L550.2 99.5L551.0 101.2L551.2 102.7L552.0 104.3L552.2 106.5L553.0 108.7L553.0 112.8L553.5 114.5L553.0 116.5L553.0 119.7L551.5 123.0L548.7 125.8L546.0 126.8L543.7 126.8L542.2 126.2L540.5 126.0L538.3 125.0L533.7 122.0L531.3 120.0L525.3 113.8L523.7 111.3L521.8 109.3L517.8 103.3L513.0 94.5L512.7 93.2L510.0 87.3L509.7 85.5L508.8 83.8L508.7 82.2L507.8 80.5L507.8 78.3L507.0 74.7L507.0 73.3L508.2 69.0L509.0 67.7ZM700.7 35.0L699.7 35.0L696.7 34.0L682.3 34.0L680.5 34.8L678.8 35.0L676.2 36.0L670.2 39.3L663.5 45.7L659.0 51.5L654.2 59.8L647.7 73.5L644.8 78.3L642.3 81.0L640.3 82.0L638.8 81.8L638.0 81.0L637.8 77.3L638.7 75.8L638.8 74.5L640.7 70.5L640.8 69.3L641.8 67.5L642.0 66.3L642.8 64.7L643.0 63.2L643.8 61.5L643.8 50.2L642.8 47.7L642.7 46.2L640.7 42.3L636.3 38.0L630.3 35.2L628.2 35.0L625.3 34.0L607.5 34.0L605.0 34.8L602.5 35.0L597.3 37.2L593.7 40.5L592.3 42.3L591.0 45.8L591.0 53.8L592.2 57.3L593.5 59.7L596.7 63.0L601.7 65.8L603.0 66.0L604.5 66.8L605.7 66.8L608.2 67.8L611.3 68.0L614.0 68.8L619.2 68.8L623.3 69.8L626.7 69.8L629.5 71.0L631.0 72.7L631.0 74.8L630.2 76.5L630.0 77.8L629.2 79.3L629.0 80.5L619.0 100.3L618.0 101.7L617.0 104.3L612.0 114.5L609.8 120.3L609.2 121.3L608.8 123.0L608.0 124.5L608.0 125.3L607.0 127.3L607.0 128.3L606.0 130.3L606.0 131.3L605.0 133.3L605.0 134.7L604.0 136.8L604.0 138.5L603.2 140.2L603.0 142.7L602.0 145.2L601.8 148.3L601.0 150.5L601.0 154.2L600.0 158.7L600.0 173.8L601.0 177.0L601.0 178.5L601.8 180.0L602.2 181.8L605.2 187.5L610.0 192.7L612.5 194.8L615.3 196.5L620.0 198.7L621.3 198.8L623.3 199.8L625.5 200.0L627.5 200.8L631.0 200.8L633.2 201.3L639.8 201.3L641.8 200.8L646.3 200.8L648.5 200.0L651.0 199.7L655.0 197.5L657.7 194.7L658.8 192.0L658.8 185.8L657.8 182.8L657.8 180.5L656.8 177.8L656.8 175.5L655.8 173.2L655.8 170.8L654.8 168.2L654.8 166.2L654.0 163.8L653.8 161.2L652.8 158.2L652.8 155.8L651.8 152.8L651.8 150.3L651.0 148.0L650.8 144.5L649.8 141.2L649.8 137.8L649.0 135.3L648.8 130.5L647.8 126.2L647.8 121.3L646.8 116.3L646.8 107.5L646.3 105.7L646.3 98.7L646.0 97.8L646.3 93.7L646.8 91.8L646.8 89.7L647.7 88.0L648.0 86.3L649.2 84.2L652.8 80.3L654.3 79.3L657.5 78.0L660.2 77.7L663.0 76.8L667.2 76.8L670.8 77.8L673.8 78.0L675.0 78.7L676.7 78.8L678.3 79.7L680.2 80.0L681.2 80.7L685.7 82.0L687.2 82.8L688.8 83.0L690.5 83.8L694.0 83.8L696.7 82.8L698.7 81.7L701.7 78.8L703.8 76.3L706.5 71.5L707.0 69.8L707.7 68.8L707.8 67.5L708.8 65.5L709.0 63.7L709.8 61.7L710.0 58.8L710.8 56.2L710.8 46.5L710.0 44.8L709.7 42.7L707.8 39.5L705.5 37.3ZM175.2 35.0L170.2 37.3L167.3 40.0L165.2 43.8L165.0 45.8L164.5 47.3L164.5 52.3L165.0 53.7L165.0 54.8L166.2 57.5L170.0 61.7L172.0 63.2L174.8 64.7L180.3 66.8L182.0 67.0L183.2 67.7L185.2 67.8L187.5 68.8L189.2 68.8L191.5 69.8L193.2 69.8L195.5 70.8L197.2 71.0L198.2 71.7L199.7 72.0L201.7 73.0L204.5 75.2L206.0 78.0L206.0 84.8L205.0 89.5L205.0 93.5L204.0 97.3L204.0 100.2L203.0 103.0L203.0 105.7L202.0 108.3L202.0 110.7L201.0 113.3L201.0 115.5L200.0 118.2L200.0 120.2L199.0 122.8L199.0 124.8L198.2 126.8L198.0 129.2L197.2 131.3L197.0 134.2L196.0 136.5L196.0 138.8L195.2 140.8L195.0 143.7L194.0 146.3L194.0 148.7L193.0 151.3L193.0 154.2L192.0 156.8L192.0 159.7L191.0 162.5L191.0 166.2L190.0 169.5L190.0 173.2L189.0 177.0L189.0 182.0L188.5 184.3L188.5 186.2L188.0 187.5L188.0 209.3L189.0 212.8L189.0 215.0L190.0 217.3L190.2 219.3L190.8 220.5L191.2 222.2L192.0 223.5L192.0 224.2L194.3 228.7L196.3 231.7L202.0 237.7L204.5 239.8L207.3 241.7L213.3 244.7L215.0 245.0L216.7 245.8L218.5 246.0L220.5 246.8L223.3 246.8L227.5 247.8L232.3 247.8L236.7 246.8L239.3 246.8L241.0 246.0L242.7 245.7L246.8 243.2L249.7 239.5L250.0 238.0L250.8 236.5L250.8 234.0L251.3 232.2L251.3 231.0L250.8 229.3L250.8 227.2L248.5 221.3L243.8 213.5L241.8 211.2L241.0 209.7L238.8 207.3L237.2 204.8L224.8 190.3L223.5 188.2L222.0 186.5L219.0 181.2L219.0 178.2L220.2 177.0L222.0 177.0L226.8 179.5L231.7 182.8L232.8 183.3L234.2 184.5L235.8 185.3L237.2 186.5L244.3 190.8L248.3 192.8L249.3 193.7L255.8 196.7L257.3 197.0L261.2 198.7L262.7 198.8L265.2 199.8L267.2 200.0L269.5 200.8L273.3 200.8L275.3 201.3L280.0 201.3L281.5 200.8L284.3 200.8L286.5 199.8L288.0 199.7L293.5 196.7L299.2 191.3L301.5 188.7L305.2 182.8L308.8 175.2L310.0 171.0L310.7 170.0L310.8 168.7L311.8 166.5L312.0 164.7L312.8 162.7L312.8 161.2L313.8 158.8L314.0 156.0L314.8 154.0L314.8 151.5L315.8 147.8L315.8 143.8L316.8 139.8L316.8 128.8L317.3 127.3L317.3 119.3L316.8 117.3L316.8 101.0L315.8 96.0L315.8 91.7L314.8 88.2L314.8 85.5L313.8 82.7L313.8 80.8L313.0 78.8L312.7 76.3L311.8 74.5L311.8 73.3L311.0 71.8L310.8 70.5L310.0 68.8L309.7 67.2L307.8 63.2L304.7 57.2L303.0 54.7L298.8 49.3L294.5 45.2L290.5 42.2L282.7 38.0L281.7 37.8L280.2 37.0L278.8 36.8L277.2 36.0L275.3 35.8L273.3 35.0L271.0 35.0L267.8 34.0L253.3 34.0L247.8 35.8L242.7 38.8L240.0 41.2L234.8 46.7L230.0 54.3L220.8 73.5L217.7 76.8L216.7 77.0L215.8 76.5L214.8 75.2L214.8 70.7L215.8 67.5L215.8 65.2L216.8 62.3L216.8 51.3L214.7 45.3L212.2 41.8L207.3 38.0L203.5 36.2L202.2 36.0L200.3 35.2L198.0 35.0L194.8 34.0L179.3 34.0L176.3 35.0ZM242.7 66.3L246.5 67.2L249.2 68.7L252.8 71.8L258.3 77.8L264.8 87.5L271.8 100.7L275.2 108.8L275.8 109.8L277.0 112.8L277.0 113.5L277.8 115.0L278.2 116.7L278.8 117.7L280.2 122.5L280.8 123.7L281.0 125.3L281.8 126.8L282.2 129.3L283.0 131.2L283.2 133.2L284.0 135.0L284.0 137.0L285.0 139.5L285.0 142.0L286.0 145.5L286.0 149.5L286.5 151.3L286.5 154.0L287.0 155.8L286.5 160.7L286.0 162.5L286.0 165.2L285.0 167.5L285.0 168.7L284.2 170.3L283.8 171.8L280.8 177.5L275.3 183.0L271.3 185.0L269.5 185.0L268.2 185.5L262.3 185.0L257.3 182.8L253.8 180.3L251.8 178.5L247.7 173.2L243.0 164.7L242.8 163.7L241.0 159.8L240.7 158.2L240.0 157.2L239.7 155.2L238.8 153.5L238.8 152.3L238.0 150.7L237.8 148.5L236.8 146.2L236.8 144.3L235.8 141.8L235.8 139.3L234.8 136.3L234.8 133.3L233.8 129.8L233.8 125.5L232.8 121.0L232.8 91.8L233.8 87.3L233.8 84.0L234.8 81.0L234.8 79.0L235.7 77.3L236.0 74.8L236.7 73.8L237.0 72.3L238.0 70.3L239.2 68.7L240.7 67.2ZM321.3 17.0L319.7 17.8L318.0 18.2L314.3 20.2L311.2 23.3L309.2 27.3L309.0 29.8L308.5 31.3L308.5 35.5L309.2 39.0L311.0 42.5L316.3 47.7L320.5 49.8L325.8 51.8L327.3 52.0L328.5 52.7L330.7 52.8L333.0 53.8L334.7 53.8L336.5 54.7L338.7 54.8L340.5 55.7L342.3 55.8L344.0 56.7L345.3 56.8L348.8 58.5L351.0 60.2L353.0 62.7L353.5 65.2L353.5 67.3L353.0 69.2L353.0 76.3L352.0 80.5L352.0 83.8L351.0 87.2L351.0 89.8L350.0 92.7L350.0 95.2L349.0 97.8L349.0 100.2L348.0 102.8L348.0 104.8L347.0 107.5L347.0 109.7L346.0 112.3L346.0 114.2L345.0 117.0L345.0 118.8L344.0 121.5L344.0 123.7L343.0 126.2L342.8 128.8L342.2 130.0L342.0 133.2L341.0 135.5L341.0 137.8L340.0 140.7L340.0 143.2L339.0 145.8L338.8 149.3L338.0 151.5L337.8 155.3L337.0 157.5L337.0 161.2L336.0 164.5L336.0 168.3L335.0 172.5L335.0 178.0L334.0 183.3L334.0 205.7L335.0 209.5L335.2 212.5L336.0 214.3L336.2 216.3L336.8 217.5L338.2 221.7L341.2 227.5L342.2 228.7L343.0 230.3L348.8 236.5L351.7 239.0L354.7 241.0L362.2 244.7L363.5 244.8L365.7 245.8L367.5 246.0L369.5 246.8L372.3 246.8L377.0 247.8L382.3 247.8L386.8 246.8L389.3 246.8L391.0 246.0L392.8 245.7L396.3 243.8L398.8 241.5L400.7 239.0L401.8 236.3L401.8 235.0L402.8 231.3L402.8 229.5L402.0 226.8L401.8 224.7L399.5 219.0L392.8 208.5L390.8 206.2L390.0 204.7L387.5 202.0L385.8 199.5L377.5 190.0L376.0 187.7L373.5 185.0L370.7 181.2L368.0 176.7L367.5 174.5L367.7 172.7L369.2 171.0L370.3 171.0L371.5 171.7L372.5 171.8L376.5 174.0L389.5 182.8L399.3 188.5L410.7 193.7L411.8 193.8L414.2 194.8L415.7 195.0L417.3 195.8L419.2 195.8L421.8 196.8L425.0 196.8L426.8 197.3L432.2 197.8L436.7 196.8L439.3 196.7L440.5 196.0L444.2 194.8L450.2 191.0L453.8 187.5L458.0 182.2L459.8 179.3L464.7 169.7L464.8 168.5L465.7 167.0L466.0 165.5L466.7 164.3L467.0 162.5L467.7 161.3L467.8 159.3L468.8 157.2L469.0 155.0L469.8 153.3L469.8 151.7L470.8 149.0L470.8 146.7L471.8 143.5L471.8 140.5L472.8 136.8L472.8 132.3L473.8 127.3L473.8 93.3L472.8 87.3L472.8 82.0L471.8 78.2L471.8 74.5L470.8 71.8L470.8 69.3L470.0 67.3L469.8 65.2L469.0 63.3L468.7 60.7L468.0 59.5L467.7 57.5L467.0 56.3L466.7 54.7L464.7 49.7L459.8 40.5L458.7 39.2L457.8 37.5L453.8 32.7L450.7 29.5L448.8 28.3L446.3 26.0L440.0 22.2L438.7 21.8L435.5 20.2L434.3 20.0L432.8 19.2L431.3 19.0L429.0 18.0L427.3 18.0L424.8 17.0L421.8 17.0L417.8 16.0L406.3 16.0L403.3 17.0L401.5 17.2L395.5 20.0L391.3 23.0L385.5 29.0L381.2 35.3L380.7 36.7L379.3 38.7L370.0 58.3L367.5 61.8L366.2 62.7L365.2 62.8L364.5 62.5L363.0 60.7L362.8 57.8L363.0 56.5L363.8 54.3L363.8 52.0L364.8 49.3L364.8 46.3L365.8 41.8L365.8 40.0L364.8 35.3L364.8 33.7L364.0 32.0L363.7 30.2L362.5 28.0L359.7 24.2L357.3 22.2L352.2 19.2L345.3 17.0L342.7 17.0L339.2 16.0L326.2 16.0L323.2 17.0ZM393.3 51.3L397.5 52.2L400.3 53.8L403.5 56.7L404.7 57.3L410.2 63.7L416.8 73.5L423.8 86.3L424.0 87.3L425.8 90.7L430.0 100.5L430.0 101.2L430.8 102.7L432.2 107.0L432.8 108.0L433.2 110.0L434.0 111.5L434.2 113.2L434.8 114.2L435.2 116.3L436.0 118.2L436.0 119.5L437.0 121.7L437.0 123.3L438.0 125.7L438.0 127.5L439.0 130.2L439.0 132.5L440.0 135.7L440.0 139.5L441.0 144.5L441.0 152.8L440.0 156.5L439.8 159.5L439.2 160.7L439.0 162.5L438.2 164.0L437.8 165.5L434.2 172.2L428.8 177.5L423.7 180.0L414.7 179.8L413.5 179.2L412.0 178.8L408.5 177.0L404.7 174.2L402.7 172.2L398.8 167.3L393.8 158.3L391.0 151.3L389.7 146.5L388.8 144.8L388.7 143.2L387.8 141.5L387.7 139.2L386.8 137.5L386.8 135.5L385.8 132.8L385.8 130.5L384.8 127.8L384.8 124.5L383.8 121.2L383.8 117.3L382.8 112.8L382.8 104.5L382.3 103.2L382.3 96.5L381.8 95.0L381.8 92.8L382.3 91.2L382.3 85.2L382.8 83.3L382.8 76.5L383.8 72.5L383.8 69.7L384.8 66.7L384.8 64.7L385.8 62.3L385.8 61.2L386.7 59.7L387.0 58.0L388.5 55.0L389.8 53.3L391.5 51.8ZM11.8 23.7L9.2 26.5L7.0 30.5L6.5 35.0L7.0 36.7L7.0 39.5L9.2 44.5L13.7 49.2L20.0 52.7L21.3 52.8L23.3 53.8L24.5 53.8L26.2 54.7L28.8 54.8L31.8 55.8L35.3 55.8L39.5 56.8L45.2 56.8L49.7 57.8L53.2 57.8L56.8 59.2L58.3 61.2L57.8 63.3L54.5 67.7L37.0 85.3L29.8 93.7L29.0 95.2L26.8 97.7L25.8 99.5L24.3 101.2L19.3 109.2L15.2 117.2L12.8 123.3L12.2 124.3L12.0 125.7L10.2 130.3L9.8 132.8L9.0 134.5L8.8 137.0L8.0 139.2L8.0 141.8L7.0 145.3L7.0 152.7L6.5 154.8L6.5 157.5L7.0 159.5L7.0 165.3L7.8 167.3L8.0 169.7L9.0 172.2L9.0 173.0L11.0 177.8L14.3 183.7L17.7 187.8L23.7 193.0L28.3 195.8L35.3 198.8L36.5 198.8L38.5 199.8L40.5 199.8L43.5 200.8L47.8 200.8L49.8 201.3L56.3 201.3L58.0 200.8L62.0 200.8L64.3 199.8L66.0 199.8L71.3 197.8L75.3 195.8L81.2 192.0L90.5 182.7L95.7 175.5L97.8 171.5L98.8 170.3L103.0 162.2L108.0 153.3L110.7 150.7L111.8 150.3L112.5 150.7L113.0 151.5L113.0 157.2L112.0 159.8L112.0 162.2L111.0 165.2L111.0 168.2L110.0 171.2L110.0 177.3L109.5 179.3L109.5 181.5L110.0 183.3L110.0 185.0L111.2 187.7L112.7 190.0L115.7 193.0L119.0 195.2L124.2 197.7L125.3 197.8L127.3 198.8L128.7 198.8L130.8 199.8L132.8 199.8L136.0 200.8L140.2 200.8L142.3 201.3L149.0 201.3L151.0 200.8L155.5 200.8L157.5 200.0L159.5 199.8L161.5 198.8L162.2 198.8L164.7 197.5L168.8 193.3L170.7 189.3L170.8 178.8L168.8 174.5L165.5 171.0L161.5 168.3L156.3 166.2L154.7 166.0L152.3 165.0L149.8 164.8L147.7 164.0L144.8 164.0L141.3 163.0L137.7 163.0L134.3 162.0L130.8 161.8L129.7 161.2L127.3 160.7L125.8 159.7L124.8 158.2L125.0 155.7L128.0 148.2L142.5 122.0L146.8 113.3L147.0 112.3L147.8 111.2L150.0 105.7L150.8 104.3L152.0 100.8L152.7 99.8L153.0 98.2L153.7 97.2L155.0 92.7L155.7 91.5L155.8 90.0L156.8 87.7L156.8 86.3L157.8 84.2L157.8 82.7L158.8 80.3L158.8 78.7L159.8 75.7L160.0 72.5L160.8 70.3L160.8 66.5L161.8 62.2L161.8 46.3L161.0 44.0L160.7 40.7L160.0 39.5L159.8 38.2L158.8 35.5L156.7 31.3L154.2 27.8L150.2 24.0L144.5 20.3L139.3 18.0L138.3 18.0L136.7 17.2L134.3 17.0L130.8 16.0L117.5 16.0L113.2 17.0L110.8 17.0L108.5 18.0L107.0 18.2L104.8 19.2L102.3 21.0L100.2 23.3L99.0 26.2L99.0 33.0L100.0 35.3L100.0 37.0L101.0 39.3L101.2 41.7L102.0 43.3L102.0 45.0L103.0 47.7L103.0 49.7L103.8 51.7L104.2 55.5L105.0 57.7L105.0 60.8L106.0 64.5L106.0 68.7L107.0 72.8L107.0 79.3L107.5 80.7L107.5 83.0L108.0 84.8L108.0 100.5L108.5 102.5L108.5 115.3L108.0 117.3L108.0 124.3L107.0 127.8L107.0 130.7L106.2 132.5L106.0 134.8L105.2 136.5L105.0 138.3L104.2 139.8L102.8 143.8L99.5 149.8L95.0 155.0L91.3 157.8L87.5 159.8L85.3 160.3L84.7 160.8L81.5 161.0L80.0 161.5L73.7 161.5L71.8 161.0L68.7 161.0L66.3 160.0L64.8 159.8L60.3 157.5L57.5 155.0L56.0 152.8L55.0 150.8L54.8 149.3L53.8 147.2L53.8 139.5L54.8 136.3L54.8 134.3L55.8 132.0L55.8 130.5L56.8 128.3L56.8 127.3L57.8 125.0L58.0 123.7L58.7 122.5L59.0 120.7L60.8 116.3L61.0 114.8L61.7 113.8L61.8 112.5L62.7 111.0L62.8 109.5L64.7 105.3L64.8 104.0L65.7 102.3L67.0 97.5L67.7 96.3L68.0 94.3L68.7 93.2L68.8 91.3L69.8 89.3L69.8 88.0L70.7 86.3L70.8 84.2L71.8 81.7L71.8 80.0L72.8 77.5L72.8 75.0L73.8 72.0L73.8 67.8L74.3 66.0L74.3 63.3L74.8 61.7L74.8 59.3L74.3 57.3L74.3 52.7L73.8 51.0L73.8 46.0L73.0 43.7L72.8 40.5L71.8 38.2L71.7 36.3L69.7 31.3L66.8 26.5L61.7 21.3L55.7 18.2L53.7 17.8L52.0 17.0L49.7 17.0L46.3 16.0L33.0 16.0L29.2 17.0L26.5 17.0L24.2 18.0L22.3 18.2L17.3 20.2ZM831.8 12.7L826.5 10.2L825.0 10.0L822.7 9.0L820.3 8.8L818.3 8.0L815.3 8.0L811.8 7.0L805.8 7.0L804.5 6.5L801.7 6.5L800.3 6.0L776.5 6.0L772.0 7.0L767.5 7.0L764.2 8.0L761.8 8.0L759.2 9.0L757.3 9.0L755.5 9.8L753.5 10.0L752.0 10.8L750.3 11.0L748.3 12.0L747.0 12.2L746.0 12.8L744.8 13.0L743.5 13.8L742.5 14.0L736.5 17.0L730.7 20.8L728.0 23.2L723.3 27.8L721.2 30.3L719.3 33.2L716.2 39.8L716.0 41.3L715.0 43.3L714.8 45.5L714.0 47.5L714.0 65.0L715.0 68.0L715.0 69.7L715.8 71.7L716.0 73.3L716.8 74.8L718.0 78.3L720.0 82.3L723.7 88.0L727.7 93.0L732.3 97.8L741.3 105.7L743.7 107.2L745.8 109.2L751.5 113.0L753.2 114.5L754.3 115.0L762.2 120.5L766.5 123.0L790.5 139.0L792.2 140.5L793.8 141.3L795.5 142.8L797.2 143.7L799.5 145.7L801.0 146.5L809.8 153.3L818.7 161.3L819.2 162.3L822.0 165.5L824.0 169.5L823.8 172.7L823.0 174.3L820.7 176.7L817.2 178.0L807.5 177.8L805.3 177.0L803.3 177.0L801.0 176.0L799.5 176.0L798.0 175.2L796.3 175.0L794.8 174.2L793.5 174.0L792.0 173.2L787.8 171.8L786.8 171.2L785.3 170.8L784.3 170.2L780.7 168.8L777.2 167.0L776.2 166.8L757.2 158.0L753.7 156.8L752.3 156.0L751.2 155.8L750.2 155.2L748.7 154.8L747.7 154.2L745.8 153.8L744.3 153.0L742.8 152.8L741.8 152.2L739.3 151.8L737.5 151.0L734.8 150.8L732.3 150.0L724.5 150.0L721.0 151.0L719.0 151.2L718.0 151.8L716.2 152.2L711.7 154.8L707.8 158.7L706.3 161.0L705.8 162.7L705.2 163.7L705.0 165.2L704.0 168.0L704.0 175.3L705.0 178.7L705.0 180.3L706.0 182.3L706.2 184.0L710.2 193.0L712.3 196.7L714.7 199.3L715.2 200.3L717.0 202.2L720.3 204.7L722.2 205.7L723.8 206.0L725.5 206.8L728.8 206.8L731.5 205.7L735.8 201.3L738.2 197.8L746.3 183.0L748.3 180.2L750.3 178.3L751.3 177.8L753.7 178.0L754.8 179.2L756.0 182.2L756.2 185.5L757.0 188.8L757.0 193.3L758.0 196.7L758.0 198.7L759.2 202.2L761.0 205.2L764.0 206.8L774.3 206.8L775.7 206.3L777.8 206.3L779.7 205.8L784.5 205.8L788.0 204.8L791.0 204.8L793.7 203.8L795.7 203.8L798.2 202.8L800.3 202.7L802.0 201.8L803.0 201.8L805.3 200.8L806.7 200.7L807.7 200.0L809.2 199.7L812.7 198.0L814.0 197.7L821.3 193.7L823.5 192.0L824.7 191.5L826.8 189.5L828.8 188.2L833.7 183.3L838.7 176.5L839.0 175.3L839.8 174.3L841.7 170.3L842.0 168.8L842.8 167.2L843.0 165.3L843.7 164.0L843.8 160.7L844.8 156.3L844.8 152.5L843.8 148.2L843.8 145.8L842.8 143.5L842.8 142.3L841.8 140.3L841.7 139.0L838.7 132.8L833.5 125.2L826.3 117.2L824.7 116.0L819.0 110.7L807.7 102.2L795.5 94.2L794.5 93.8L783.3 87.0L770.5 80.0L769.5 79.2L768.3 78.8L762.5 75.2L761.3 74.8L748.3 66.8L746.7 65.3L744.8 64.3L739.7 60.2L736.7 57.2L734.0 53.2L732.8 49.3L733.0 48.0L733.7 46.7L735.8 44.8L738.5 44.3L743.3 44.3L745.0 44.8L749.2 45.0L751.5 45.8L753.8 45.8L755.7 46.7L757.8 46.8L760.3 47.8L761.7 47.8L763.5 48.7L765.5 48.8L767.8 49.8L769.3 49.8L771.5 50.8L772.8 50.8L775.3 51.8L776.7 51.8L778.5 52.7L780.5 52.8L782.2 53.7L784.5 53.8L786.2 54.7L788.5 54.8L791.0 55.8L793.7 56.0L795.5 56.8L798.2 56.8L801.5 57.8L810.3 57.8L812.5 57.0L815.0 56.7L816.0 56.0L817.5 55.7L822.0 53.2L825.2 50.8L828.8 47.2L833.0 41.2L835.7 35.5L835.8 34.2L836.8 31.7L836.8 30.0L837.8 26.5L837.8 20.5L836.8 18.3L836.8 17.7L836.2 16.7L833.8 14.2Z"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a href="#top" aria-label="Uppers home"><svg class="wm" viewBox="0 0 850 253" role="img" aria-label="uppers"><use href="#wm"/></svg></a>
+    <nav aria-label="Main">
+      <a href="#inside">What's inside</a>
+      <a href="#numbers">Nutrition</a>
+      <a href="#shop">Shop</a>
+    </nav>
+    <a class="btn cart" href="#shop">Box <b id="cartCount">0</b></a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" id="hero" aria-labelledby="heroTitle">
+    <div class="hero-stage">
+      <div class="plate" id="plateA"><picture><source media="(max-aspect-ratio: 1/1)" srcset="/uppers/assets/herom_a_m.webp 600w, /uppers/assets/herom_a_d.webp 900w" sizes="100vw"><img src="/uppers/assets/hero_a_d.webp" srcset="/uppers/assets/hero_a_m.webp 900w, /uppers/assets/hero_a_d.webp 1600w" sizes="100vw" width="1600" height="1000" alt="Uppers chocolate rice bubble bar, sealed in its glossy pink wrapper" fetchpriority="high"></picture></div>
+      <div class="plate" id="plateB"><picture><source media="(max-aspect-ratio: 1/1)" srcset="/uppers/assets/herom_b_m.webp 600w, /uppers/assets/herom_b_d.webp 900w" sizes="100vw"><img src="/uppers/assets/hero_b_d.webp" srcset="/uppers/assets/hero_b_m.webp 900w, /uppers/assets/hero_b_d.webp 1600w" sizes="100vw" width="1600" height="1000" alt="The same bar torn open at one end, showing chocolate-coated rice bubbles"></picture></div>
+      <div class="plate" id="plateMB" aria-hidden="true"><picture><source media="(max-aspect-ratio: 1/1)" srcset="/uppers/assets/herom_mb_m.webp 600w, /uppers/assets/herom_mb_d.webp 900w" sizes="100vw"><img src="/uppers/assets/hero_mb_d.webp" srcset="/uppers/assets/hero_mb_m.webp 900w, /uppers/assets/hero_mb_d.webp 1600w" sizes="100vw" width="1600" height="1000" alt=""></picture></div>
+      <div id="heroTint" aria-hidden="true"></div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+      <div class="hero-copy" id="heroCopy">
+        <div class="wrap">
+          <h1 id="heroTitle" class="hd h1">A protein bar you can hear.</h1>
+          <p class="lede">Puffed rice in milk chocolate, with macadamias, walnuts, blueberries and Kakadu plum. It crunches like the ones you had as a kid.</p>
+          <div class="actions">
+            <a class="btn" href="#shop">Shop a box</a>
+            <a class="btn ghost" href="#inside">What's inside</a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-after" id="heroAfter" aria-hidden="true">
+        <div class="wrap">
+          <p class="hd h2">Rice bubbles all the way through.</p>
+          <p>Kakadu plum, macadamia, walnut and blueberry in every bite.</p>
+        </div>
+      </div>
+      <div class="scroll-hint" id="scrollHint" aria-hidden="true"><i></i>Scroll to open</div>
+    </div>
+  </section>
+
+  <section class="moment" aria-labelledby="momentTitle">
+    <div class="moment-frame" id="momentFrame">
+      <picture>
+        <source media="(max-aspect-ratio: 1/1)" srcset="/uppers/assets/beach-m.webp">
+        <img src="/uppers/assets/beach-1844.webp" srcset="/uppers/assets/beach-1100.webp 1100w, /uppers/assets/beach-1844.webp 1844w" sizes="100vw" width="1844" height="853" loading="lazy" alt="A woman in cat-eye sunglasses bites into an opened Uppers bar on a sunny beach, ocean behind her">
+      </picture>
+      <div class="moment-copy">
+        <div class="wrap">
+          <h2 id="momentTitle" class="hd">Something to bite into after the swim.</h2>
+          <p>Thirty grams. Fits in a pocket. Loud enough to notice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-label="Free shipping on orders over A$60. 125 calories a bar. Made with native Kakadu plum. Ships Australia-wide.">
+    <div class="track" aria-hidden="true">
+      <span>Free shipping over A$60</span><span>125 calories a bar</span><span>Native Kakadu plum</span><span>Ships Australia-wide</span><span>The rice bubble bar</span>
+      <span>Free shipping over A$60</span><span>125 calories a bar</span><span>Native Kakadu plum</span><span>Ships Australia-wide</span><span>The rice bubble bar</span>
+    </div>
+  </div>
+
+  <section class="inside" id="inside" aria-labelledby="insideTitle">
+    <div class="wrap">
+      <div>
+        <div class="intro">
+          <h2 id="insideTitle" class="hd h2">Four things on the wrapper. All of them in the bar.</h2>
+          <p>The list on the front of the pack is the recipe, not a flavour note.</p>
+        </div>
+        <ul class="ing">
+          <li tabindex="0" data-ing="plum"><span class="plus" aria-hidden="true">+</span><span class="name">Kakadu plum</span><p class="note">A native fruit from the Top End with a sharp, sour bite. It cuts through the chocolate so the bar doesn't go cloying.</p></li>
+          <li tabindex="0" data-ing="mac"><span class="plus" aria-hidden="true">+</span><span class="name">Macadamia nuts</span><p class="note">Roasted and chopped, for a softer, buttery crunch under the puffed rice.</p></li>
+          <li tabindex="0" data-ing="walnut blueberry"><span class="plus" aria-hidden="true">+</span><span class="name">Walnuts &amp; blueberries</span><p class="note">Walnut for depth, dried blueberry for a chewy bit of sweetness in most bites.</p></li>
+          <li tabindex="0" data-ing="choc dust"><span class="plus" aria-hidden="true">+</span><span class="name">Rice bubbles</span><p class="note">The whole point. Puffed rice bound with protein and coated in milk chocolate.</p></li>
+        </ul>
+      </div>
+      <div class="burst-wrap"><div class="burst" id="burst" role="img" aria-label="Walnuts, macadamias, Kakadu plums, blueberries and chocolate rice bubble chunks bursting out of an Uppers bar against a blue sky"></div></div>
+    </div>
+  </section>
+
+  <section class="numbers" id="numbers" aria-labelledby="numbersTitle">
+    <div class="wrap">
+      <div class="copy">
+        <h2 id="numbersTitle" class="hd h2">One bar is one serve.</h2>
+        <p>Every Uppers bar is 30 grams. No splitting it in half to make the label look better.</p>
+        <div class="facts" aria-label="Key facts">
+          <span>125 Cal</span><span>30 g bar</span><span>Milk chocolate</span>
+        </div>
+      </div>
+      <div class="nip">
+        <h3>Nutrition information</h3>
+        <p class="serve">Servings per package: 1<br>Serving size: 30 g</p>
+        <div class="nip-scroll">
+          <table>
+            <thead><tr><th scope="col"><span class="vh">Nutrient</span></th><th scope="col">Avg. quantity<br>per serving</th><th scope="col">Avg. quantity<br>per 100 g</th></tr></thead>
+            <tbody>
+              <tr><td>Energy</td><td>523 kJ (125 Cal)</td><td>1743 kJ</td></tr>
+              <tr><td>Protein</td><td class="tbc">TBC</td><td class="tbc">TBC</td></tr>
+              <tr><td>Fat, total</td><td class="tbc">TBC</td><td class="tbc">TBC</td></tr>
+              <tr><td class="sub">saturated</td><td class="tbc">TBC</td><td class="tbc">TBC</td></tr>
+              <tr><td>Carbohydrate</td><td class="tbc">TBC</td><td class="tbc">TBC</td></tr>
+              <tr><td class="sub">sugars</td><td class="tbc">TBC</td><td class="tbc">TBC</td></tr>
+              <tr><td>Sodium</td><td class="tbc">TBC</td><td class="tbc">TBC</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="nip-note">Full panel to follow lab testing of the final recipe.</p>
+      </div>
+      <div class="pull">
+        <div class="packet" id="unwrap" role="img" aria-label="An Uppers bar sliding out of its opened pink packet: puffed rice bubbles packed in milk chocolate">
+          <img class="naked" src="/uppers/assets/bar-naked.webp" alt="" width="1400" height="322" loading="lazy">
+          <img class="sleeve" src="/uppers/assets/bar-open-end.webp" alt="" width="1673" height="599" loading="lazy">
+        </div>
+        <p class="unwrap-note" aria-hidden="true">30 grams of rice bubbles, start to finish.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="photos" aria-labelledby="photosTitle">
+    <div class="wrap">
+      <div class="head">
+        <h2 id="photosTitle" class="hd h2">On the feed</h2>
+        <a href="https://www.instagram.com/upper_au/" target="_blank" rel="noopener">Follow @upper_au</a>
+      </div>
+      <div class="grid">
+        <figure><img src="/uppers/assets/photo-hand.webp" alt="A hand with pink and black nails holding an opened Uppers bar, with a blueberry, Kakadu plum, walnut and macadamia floating around it on a blue backdrop" width="800" height="800" loading="lazy"><figcaption>Matching nails optional.</figcaption></figure>
+        <figure><img src="/uppers/assets/photo-pair.webp" alt="Two Uppers bars crossed on a blue backdrop with chocolate crumbs" width="734" height="734" loading="lazy"><figcaption>Two is a normal amount.</figcaption></figure>
+        <figure><img src="/uppers/assets/photo-type.webp" alt="An Uppers bar over the wordmark repeated in white on pink" width="367" height="367" loading="lazy"><figcaption>Chocolate, the first flavour.</figcaption></figure>
+        <figure><img src="/uppers/assets/photo-scatter.webp" alt="Two bars among broken chocolate and nuts, labelled Kakadu plum and chocolate" width="367" height="368" loading="lazy"><figcaption>What's in it, in one photo.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="shop" id="shop" aria-labelledby="shopTitle">
+    <div class="wrap">
+      <div class="pic">
+        <div class="packet peek" id="peek" role="button" tabindex="0" aria-pressed="false" aria-label="Pull the bar out of the packet">
+          <img class="naked" src="/uppers/assets/bar-naked.webp" alt="" width="1400" height="322" loading="lazy">
+          <img class="sleeve" src="/uppers/assets/bar-open-end.webp" alt="" width="1673" height="599" loading="lazy">
+        </div>
+        <p class="peek-hint" id="peekHint" aria-hidden="true">Hover the packet to pull the bar out.</p>
+      </div>
+      <form class="buy" id="buy" novalidate>
+        <h2 id="shopTitle" class="hd h2">Chocolate</h2>
+        <p class="price"><span id="price">A$42</span><small id="per">A$3.50 a bar</small></p>
+        <p>Rice bubbles, Kakadu plum, macadamia, walnut and blueberry in milk chocolate. Packed in boxes so they don't get crushed in the post.</p>
+        <fieldset>
+          <legend>Box size</legend>
+          <div class="sizes">
+            <div class="size"><input type="radio" name="size" id="size12" value="12" checked><label for="size12"><b>Box of 12</b><span>A$42</span></label></div>
+            <div class="size"><input type="radio" name="size" id="size24" value="24"><label for="size24"><b>Box of 24</b><span>A$78</span></label></div>
+          </div>
+        </fieldset>
+        <div class="row">
+          <div class="qty" role="group" aria-label="Number of boxes">
+            <button type="button" id="minus" aria-label="One fewer box">−</button>
+            <output id="qty" aria-live="polite">1</output>
+            <button type="button" id="plus" aria-label="One more box">+</button>
+          </div>
+          <button class="btn add" type="submit" id="addBtn">Add to box</button>
+        </div>
+        <p class="status" id="status" role="status"></p>
+        <p class="ship">Ships Australia-wide in 2–5 business days. Free over A$60.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="cols">
+      <ul><li><a href="#shop">Shop</a></li><li><a href="#inside">What's inside</a></li><li><a href="#numbers">Nutrition</a></li></ul>
+      <ul><li><a href="https://www.instagram.com/upper_au/" target="_blank" rel="noopener">Instagram</a></li><li>Stockists, coming soon</li><li>Wholesale enquiries: hello@uppers.com</li></ul>
+    </div>
+    <svg class="wm" viewBox="0 0 850 253" role="img" aria-label="uppers"><use href="#wm"/></svg>
+    <div class="legal"><span>uppers.com</span><span>Made in Australia</span></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_svg.min.js"></script>
+<script>
+(()=>{
+  /* ---------- Hero scroll engine ----------
+     TUNING: every number that shapes the feel lives in T.
+     Both frames are registered renders of the same bar, so they share ONE Ken Burns
+     track (kb); giving them separate tracks would ghost the wrapper mid-transition. */
+  const T={
+    damping:0.20,      // scroll smoothing per 60fps frame. Snappy. 0.115 balanced, 0.075 filmic
+    fadeIn:0.24,       // hero progress where the tear begins
+    fadeOut:0.62,      // hero progress where it completes
+    blurPeak:0.22,     // max opacity of the motion-blur plate
+    tintPeak:0.10,     // exposure dip through the tear
+    copyOut:[0.18,0.48],   // headline block clears out
+    afterIn:[0.60,0.80],   // closing line arrives
+    // Ken Burns [startScale,endScale, startX%,endX%, startY%,endY%, startRot,endRot]. Keep scale >= 1.045
+    kb:[1.085,1.050, 0.6,-1.0, 0.5,-0.7, 0.28,-0.14]
+  };
+  const clamp=(v,a=0,b=1)=>v<a?a:v>b?b:v, range=(t,a,b)=>clamp((t-a)/(b-a)), lerp=(a,b,t)=>a+(b-a)*t;
+  const smoother=t=>{t=clamp(t);return t*t*t*(t*(t*6-15)+10)}, bell=t=>{t=clamp(t);return Math.sin(Math.PI*t)**1.6};
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hero=document.getElementById('hero'),A=document.getElementById('plateA'),B=document.getElementById('plateB'),
+        MB=document.getElementById('plateMB'),tint=document.getElementById('heroTint'),copy=document.getElementById('heroCopy'),
+        after=document.getElementById('heroAfter'),hint=document.getElementById('scrollHint');
+  let target=0,smooth=0,last=performance.now();
+  const readTarget=()=>{const travel=hero.offsetHeight-hero.firstElementChild.offsetHeight;target=travel>0?clamp(-hero.getBoundingClientRect().top/travel):0};
+  const kbT=p=>{const k=T.kb,q=reduced?0:p;return `translate3d(${lerp(k[2],k[3],q)}%,${lerp(k[4],k[5],q)}%,0) scale(${lerp(k[0],k[1],q)}) rotate(${lerp(k[6],k[7],q)}deg)`};
+  function paint(p){
+    const raw=range(p,T.fadeIn,T.fadeOut),t=smoother(raw),base=kbT(p);
+    A.style.transform=base; B.style.transform=base;
+    B.style.opacity=t;
+    MB.style.opacity=bell(raw)*T.blurPeak;
+    MB.style.transform=base+` scale(${1+bell(raw)*0.02})`;
+    tint.style.opacity=bell(raw)*T.tintPeak;
+    const out=smoother(range(p,...T.copyOut)),inn=smoother(range(p,...T.afterIn));
+    copy.style.opacity=1-out; copy.style.transform=`translate3d(0,${-out*48}px,0)`;
+    copy.style.visibility=out>0.99?'hidden':'visible';
+    after.style.opacity=inn; after.style.transform=`translate3d(0,${(1-inn)*28}px,0)`;
+    after.setAttribute('aria-hidden',inn<0.5);
+    hint.style.opacity=1-range(p,0,0.08);
+  }
+  /* The bite: inset shrinks from a framed window to full-bleed while the photo settles from a slight zoom */
+  const mframe=document.getElementById('momentFrame');
+  function paintMoment(){
+    if(reduced){mframe.style.setProperty('--inset','0%');return}
+    const r=mframe.getBoundingClientRect(),vh=innerHeight;
+    if(r.bottom<0||r.top>vh) return;
+    const q=smoother(range(vh-r.top,vh*0.05,vh*0.85));
+    mframe.style.setProperty('--inset',(1-q)*7+'%');
+    mframe.style.setProperty('--round',(1-q)*28+'px');
+    mframe.style.setProperty('--zoom',1+(1-q)*0.10);
+  }
+  /* Unwrap: progress runs while the bar travels from the bottom of the screen to about a third down */
+  const unwrap=document.getElementById('unwrap'), note=unwrap&&unwrap.parentElement.querySelector('.unwrap-note');
+  const peek=document.getElementById('peek'), peekHint=document.getElementById('peekHint');
+  if(peek){
+    const canHover=matchMedia('(hover:hover)').matches;
+    if(!canHover) peekHint.textContent='Tap the packet to pull the bar out.';
+    const toggle=()=>{const o=peek.classList.toggle('out');peek.setAttribute('aria-pressed',o);peek.setAttribute('aria-label',o?'Slide the bar back in':'Pull the bar out of the packet')};
+    peek.addEventListener('click',()=>{ if(!canHover) toggle() });
+    peek.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle()} });
+  }
+  function paintUnwrap(){
+    if(!unwrap) return;
+    const r=unwrap.getBoundingClientRect(),vh=innerHeight;
+    if(r.bottom<-200||r.top>vh+200) return;
+    const q=reduced?0.55:smoother(range(vh-r.top,vh*0.15,vh*0.7));
+    unwrap.style.setProperty('--p',q.toFixed(4));
+    note.style.setProperty('--p',smoother(range(q,0.7,1)).toFixed(4));
+  }
+  function loop(now){
+    const dt=Math.min((now-last)/16.667,4); last=now;
+    readTarget();
+    smooth=lerp(smooth,target,reduced?1:1-Math.pow(1-T.damping,dt));
+    if(Math.abs(target-smooth)<0.0001) smooth=target;
+    paintMoment(); paintUnwrap();
+    paint(smooth); requestAnimationFrame(loop);
+  }
+  readTarget(); smooth=target; paint(smooth); requestAnimationFrame(loop);
+  addEventListener('resize',()=>{readTarget();paint(smooth)},{passive:true});
+
+
+  const prices={12:42,24:78};
+  let qty=1,cart=0;
+  const $=id=>document.getElementById(id);
+  const size=()=>+document.querySelector('input[name=size]:checked').value;
+  const money=n=>'A$'+(Number.isInteger(n)?n:n.toFixed(2));
+  const render=()=>{const s=size(),t=prices[s]*qty;$('qty').textContent=qty;$('price').textContent=money(t);$('per').textContent=money(prices[s]/s)+' a bar';$('minus').disabled=qty<=1};
+  $('minus').onclick=()=>{qty=Math.max(1,qty-1);render()};
+  $('plus').onclick=()=>{qty=Math.min(9,qty+1);render()};
+  document.querySelectorAll('input[name=size]').forEach(r=>r.addEventListener('change',render));
+  $('buy').addEventListener('submit',e=>{
+    e.preventDefault();cart+=qty;$('cartCount').textContent=cart;
+    $('status').textContent=`Added ${qty} ${qty>1?'boxes':'box'} of ${size()} to your box.`;
+    $('addBtn').textContent='Added';setTimeout(()=>$('addBtn').textContent='Add to box',1600);
+  });
+  render();
+
+  /* ---------- Ingredient burst (Lottie) ----------
+     Frames 0-42 burst the ingredients out of the bar; 42-282 is a seamless float loop.
+     Once it settles, the list tours each ingredient in turn; hover or focus takes over. */
+  const burstEl=document.getElementById('burst');
+  if(burstEl && window.lottie){
+    const INTRO=42,END=282;
+    const anim=lottie.loadAnimation({container:burstEl,renderer:'svg',loop:false,autoplay:false,
+      path:'/uppers/assets/uppers-ingredients.json',rendererSettings:{preserveAspectRatio:'xMidYMid slice'}});
+    const items=[...document.querySelectorAll('.ing li[data-ing]')];
+    let started=false,settled=false,visible=false,timer=null,held=null,step=-1;
+    const setFocus=li=>{items.forEach(x=>x.classList.toggle('on',x===li));
+      if(li) burstEl.dataset.focus=li.dataset.ing; else delete burstEl.dataset.focus};
+    const tour=()=>{ if(held) return; step=(step+1)%(items.length+1); setFocus(items[step]||null) };
+    const startTour=()=>{ if(reduced||timer||!settled||!visible) return; timer=setInterval(tour,2600) };
+    const stopTour=()=>{ clearInterval(timer); timer=null; if(!held) setFocus(null) };
+    const settle=()=>{ anim.removeEventListener('complete',settle); settled=true; anim.loop=true;
+      anim.playSegments([INTRO,END],true); startTour() };
+    anim.addEventListener('DOMLoaded',()=>{
+      if(reduced){ anim.goToAndStop(INTRO,true); settled=true } else anim.goToAndStop(0,true);
+      new IntersectionObserver(es=>es.forEach(e=>{
+        visible=e.isIntersecting;
+        if(visible){
+          if(!started&&!reduced){ started=true; anim.addEventListener('complete',settle); anim.playSegments([0,INTRO],true) }
+          else if(!reduced) anim.play();
+          startTour();
+        } else { if(started) anim.pause(); stopTour() }
+      }),{threshold:0.35}).observe(burstEl);
+    });
+    items.forEach(li=>{
+      const on=()=>{ held=li; setFocus(li) }, off=()=>{ if(held===li){ held=null; setFocus(null) } };
+      li.addEventListener('mouseenter',on); li.addEventListener('mouseleave',off);
+      li.addEventListener('focus',on); li.addEventListener('blur',off);
+      li.addEventListener('click',()=>{ held===li ? off() : on() });
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

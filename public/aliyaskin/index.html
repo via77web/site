@@ -1,0 +1,1269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Aliya Skin: a 100% natural hydra face cream and cooling eye roller for normal to dry skin. Subscribe and save 15%. Concept site by Shazil Sohel.">
+<meta property="og:title" content="Aliya Skin">
+<meta property="og:description" content="Water-light cream for dry skin. Concept site designed and built by Shazil Sohel.">
+<meta property="og:image" content="https://www.via77.com.au/aliyaskin/img/hero_face_1600.webp">
+<meta name="theme-color" content="#4855A3">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234855A3'/%3E%3Cg fill='none' stroke='white' stroke-width='1.6' transform='translate(32 32)'%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(0)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(30)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(60)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(90)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(120)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(150)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(180)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(210)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(240)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(270)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(300)'/%3E%3Cellipse cy='-11' rx='4.5' ry='11' transform='rotate(330)'/%3E%3C/g%3E%3C/svg%3E">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{color-scheme:light}body{margin:0;font:14px/1.5 system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Aliya Skin</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wdth,wght@0,75..100,400..700;1,75..100,400..700&display=swap" rel="stylesheet">
+<style>
+/* Layout: sunlit travertine slabs — content sits on large soft-cornered panels over a pale ground,
+   with lowercase display words set big the way the wordmark is. One loud moment: the scroll-morph hero. */
+:root{
+  --liberty:#4855A3;      /* brand blue, CMYK 84/77/0/0 */
+  --iris:#6B7CE6;         /* the tube's brighter blue */
+  --ink:#252B5E;          /* text: deep liberty instead of black */
+  --ink-2:#5A5F84;
+  --bg:#FBFAFC;           /* white with a violet bias */
+  --mist:#F0EFF4;         /* light grey, CMYK 4/3/2/0 */
+  --magenta:#E2C6E3;      /* pastel magenta */
+  --sage:#C7E5DD;         /* pastel green */
+  --travertine:#E1DBC3;   /* travertine */
+  --line:rgba(37,43,94,.14);
+  --on-liberty:#FFFFFF;
+  --on-liberty-2:rgba(255,255,255,.72);
+  /* word-wave tones: text colour and a soft pastel highlight that passes behind each word */
+  --wt1:#4855A3;--wt2:#6B7CE6;--wh1:rgba(226,198,227,.55);--wh2:rgba(199,229,221,.45);
+  --studio:#EEEEF1;       /* product-photo backdrop: identical in both themes */
+  --on-studio:#252B5E;
+  --scrim:251,250,252;    /* rgb of --bg for the hero scrims */
+
+  --font:'Instrument Sans','Helvetica Neue',Arial,system-ui,sans-serif;
+  --step--1:clamp(13px,.84rem,14px);
+  --step-0:clamp(15px,1rem + .15vw,17px);
+  --step-1:clamp(19px,1.1rem + .6vw,24px);
+  --step-2:clamp(28px,1.4rem + 1.8vw,44px);
+  --step-3:clamp(44px,2rem + 4.6vw,104px);
+  --r-slab:clamp(22px,3vw,40px);
+  --r-pill:999px;
+  --shell:1240px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --liberty:#3D4893;--iris:#8F9CF2;--ink:#EDEFFB;--ink-2:#AEB3D6;
+  --bg:#14183A;--mist:#1D2250;--magenta:#4A3A62;--sage:#24464A;--travertine:#3A3829;
+  --line:rgba(237,239,251,.16);--scrim:20,24,58;--wt1:#C9D0FF;--wt2:#E2C6E3;--wh1:rgba(143,156,242,.28);--wh2:rgba(199,229,221,.22);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --liberty:#3D4893;--iris:#8F9CF2;--ink:#EDEFFB;--ink-2:#AEB3D6;
+  --bg:#14183A;--mist:#1D2250;--magenta:#4A3A62;--sage:#24464A;--travertine:#3A3829;
+  --line:rgba(237,239,251,.16);--scrim:20,24,58;--wt1:#C9D0FF;--wt2:#E2C6E3;--wh1:rgba(143,156,242,.28);--wh2:rgba(199,229,221,.22);color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:var(--step-0);line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;margin:0}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3,p{margin:0}
+h1,h2{text-wrap:balance}
+:focus-visible{outline:2px solid var(--iris);outline-offset:3px;border-radius:6px}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.shell{max-width:var(--shell);margin:0 auto}
+
+/* ---------- header ---------- */
+.top{position:fixed;left:0;right:0;top:0;z-index:50;padding-top:env(safe-area-inset-top,0px);
+  transition:background .4s var(--ease),box-shadow .4s var(--ease)}
+.top.on-photo .mark,.top.on-photo .nav{color:#fff}
+.top.on-photo .bag{color:#fff;border-color:rgba(255,255,255,.45);background:rgba(43,28,18,.18)}
+.top.on-photo .mark,.top.on-photo .nav a,.top.on-photo .bag{transition:color .3s var(--ease)}
+.top.solid{background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.top .shell{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.mark{display:inline-flex;align-items:baseline;gap:.32em;text-decoration:none;color:var(--ink)}
+.mark b{font-weight:600;font-size:26px;letter-spacing:-.03em;font-stretch:92%}
+.mark span{font-size:12px;font-weight:400;letter-spacing:.14em;text-transform:uppercase}
+.nav{display:flex;align-items:center;gap:clamp(14px,2.4vw,32px);font-size:var(--step--1)}
+.nav a{text-decoration:none}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.bag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:var(--r-pill);padding:7px 14px;
+  background:color-mix(in srgb,var(--bg) 60%,transparent);color:var(--ink);font:inherit;cursor:pointer}
+.bag output{min-width:1.4em;height:1.4em;border-radius:50%;background:var(--liberty);color:var(--on-liberty);
+  display:inline-grid;place-items:center;font-size:11px;font-variant-numeric:tabular-nums}
+@media (max-width:640px){.nav .hide-sm{display:none}}
+
+/* ---------- hero: one portrait at a time — follows the mouse, hold and drag for the next ---------- */
+#hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:#2B1C12;
+  touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.track{position:absolute;inset:0;display:flex;will-change:transform}
+.slide{position:relative;flex:0 0 100%;height:100%;overflow:hidden;perspective:1400px}
+.pic{position:absolute;inset:-5%;will-change:transform;transform-origin:50% 50%}
+.pic img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,52% 42%);pointer-events:none;-webkit-user-drag:none;display:block}
+/* warm light that follows the cursor across the skin */
+.sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:0;transition:opacity .8s var(--ease);
+  background:radial-gradient(clamp(320px,38vw,620px) circle at var(--mx,60%) var(--my,38%),rgba(255,238,215,.75),rgba(255,238,215,0) 62%)}
+#hero.lit .sheen{opacity:1}
+.hero-scrim{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,rgba(43,28,18,.66) 0%,rgba(43,28,18,.3) 26%,transparent 46%),
+             linear-gradient(to bottom,rgba(43,28,18,.32) 0%,transparent 16%)}
+.hero-copy{position:absolute;left:0;right:0;bottom:calc(clamp(32px,6vh,64px) + env(safe-area-inset-bottom,0px));color:#fff;pointer-events:none}
+.hero-copy .shell{display:grid;gap:18px;justify-items:start}
+.hero-h1{font-size:clamp(40px,1.2rem + 4vw,92px);font-weight:560;font-stretch:88%;letter-spacing:-.045em;line-height:.94;
+  text-transform:lowercase;max-width:13ch;text-wrap:balance;text-shadow:0 2px 30px rgba(43,28,18,.35)}
+.hero-sub{max-width:40ch;color:rgba(255,255,255,.88);font-size:var(--step-1);line-height:1.4}
+.hero-copy .row{pointer-events:auto}
+.btn.ghost-light{background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.btn.ghost-light:hover{background:rgba(255,255,255,.18)}
+.hero-ctrl{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(clamp(32px,6vh,64px) + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:center;gap:14px;color:#fff;font-size:var(--step--1)}
+.hero-ctrl .count{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.hero-ctrl .hint{color:rgba(255,255,255,.75)}
+.arrow{width:46px;height:46px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:#fff;
+  background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:background .25s var(--ease),opacity .25s var(--ease)}
+.arrow:hover{background:rgba(255,255,255,.22)}
+.arrow:disabled{opacity:.35;cursor:default}
+.arrow svg{width:18px;height:18px}
+/* custom "drag" cursor on mouse devices */
+.drag-cursor{position:absolute;left:0;top:0;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;pointer-events:none;z-index:5;
+  display:grid;place-items:center;color:#fff;font-size:13px;font-weight:600;letter-spacing:.01em;
+  background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  opacity:0;transition:opacity .25s var(--ease),scale .35s var(--ease);will-change:transform}
+#hero.cursor-on .drag-cursor{opacity:1}
+#hero.pressing .drag-cursor{scale:.78}
+@media (hover:hover) and (pointer:fine){#hero{cursor:none}#hero a,#hero button{cursor:pointer}}
+@media (hover:none),(pointer:coarse){.drag-cursor{display:none}}
+.h1{font-size:var(--step-3);font-weight:560;font-stretch:88%;letter-spacing:-.045em;line-height:.92;text-transform:lowercase}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 24px;border-radius:var(--r-pill);
+  background:var(--liberty);color:var(--on-liberty);font:inherit;font-weight:600;font-size:15px;text-decoration:none;border:0;cursor:pointer;
+  transition:transform .35s var(--ease),background .35s var(--ease)}
+.btn:hover{transform:translateY(-1px);background:var(--iris)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.ghost:hover{background:color-mix(in srgb,var(--ink) 6%,transparent)}
+/* ---------- bloom band ---------- */
+.band{padding-block:clamp(56px,8vw,120px)}
+.slab{border-radius:var(--r-slab)}
+.bloom-slab{background:var(--liberty);color:var(--on-liberty);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
+  gap:clamp(24px,4vw,64px);align-items:center;padding:clamp(28px,5vw,72px);overflow:hidden}
+.bloom-wrap{position:relative;aspect-ratio:1;max-width:520px;width:100%;justify-self:center}
+.bloom-wrap>*{position:absolute;inset:0;width:100%;height:100%}
+.bloom-wrap svg{overflow:visible}
+.bloom-copy{display:grid;gap:22px;min-width:0}
+.h2{font-size:var(--step-2);font-weight:560;font-stretch:90%;letter-spacing:-.03em;line-height:1.02;text-transform:lowercase}
+.bloom-copy p{color:var(--on-liberty-2);max-width:46ch}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin:8px 0 0;border-top:1px solid rgba(255,255,255,.22)}
+.facts div{padding:16px 0;border-bottom:1px solid rgba(255,255,255,.22)}
+.facts div:nth-child(odd){padding-right:16px}
+.facts dt{font-size:var(--step--1);color:var(--on-liberty-2)}
+.facts dd{margin:2px 0 0;font-size:var(--step-1);font-weight:500;letter-spacing:-.01em}
+
+/* ---------- shop ---------- */
+.head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:clamp(20px,3vw,36px)}
+.head p{color:var(--ink-2);max-width:40ch}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.6vw,22px)}
+.card{background:var(--studio);color:var(--on-studio);border-radius:var(--r-slab);padding:clamp(20px,2.6vw,36px);
+  display:grid;grid-template-rows:auto 1fr auto;gap:12px;min-width:0}
+.card-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.word{font-size:clamp(52px,7vw,104px);font-weight:650;font-stretch:80%;letter-spacing:-.05em;line-height:.8;color:#4855A3}
+.tag{font-size:12px;font-weight:600;padding:5px 11px;border-radius:var(--r-pill);background:#4855A3;color:#fff;white-space:nowrap}
+.card-img{aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden;border-radius:calc(var(--r-slab) - 10px)}
+.card-img img{width:100%;height:100%;object-fit:cover}
+.card-img.studio img{object-position:50% 55%;transform:scale(1.12)}
+.card-foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:end}
+.card-foot h3{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.card-foot .price{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.card-foot p{color:#5A5F84;font-size:var(--step--1)}
+.card-foot .btn{grid-column:1/-1;margin-top:12px;background:#4855A3;color:#fff}
+.card-foot .btn:hover{background:#6B7CE6}
+
+/* ---------- ritual: interactive three-step demo ---------- */
+.ritual{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,64px);align-items:center}
+.r-stage{position:relative;aspect-ratio:1/1;border-radius:var(--r-slab);overflow:hidden;background:#2B1C12;isolation:isolate}
+.r-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s var(--ease);will-change:transform,opacity}
+.r-img.on{opacity:1;z-index:1}
+/* the outgoing photo stays under the incoming one until the fade finishes */
+.r-img.hold{opacity:1;transition:none}
+#rFx{position:absolute;inset:0;z-index:2;width:100%;height:100%;overflow:visible}
+#rFx text{font-family:var(--font)}
+.r-shade{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(to top,rgba(43,28,18,.45) 0%,transparent 26%),linear-gradient(to bottom,rgba(43,28,18,.3) 0%,transparent 20%)}
+.glass{background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:#fff}
+.r-note{position:absolute;z-index:3;left:clamp(12px,2vw,20px);top:clamp(12px,2vw,20px);padding:9px 15px;border-radius:var(--r-pill);font-size:14px;font-weight:500;
+  transition:opacity .35s var(--ease)}
+.r-foot{position:absolute;z-index:3;left:clamp(12px,2vw,20px);right:clamp(12px,2vw,20px);bottom:clamp(12px,2vw,20px);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.r-clock{padding:9px 15px;border-radius:var(--r-pill);font-size:14px;font-variant-numeric:tabular-nums}
+.r-clock b{font-weight:600}
+.r-play{width:46px;height:46px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer}
+.r-play svg{width:18px;height:18px}
+.r-intro{color:var(--ink-2);margin-top:12px;max-width:44ch}
+.r-steps{list-style:none;margin:24px 0 0;padding:0;display:grid}
+.r-step{width:100%;display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;text-align:left;font:inherit;color:var(--ink);
+  background:none;border:0;border-top:1px solid var(--line);padding:20px 0 18px;cursor:pointer;opacity:.55;transition:opacity .3s var(--ease)}
+.r-step:hover{opacity:.85}
+.r-step[aria-selected="true"]{opacity:1}
+.r-num{font-size:var(--step-2);font-weight:500;font-stretch:80%;line-height:.9;color:var(--iris)}
+.r-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.r-head b{font-size:var(--step-1);font-weight:560;letter-spacing:-.01em}
+.r-dur{font-size:12px;font-weight:600;padding:4px 10px;border-radius:var(--r-pill);background:var(--mist);font-variant-numeric:tabular-nums;white-space:nowrap}
+.r-desc{display:block;color:var(--ink-2);margin-top:4px;max-width:44ch}
+.r-prog{display:block;height:2px;background:var(--line);margin-top:14px;border-radius:2px;overflow:hidden}
+.r-prog i{display:block;height:100%;width:0;background:var(--iris)}
+
+/* ---------- community ---------- */
+.people{position:relative;border-radius:var(--r-slab);overflow:hidden;background:var(--sage);min-height:clamp(420px,52vw,640px);display:flex;align-items:end}
+.people img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 30%}
+/* the photo slowly settles back, as if the camera is easing away, while the mouse is over it */
+.people img{transform:scale(1.1);transform-origin:62% 32%;transition:transform 6s cubic-bezier(.25,.1,.25,1);will-change:transform}
+@media (hover:hover){.people:hover img{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.people img{transition:none;transform:none}}
+.people::after{content:"";position:absolute;inset:0;background:linear-gradient(95deg,rgba(var(--scrim),.88) 0%,rgba(var(--scrim),.55) 30%,transparent 55%)}
+.people-copy{position:relative;z-index:1;display:grid;gap:18px;max-width:min(520px,52%);padding:clamp(24px,4vw,56px)}
+.people-copy p{color:var(--ink-2);max-width:38ch}
+
+/* ---------- footer ---------- */
+.foot{background:var(--liberty);color:var(--on-liberty);margin-top:clamp(56px,8vw,120px);overflow:hidden;border-radius:var(--r-slab) var(--r-slab) 0 0}
+.foot .shell{padding-block:clamp(40px,6vw,80px) 0}
+.foot-grid{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(2,minmax(0,.6fr));gap:32px}
+.foot h2{font-size:var(--step-2)}
+.foot p,.foot li{color:var(--on-liberty-2)}
+.foot ul{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}
+.foot a{text-decoration:none}.foot a:hover{color:#fff;text-decoration:underline}
+.foot h3{font-size:var(--step--1);font-weight:600;color:#fff}
+form{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;max-width:460px}
+label.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+input[type=email]{flex:1 1 220px;min-width:0;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);color:#fff;
+  border-radius:var(--r-pill);padding:13px 18px;font:inherit}
+input[type=email]::placeholder{color:rgba(255,255,255,.6)}
+.btn.light{background:#fff;color:#4855A3}.btn.light:hover{background:#8F9CF2;color:#fff}
+#formMsg{min-height:1.5em;margin-top:10px;color:#fff}
+.giant{font-size:min(36vw,520px);font-weight:600;font-stretch:92%;letter-spacing:-.06em;line-height:.74;
+  margin:clamp(24px,5vw,60px) 0 0;padding-bottom:.14em;white-space:nowrap;text-align:center;user-select:none;line-height:.86}
+.legal{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--on-liberty-2);padding-block:18px;
+  border-top:1px solid rgba(255,255,255,.2);position:relative;background:var(--liberty)}
+
+/* ---------- product page ---------- */
+.pdp{padding-top:calc(68px + env(safe-area-inset-top,0px) + clamp(16px,3vw,40px))}
+#pdpTitle:focus{outline:none}
+.crumb{display:flex;gap:8px;font-size:var(--step--1);color:var(--ink-2);margin-bottom:clamp(16px,2.4vw,28px)}
+.crumb a{text-decoration:none}.crumb a:hover{text-decoration:underline;text-underline-offset:4px}
+.pdp-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,4vw,72px);align-items:start}
+.gallery{display:grid;gap:12px;min-width:0}
+.g-main{aspect-ratio:4/5;border-radius:var(--r-slab);overflow:hidden;background:var(--studio)}
+.g-main img{width:100%;height:100%;object-fit:cover}
+.thumbs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.thumb{aspect-ratio:1;border-radius:16px;overflow:hidden;padding:0;border:0;background:var(--studio);cursor:pointer;
+  box-shadow:inset 0 0 0 0 var(--liberty);opacity:.7;transition:opacity .25s var(--ease)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb[aria-current="true"]{opacity:1;outline:2px solid var(--iris);outline-offset:2px}
+.thumb:hover{opacity:1}
+.buy{position:sticky;top:calc(84px + env(safe-area-inset-top,0px));display:grid;gap:20px;min-width:0}
+.buy .h1{font-size:clamp(40px,1.6rem + 3.4vw,80px)}
+.price-line{display:flex;align-items:baseline;gap:12px;font-size:var(--step-1);font-variant-numeric:tabular-nums}
+.price-line s{color:var(--ink-2);font-size:var(--step-0)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.chips li{font-size:13px;padding:6px 12px;border-radius:var(--r-pill);background:var(--mist)}
+.chips li:nth-child(2){background:var(--sage)}.chips li:nth-child(3){background:var(--magenta)}.chips li:nth-child(4){background:var(--travertine)}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:10px;min-width:0}
+legend{font-size:var(--step--1);font-weight:600;margin-bottom:10px;padding:0}
+.opt{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 14px;align-items:start;
+  padding:18px 20px;border-radius:20px;box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;background:var(--bg);
+  transition:box-shadow .25s var(--ease),background .25s var(--ease)}
+.opt:has(input:checked){box-shadow:inset 0 0 0 2px var(--iris);background:color-mix(in srgb,var(--liberty) 6%,var(--bg))}
+.opt input[type=radio]{margin:3px 0 0;width:18px;height:18px;accent-color:var(--liberty)}
+.opt-title{font-weight:600}
+.opt-price{font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.opt-price small{display:block;font-weight:400;font-size:12px;color:var(--ink-2)}
+.opt-note{grid-column:2/-1;font-size:var(--step--1);color:var(--ink-2)}
+.save{display:inline-block;margin-left:8px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:var(--r-pill);background:var(--liberty);color:var(--on-liberty);vertical-align:2px}
+.freq{grid-column:2/-1;display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;font-size:var(--step--1)}
+.freq select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--r-pill);padding:8px 14px}
+.opt:not(:has(input:checked)) .freq{display:none}
+.qty-row{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+.qty{display:inline-flex;align-items:center;border-radius:var(--r-pill);box-shadow:inset 0 0 0 1px var(--line)}
+.qty button{width:44px;height:48px;border:0;background:none;color:var(--ink);font:inherit;font-size:20px;cursor:pointer;border-radius:var(--r-pill)}
+.qty output{min-width:2ch;text-align:center;font-variant-numeric:tabular-nums;font-weight:600}
+.qty-row .btn{flex:1 1 220px}
+.sub-plan{list-style:none;margin:0;padding:18px 20px;border-radius:20px;background:var(--mist);display:grid;gap:12px}
+.sub-plan li{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;font-size:var(--step--1)}
+.sub-plan b{font-weight:600}
+.sub-plan span{color:var(--ink-2)}
+.acc{border-top:1px solid var(--line)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:18px 0;font-weight:600}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";font-size:22px;font-weight:400;transition:transform .25s var(--ease)}
+.acc details[open] summary::after{transform:rotate(45deg)}
+.acc .body{padding:0 0 18px;color:var(--ink-2);max-width:60ch;display:grid;gap:10px}
+.acc .body p{margin:0}
+.card a.card-link{text-decoration:none;color:inherit;display:contents}
+.card-img{transition:transform .5s var(--ease)}
+a.card-link:hover .card-img{transform:scale(.985)}
+/* hover swap: pack shot -> model holding the tube */
+.card-img.swap{position:relative;background:var(--studio)}
+.card-img.swap img{grid-area:1/1;transition:opacity .6s var(--ease),transform 1.2s var(--ease)}
+.card-img.swap .alt{position:absolute;inset:0;opacity:0;transform:scale(1.06)}
+.card:hover .card-img.swap .alt,.card:focus-within .card-img.swap .alt{opacity:1;transform:scale(1)}
+.card:hover .card-img.swap img:first-child,.card:focus-within .card-img.swap img:first-child{transform:scale(1.04)}
+@media (prefers-reduced-motion:reduce){.card-img.swap img{transition:opacity .2s linear;transform:none!important}}
+.view-more{font-size:var(--step--1);text-decoration:underline;text-underline-offset:4px}
+@media (max-width:860px){
+  .pdp-grid{grid-template-columns:1fr}
+  .buy{position:static}
+}
+
+
+/* ---------- action tooltips: hover or focus a button to see what it does ---------- */
+[data-tip]{position:relative}
+[data-tip]::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 10px);z-index:30;
+  transform:translate(-50%,6px);opacity:0;pointer-events:none;white-space:nowrap;
+  font:500 12.5px/1 var(--font);letter-spacing:0;text-transform:none;color:#fff;
+  padding:8px 12px;border-radius:var(--r-pill);background:#252B5E;box-shadow:0 6px 20px rgba(37,43,94,.22);
+  transition:opacity .22s var(--ease),transform .3s var(--ease)}
+[data-tip-pos~="below"]::after{bottom:auto;top:calc(100% + 10px);transform:translate(-50%,-6px)}
+[data-tip-pos~="end"]::after{left:auto;right:0;transform:translate(0,6px)}
+[data-tip-pos~="below"][data-tip-pos~="end"]::after{transform:translate(0,-6px)}
+[data-tip]:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+[data-tip-pos~="end"]:focus-visible::after{transform:translate(0,0)}
+@media (hover:hover){
+  [data-tip]:hover::after{opacity:1;transform:translate(-50%,0)}
+  [data-tip-pos~="end"]:hover::after{transform:translate(0,0)}
+}
+
+/* ---------- paragraphs: a band of brand tone glides through the letters ---------- */
+/* Only the glyphs change colour: each word is painted with its normal colour plus a narrow
+   gradient band, clipped to the text shape. JS times each word so the band travels at one speed. */
+.w{display:inline-block}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  [data-wave]{--band:110px}
+  .w{color:transparent;-webkit-background-clip:text;background-clip:text;
+    background-image:linear-gradient(90deg,transparent 0%,var(--wt1) 32%,var(--wt2) 60%,transparent 100%),linear-gradient(var(--wb),var(--wb));
+    background-repeat:no-repeat;background-size:var(--band) 100%,100% 100%;
+    background-position:calc(-1 * var(--band)) 0,0 0}
+  .wave-on .w{animation:wordSweep var(--dur,1s) linear var(--del,0ms) both}
+}
+@keyframes wordSweep{from{background-position:calc(-1 * var(--band)) 0,0 0}to{background-position:var(--ww,100px) 0,0 0}}
+/* key phrases: a highlighter stroke draws in behind them as the band passes, then stays */
+mark.hl{--hl:rgba(226,198,227,.85);color:inherit;background-color:transparent;
+  background-image:linear-gradient(100deg,var(--hl),var(--hl));background-repeat:no-repeat;
+  background-position:0 88%;background-size:0% .5em;border-radius:.15em;padding:0 .06em;margin:0 -.06em;
+  -webkit-box-decoration-break:slice;box-decoration-break:slice}
+mark.hl.sage{--hl:rgba(199,229,221,.95)}
+mark.hl.sand{--hl:rgba(225,219,195,.95)}
+.wave-on mark.hl{background-size:100% .5em;transition:background-size var(--hdur,900ms) cubic-bezier(.45,0,.25,1) var(--hdel,0ms)}
+@media (prefers-reduced-motion:reduce){mark.hl{background-size:100% .5em}}
+/* on the blue slab and over photos the band is white and pale pink */
+.bloom-copy [data-wave],.hero-copy [data-wave]{--wt1:#fff;--wt2:#F1DDF2}
+.bloom-copy mark.hl,.hero-copy mark.hl{--hl:rgba(226,198,227,.42)}
+:root[data-theme="dark"] mark.hl{--hl:rgba(143,156,242,.35)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) mark.hl{--hl:rgba(143,156,242,.35)}}
+@media (prefers-reduced-motion:reduce){.wave-on .w{animation:none}}
+
+[hidden]{display:none!important}
+/* ---------- bag drawer ---------- */
+.drawer-scrim{position:fixed;inset:0;z-index:70;background:rgba(37,43,94,.32);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:71;width:min(440px,100vw);display:flex;flex-direction:column;
+  background:var(--bg);color:var(--ink);box-shadow:-24px 0 60px rgba(37,43,94,.18);
+  border-radius:var(--r-slab) 0 0 var(--r-slab);
+  padding:calc(18px + env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) 22px;
+  transform:translateX(104%);visibility:hidden;transition:transform .55s var(--ease),visibility 0s .55s}
+.bag-open .drawer{transform:none;visibility:visible;transition:transform .55s var(--ease),visibility 0s}
+.bag-open .drawer-scrim{opacity:1;pointer-events:auto}
+.d-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:14px}
+.d-head h2{font-size:var(--step-2);font-weight:560;font-stretch:90%;letter-spacing:-.03em;line-height:1;text-transform:lowercase;margin:0}
+.d-head h2 span{font-size:var(--step-0);font-weight:500;letter-spacing:0;color:var(--ink-2);margin-left:6px;font-variant-numeric:tabular-nums}
+.icon-btn{width:42px;height:42px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:var(--ink);background:var(--mist);flex:none}
+.icon-btn:hover{background:color-mix(in srgb,var(--mist) 70%,var(--iris))}
+.icon-btn svg{width:18px;height:18px}
+.ship{display:grid;gap:8px;padding:14px 16px;border-radius:18px;background:var(--mist);font-size:var(--step--1)}
+.ship b{font-weight:600}
+.ship-bar{height:6px;border-radius:6px;background:color-mix(in srgb,var(--ink) 10%,transparent);overflow:hidden}
+.ship-bar i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--liberty),var(--iris));transition:width .6s var(--ease)}
+.d-list{list-style:none;margin:14px 0 0;padding:0 4px 0 0;flex:1;overflow-y:auto;display:grid;align-content:start;gap:0;min-height:0;overscroll-behavior:contain}
+.line{display:grid;grid-template-columns:84px minmax(0,1fr);gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.line.flash{animation:lineFlash 1.4s var(--ease)}
+@keyframes lineFlash{0%{background:color-mix(in srgb,var(--magenta) 70%,transparent)}100%{background:transparent}}
+.line-img{width:84px;height:84px;border-radius:16px;overflow:hidden;background:var(--studio)}
+.line-img img{width:100%;height:100%;object-fit:cover}
+.line-body{display:grid;gap:6px;min-width:0}
+.line-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.line-top b{font-weight:600}
+.line-price{font-weight:600;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.line-price s{display:block;font-weight:400;font-size:12px;color:var(--ink-2)}
+.line-plan{font-size:var(--step--1);color:var(--ink-2);display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.pill{font-size:11px;font-weight:600;padding:3px 8px;border-radius:var(--r-pill);background:var(--liberty);color:var(--on-liberty)}
+.pill.soft{background:var(--mist);color:var(--ink-2)}
+.line-plan select{font:inherit;font-size:13px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--r-pill);padding:4px 10px}
+.line-ctrl{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:4px}
+.mini-qty{display:inline-flex;align-items:center;border-radius:var(--r-pill);box-shadow:inset 0 0 0 1px var(--line)}
+.mini-qty button{width:34px;height:34px;border:0;background:none;color:var(--ink);font:inherit;font-size:17px;cursor:pointer;border-radius:var(--r-pill)}
+.mini-qty output{min-width:2ch;text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.link-btn{border:0;background:none;padding:6px 2px;font:inherit;font-size:var(--step--1);color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.link-btn:hover{color:var(--ink)}
+.d-empty{display:grid;gap:14px;justify-items:start;padding:28px 4px;color:var(--ink-2)}
+.d-empty p{max-width:30ch}
+.d-empty .row .btn{flex:0 0 auto}
+.d-foot{display:grid;gap:10px;padding-top:16px;border-top:1px solid var(--line)}
+.d-row{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+.d-row.total{font-size:var(--step-1);font-weight:600}
+.d-row.d-save{color:var(--liberty);font-size:var(--step--1);font-weight:600}
+:root[data-theme="dark"] .d-row.d-save{color:var(--iris)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .d-row.d-save{color:var(--iris)}}
+.d-note{font-size:12px;color:var(--ink-2);text-align:center}
+.d-foot .btn{width:100%;padding-block:16px}
+@media (max-width:640px){.drawer{border-radius:0}}
+@media (prefers-reduced-motion:reduce){.drawer,.drawer-scrim{transition:none}}
+
+#toast{z-index:90;position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;
+  background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:var(--r-pill);font-size:14px;z-index:60;
+  transition:opacity .3s var(--ease),transform .3s var(--ease);pointer-events:none}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .bloom-slab,.ritual{grid-template-columns:1fr}
+  .bloom-wrap{max-width:340px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-grid>:first-child{grid-column:1/-1}
+}
+@media (max-width:640px){
+  .pic img{object-position:var(--pos-m,50% 40%)}
+  .hero-copy{bottom:calc(28px + env(safe-area-inset-bottom,0px))}
+  .hero-sub{font-size:17px}
+  .hero-copy .row{width:100%}
+  .row .btn{flex:1 1 auto}
+  .hero-ctrl{top:calc(76px + env(safe-area-inset-top,0px));bottom:auto}
+  .hero-ctrl .hint,.hero-ctrl .arrow{display:none}
+  .cards{grid-template-columns:1fr}
+  .people{min-height:560px;align-items:end}
+  .people img{object-position:62% 20%}
+  .people::after{background:linear-gradient(to bottom,transparent 30%,rgba(var(--scrim),.92) 72%)}
+  .people-copy{max-width:100%}
+  .facts{grid-template-columns:1fr}
+  .facts div:nth-child(odd){padding-right:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .btn,.top,#toast{transition:none}
+}
+</style>
+
+</head>
+<body>
+<header class="top gutter" id="top">
+  <div class="shell">
+    <a class="mark" href="#hero" aria-label="Aliya Skin home"><b>aliya</b><span>skin</span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#shop">Shop</a>
+      <a href="#ritual" class="hide-sm">Ritual</a>
+      <a href="#people" class="hide-sm">About</a>
+      <button class="bag" type="button" id="bagBtn" data-tip="See what's in your bag" data-tip-pos="below end" aria-label="Bag, 0 items">Bag <output id="bagCount">0</output></button>
+    </nav>
+  </div>
+</header>
+
+<main id="home">
+<section id="hero" aria-roledescription="carousel" aria-label="Aliya skin portraits">
+  <div class="track" id="track">
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="1 of 2">
+      <div class="pic" style="--pos:52% 42%;--pos-m:50% 40%"><img
+        src="/aliyaskin/img/hero_face_2560.webp"
+        srcset="/aliyaskin/img/hero_face_1600.webp 1600w, /aliyaskin/img/hero_face_2560.webp 2560w, /aliyaskin/img/hero_face_3840.webp 3840w, /aliyaskin/img/hero_face_5120.webp 5120w"
+        sizes="(max-aspect-ratio: 1/1) 200vh, 112vw" fetchpriority="high" draggable="false"
+        alt="Close portrait of a woman with freckles and glowing, hydrated skin in warm window light"></div>
+    </div>
+    <!-- Copy a slide block to add more portraits; the counter and arrows update on their own -->
+    <div class="slide" role="group" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
+      <div class="pic" style="--pos:47% 42%;--pos-m:46% 40%"><img src="/aliyaskin/img/hero_tq_2560.webp"
+        srcset="/aliyaskin/img/hero_tq_1600.webp 1600w, /aliyaskin/img/hero_tq_2560.webp 2560w, /aliyaskin/img/hero_tq_3840.webp 3840w, /aliyaskin/img/hero_tq_5120.webp 5120w"
+        sizes="(max-aspect-ratio: 1/1) 200vh, 112vw" draggable="false" loading="lazy"
+        alt="Three-quarter portrait of a woman with glowing, hydrated skin in warm peach light"></div>
+    </div>
+  </div>
+  <div class="sheen" aria-hidden="true"></div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-copy gutter">
+    <div class="shell">
+      <h1 class="hero-h1">this is what hydrated looks like</h1>
+      <p class="hero-sub" data-wave>Our 100% natural hydra face cream <mark class="hl">sinks in like water</mark> and keeps normal to dry skin soft all day.</p>
+      <div class="row">
+        <a class="btn light" href="#hydra" data-tip="Open the product page">Shop hydra cream</a>
+        <a class="btn ghost-light" href="#ritual" data-tip="Jump to the 45-second ritual">See how to use it</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-ctrl">
+    <span class="hint">Hold and drag</span>
+    <button class="arrow" type="button" id="prevSlide" aria-label="Previous image" data-tip="Previous portrait"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="count" id="slideCount" aria-live="polite">01 / 02</span>
+    <button class="arrow" type="button" id="nextSlide" aria-label="Next image" data-tip="Next portrait" data-tip-pos="end"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+  <div class="drag-cursor" id="dragCursor" aria-hidden="true">drag</div>
+</section>
+
+<section class="band gutter" aria-labelledby="bloomTitle">
+  <div class="shell">
+    <div class="slab bloom-slab" id="bloomSlab">
+      <div class="bloom-wrap" aria-hidden="true">
+        <svg id="bloomStatic" viewBox="0 0 400 400"></svg>
+        <div id="bloomLottie"></div>
+      </div>
+      <div class="bloom-copy">
+        <h2 class="h2" id="bloomTitle">one cream, made for skin that runs dry</h2>
+        <p data-wave>We kept the formula short and the feel light. It hydrates without the heavy film, so it <mark class="hl">sits well under sunscreen and makeup</mark> in the morning and on its own at night.</p>
+        <dl class="facts">
+          <div><dt>Size</dt><dd>100 ml tube</dd></div>
+          <div><dt>Skin type</dt><dd>Normal to dry</dd></div>
+          <div><dt>Ingredients</dt><dd>100% natural</dd></div>
+          <div><dt>Testing</dt><dd>Dermatologist tested</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gutter" id="shop" aria-labelledby="shopTitle">
+  <div class="shell">
+    <div class="head">
+      <h2 class="h2" id="shopTitle">shop</h2>
+      <p data-wave><mark class="hl sage">Free shipping across Australia</mark> on orders over A$60.</p>
+    </div>
+    <div class="cards">
+      <article class="card">
+        <a class="card-link" href="#hydra" aria-label="Hydra face cream, view product details">
+        <div class="card-top"><span class="word">hydra</span><span class="tag">new</span></div>
+        <div class="card-img swap"><img src="/aliyaskin/img/tube-studio.webp" alt="Aliya hydra face cream, 100 ml blue tube" loading="lazy"><img class="alt" src="/aliyaskin/img/tube-model.webp" alt="" aria-hidden="true" loading="lazy"></div>
+        </a>
+        <div class="card-foot">
+          <h3>Hydra face cream</h3><span class="price">A$48</span>
+          <p>100 ml · normal to dry skin · or A$40.80 a month on subscription</p>
+          <a class="btn" href="#hydra" data-tip="See details and subscribe">View product</a>
+        </div>
+      </article>
+      <article class="card">
+        <a class="card-link" href="#eye-roller" aria-label="Eye roller, view product details">
+        <div class="card-top"><span class="word">roller</span><span class="tag">new</span></div>
+        <div class="card-img swap"><img src="/aliyaskin/img/eye-studio-grey.webp" alt="Aliya eye roller, 15 ml blue roller with a steel ball" loading="lazy"><img class="alt" src="/aliyaskin/img/eye-model.webp" alt="" aria-hidden="true" loading="lazy"></div>
+        </a>
+        <div class="card-foot">
+          <h3>Eye roller</h3><span class="price">A$36</span>
+          <p>15 ml · steel roller ball · or A$30.60 on subscription</p>
+          <a class="btn" href="#eye-roller" data-tip="See details and subscribe">View product</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band gutter" id="ritual" aria-labelledby="ritualTitle">
+  <div class="shell ritual">
+    <div class="r-stage" id="rStage" role="tabpanel" aria-labelledby="rTab0" aria-live="off">
+      <img class="r-img on" id="rImgFront" src="/aliyaskin/img/ritual-front.webp" alt="A woman with dewy, freshly cleansed skin in warm peach light" loading="lazy">
+      <img class="r-img" id="rImgCream" src="/aliyaskin/img/ritual-cream.webp" alt="A swipe of whipped hydra cream on a glass tray" loading="lazy">
+      <img class="r-img" id="rImgDab" src="/aliyaskin/img/ritual-dab.webp" style="transform-origin:46.5% 41%" alt="A woman with dots of hydra cream on her forehead and cheeks" loading="lazy">
+      <img class="r-img" id="rImgMacro" src="/aliyaskin/img/ritual-macro.webp" style="transform-origin:56% 49%" alt="Close-up of a dot of hydra cream on the cheek, ready to smooth outward" loading="lazy">
+      <svg id="rFx" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+      <div class="r-shade" aria-hidden="true"></div>
+      <p class="r-note glass" id="rNote" aria-hidden="true">damp, not dripping</p>
+      <div class="r-foot">
+        <span class="r-clock glass" id="rClock"><b>0:00</b> / 0:45</span>
+        <button class="r-play glass" id="rPlay" type="button" aria-label="Pause the demo" data-tip="Pause the demo" data-tip-pos="end"></button>
+      </div>
+    </div>
+    <div>
+      <h2 class="h2" id="ritualTitle">the ritual takes under a minute</h2>
+      <p class="r-intro" data-wave>About <mark class="hl">45 seconds</mark>, morning and night. Choose a step to see how it's done.</p>
+      <ol class="r-steps" role="tablist" aria-label="Ritual steps">
+        <li><button class="r-step" role="tab" id="rTab0" aria-selected="true" aria-controls="rStage" data-step="0">
+          <span class="r-num">1</span><span><span class="r-head"><b>Start with damp skin</b><span class="r-dur">10 sec</span></span>
+          <span class="r-desc">Cleanse, then pat your face so it is still slightly damp. Cream holds onto water best when there is some to hold.</span>
+          <span class="r-prog"><i></i></span></span></button></li>
+        <li><button class="r-step" role="tab" id="rTab1" aria-selected="false" aria-controls="rStage" data-step="1" tabindex="-1">
+          <span class="r-num">2</span><span><span class="r-head"><b>Warm a pea-sized amount</b><span class="r-dur">5 sec</span></span>
+          <span class="r-desc">Rub it between two fingertips until it turns from whipped to glossy.</span>
+          <span class="r-prog"><i></i></span></span></button></li>
+        <li><button class="r-step" role="tab" id="rTab2" aria-selected="false" aria-controls="rStage" data-step="2" tabindex="-1">
+          <span class="r-num">3</span><span><span class="r-head"><b>Press, then smooth outward</b><span class="r-dur">30 sec</span></span>
+          <span class="r-desc">Press into cheeks and forehead first, then sweep out toward the hairline.</span>
+          <span class="r-prog"><i></i></span></span></button></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="gutter" id="people" aria-labelledby="peopleTitle">
+  <div class="shell">
+    <div class="people">
+      <img src="/aliyaskin/img/women.webp" alt="Two women resting their heads together in warm afternoon light" loading="lazy">
+      <div class="people-copy">
+        <h2 class="h2" id="peopleTitle">skincare for every shade of skin</h2>
+        <p data-wave>Aliya was started for women who wanted one good cream instead of a shelf of them. Tested on a <mark class="hl sand">wide range of skin tones and types</mark> before it reached you.</p>
+        <div class="row"><a class="btn" href="#hydra" data-tip="Open the product page">Shop hydra cream</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<main id="pdp" class="pdp gutter" hidden aria-labelledby="pdpTitle">
+  <div class="shell">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="#shop">Shop</a><span aria-hidden="true">/</span><span id="crumbName">Hydra face cream</span></nav>
+    <div class="pdp-grid">
+      <div class="gallery">
+        <div class="g-main"><img id="gMain" src="/aliyaskin/img/tube-studio-45.webp" alt="Aliya hydra face cream, 100 ml blue tube, on a pale grey backdrop"></div>
+        <div class="thumbs" id="thumbs" role="group" aria-label="Product photos"></div>
+      </div>
+
+      <form class="buy" id="buyForm" novalidate>
+        <div style="display:grid;gap:12px">
+          <h1 class="h1" id="pdpTitle">hydra face cream</h1>
+          <div class="price-line"><span id="priceNow">A$40.80 a month</span><s id="priceWas">A$48</s></div>
+        </div>
+        <p id="pdpDesc" data-wave>A whipped, water-light cream for normal to dry skin. It melts on contact, sinks in without a film and keeps skin soft from morning to night. 100 ml lasts about two months used twice a day.</p>
+        <ul class="chips" id="pdpChips" aria-label="Product facts"></ul>
+
+        <fieldset>
+          <legend>How would you like it?</legend>
+          <label class="opt">
+            <input type="radio" name="plan" id="planSub" value="sub" checked>
+            <span class="opt-title">Subscribe and save<span class="save">15% off</span></span>
+            <span class="opt-price"><span id="subPrice">A$40.80</span><small id="perLabel">per delivery</small></span>
+            <span class="opt-note">Free shipping on every delivery. Skip, pause or cancel any time before your next order.</span>
+            <span class="freq"><label for="freqSel">Deliver</label>
+              <select id="freqSel" name="freq">
+                <option value="1" selected>every month</option>
+                <option value="2">every 2 months</option>
+                <option value="3">every 3 months</option>
+              </select></span>
+          </label>
+          <label class="opt">
+            <input type="radio" name="plan" id="planOnce" value="once">
+            <span class="opt-title">One-time purchase</span>
+            <span class="opt-price" id="oncePrice">A$48</span>
+            <span class="opt-note">Free shipping on orders over A$60.</span>
+          </label>
+        </fieldset>
+
+        <div class="qty-row">
+          <div class="qty" role="group" aria-label="Quantity">
+            <button type="button" id="qMinus" aria-label="Decrease quantity" data-tip="One less">&minus;</button>
+            <output id="qVal" aria-live="polite">1</output>
+            <button type="button" id="qPlus" aria-label="Increase quantity" data-tip="One more">+</button>
+          </div>
+          <button class="btn" type="submit" id="buyBtn" data-tip="Add a repeat delivery to your bag">Subscribe · A$40.80</button>
+        </div>
+
+        <ul class="sub-plan" id="subPlan" aria-label="How your subscription works">
+          <li><b>Today</b><span id="firstShip">Your first tube ships within 2 business days.</span></li>
+          <li><b id="cadence">Every month</b><span>The next one arrives before you run out, charged on the day it ships.</span></li>
+          <li><b>Any time</b><span>Change the date, skip a delivery or cancel from your account. No fees.</span></li>
+        </ul>
+
+        <div class="acc">
+          <details open><summary>What's inside</summary><div class="body">
+            <p id="accInside">A short, plant-based formula built around water-binding humectants and light plant oils, with nothing added for fragrance alone. The full ingredient list is printed on the tube.</p>
+          </div></details>
+          <details><summary>How to use</summary><div class="body">
+            <p id="accUse">Apply to slightly damp skin after cleansing. Warm a pea-sized amount between your fingertips, press into cheeks and forehead, then smooth outward. Use morning and night.</p>
+          </div></details>
+          <details><summary>Shipping and returns</summary><div class="body">
+            <p id="accShip">Ships from Melbourne in 2 business days. Free on subscriptions and on one-time orders over A$60. If it doesn't suit your skin, return the tube within 30 days for a full refund, even if it's opened.</p>
+          </div></details>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer class="foot gutter">
+  <div class="shell">
+    <div class="foot-grid">
+      <div>
+        <h2 class="h2">get first access to new formulas</h2>
+        <form id="news" novalidate>
+          <label class="sr" for="email">Email address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+          <button class="btn light" type="submit" data-tip="Get an email when new formulas launch">Join the list</button>
+        </form>
+        <p id="formMsg" role="status"></p>
+      </div>
+      <div><h3>Shop</h3><ul><li><a href="#hydra">Hydra face cream</a></li><li><a href="#eye-roller">Eye roller</a></li><li><a href="#ritual">How to use</a></li></ul></div>
+      <div><h3>Help</h3><ul><li><a href="#top">Shipping</a></li><li><a href="#top">Returns</a></li><li>hello@aliyaskin.com</li></ul></div>
+    </div>
+    <div class="giant" aria-hidden="true">aliya</div>
+  </div>
+  <div class="legal"><span>© 2026 Aliya Skin</span><span>aliyaskin.com</span></div>
+</footer>
+<div class="drawer-scrim" id="bagScrim" aria-hidden="true"></div>
+<aside class="drawer" id="bag" role="dialog" aria-modal="true" aria-labelledby="bagTitle" inert>
+  <div class="d-head">
+    <h2 id="bagTitle">your bag<span id="bagHeadCount"></span></h2>
+    <button class="icon-btn" type="button" id="bagClose" aria-label="Close bag" data-tip="Close" data-tip-pos="below end"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="ship" id="bagShip"><span id="bagShipText"></span><span class="ship-bar"><i id="bagShipBar"></i></span></div>
+  <ul class="d-list" id="bagList" aria-label="Items in your bag"></ul>
+  <div class="d-empty" id="bagEmpty" hidden>
+    <p>Your bag is empty. Start with the cream or the roller, and subscribe to save 15% on every delivery.</p>
+    <div class="row"><a class="btn" href="#hydra" data-bag-close>Hydra face cream</a><a class="btn ghost" href="#eye-roller" data-bag-close>Eye roller</a></div>
+  </div>
+  <div class="d-foot" id="bagFoot">
+    <div class="d-row d-save" id="bagSave" hidden><span>Subscription savings</span><span id="bagSaveAmt"></span></div>
+    <div class="d-row"><span>Shipping</span><span id="bagShipAmt"></span></div>
+    <div class="d-row total"><span>Subtotal</span><span id="bagTotal"></span></div>
+    <button class="btn" type="button" id="bagCheckout" data-tip="Go to secure checkout">Check out</button>
+    <p class="d-note">Subscriptions renew on their delivery date. Skip or cancel any time.</p>
+  </div>
+</aside>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+<script>
+(function(){
+const clamp=(v,a=0,b=1)=>v<a?a:v>b?b:v;
+const range=(t,a,b)=>clamp((t-a)/(b-a));
+const smoother=t=>{t=clamp(t);return t*t*t*(t*(t*6-15)+10);};
+const bell=t=>{t=clamp(t);return Math.sin(Math.PI*t)**1.6;};
+const lerp=(a,b,t)=>a+(b-a)*t;
+const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ---------- hero: mouse-reactive portrait + hold-and-drag slider ---------- */
+const H={
+  follow:0.08,       // how quickly the image catches up with the mouse (lower = floatier)
+  shiftX:18,shiftY:12, // px the portrait drifts toward the cursor
+  tiltY:2.4,tiltX:1.8, // degrees of 3D tilt
+  depth:0.28,        // inner parallax while sliding (0 = flat)
+  snap:0.14,         // spring speed when a drag is released
+  swipe:0.16,        // fraction of the width to drag before it changes image
+  flick:0.45         // or a flick faster than this (px per ms)
+};
+let onProduct=false,last=performance.now();
+const $=id=>document.getElementById(id);
+const top=$('top'),hero=$('hero'),track=$('track'),cursorEl=$('dragCursor'),countEl=$('slideCount'),
+  prevBtn=$('prevSlide'),nextBtn=$('nextSlide');
+const slides=[...track.children],pics=slides.map(s=>s.querySelector('.pic')),N=slides.length;
+let W=hero.clientWidth,idx=0,trackX=0,drag=null,justDragged=false;
+let mx=0,my=0,sx=0,sy=0,cx=0,cy=0,hovering=false;
+const pad=n=>String(n).padStart(2,'0');
+
+function setIndex(i){
+  idx=clamp(i,0,N-1);
+  slides.forEach((s,k)=>s.setAttribute('aria-hidden',k===idx?'false':'true'));
+  countEl.textContent=`${pad(idx+1)} / ${pad(N)}`;
+  prevBtn.disabled=idx===0;nextBtn.disabled=idx===N-1;
+}
+prevBtn.addEventListener('click',()=>setIndex(idx-1));
+nextBtn.addEventListener('click',()=>setIndex(idx+1));
+hero.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'){setIndex(idx+1);e.preventDefault();}
+  if(e.key==='ArrowLeft'){setIndex(idx-1);e.preventDefault();}
+});
+
+function local(e){const r=hero.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top,w:r.width,h:r.height};}
+const overControl=e=>!!e.target.closest('a,button');
+
+hero.addEventListener('pointermove',e=>{
+  const p=local(e);
+  if(e.pointerType==='mouse'){
+    mx=(p.x/p.w)*2-1;my=(p.y/p.h)*2-1;hovering=true;
+    hero.classList.add('lit');
+    hero.style.setProperty('--mx',(p.x/p.w*100).toFixed(2)+'%');
+    hero.style.setProperty('--my',(p.y/p.h*100).toFixed(2)+'%');
+    cx=p.x;cy=p.y;
+    hero.classList.toggle('cursor-on',!overControl(e));
+  }
+  if(!drag)return;
+  const dx=e.clientX-drag.x0,dy=e.clientY-drag.y0;
+  if(!drag.decided&&(Math.abs(dx)>6||Math.abs(dy)>6)){
+    drag.decided=true;drag.horizontal=Math.abs(dx)>=Math.abs(dy);
+    if(!drag.horizontal){endDrag(e,true);return;}
+  }
+  if(drag.horizontal){
+    const atEdge=(idx===0&&dx>0)||(idx===N-1&&dx<0);
+    drag.dx=atEdge?dx*0.32:dx;                 // rubber band at either end
+    const t=performance.now();drag.v=(e.clientX-drag.lx)/Math.max(1,t-drag.lt);drag.lx=e.clientX;drag.lt=t;
+  }
+});
+hero.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'){hovering=false;mx=my=0;hero.classList.remove('lit','cursor-on');}});
+hero.addEventListener('pointerdown',e=>{
+  if(overControl(e)||(e.pointerType==='mouse'&&e.button!==0))return;
+  drag={x0:e.clientX,y0:e.clientY,dx:0,v:0,lx:e.clientX,lt:performance.now(),decided:false,horizontal:false,id:e.pointerId};
+  hero.setPointerCapture(e.pointerId);hero.classList.add('pressing');
+});
+function endDrag(e,cancel){
+  if(!drag)return;
+  try{hero.releasePointerCapture(drag.id)}catch(_){}
+  hero.classList.remove('pressing');
+  if(!cancel&&drag.horizontal){
+    const go=drag.dx< -W*H.swipe||drag.v< -H.flick?1:drag.dx>W*H.swipe||drag.v>H.flick?-1:0;
+    setIndex(idx+go);
+    if(Math.abs(drag.dx)>6){justDragged=true;setTimeout(()=>justDragged=false,0);}
+  }
+  drag=null;
+}
+hero.addEventListener('pointerup',e=>endDrag(e,false));
+hero.addEventListener('pointercancel',e=>endDrag(e,true));
+hero.addEventListener('click',e=>{if(justDragged){e.preventDefault();e.stopPropagation();}},true);
+
+function paintHero(dt){
+  const k=reduced?1:1-Math.pow(1-H.follow,dt);
+  sx=lerp(sx,reduced?0:mx,k);sy=lerp(sy,reduced?0:my,k);
+  const target=-idx*W+(drag&&drag.horizontal?drag.dx:0);
+  trackX=(drag&&drag.horizontal)||reduced?target:lerp(trackX,target,1-Math.pow(1-H.snap,dt));
+  if(Math.abs(trackX-target)<0.1)trackX=target;
+  track.style.transform=`translate3d(${trackX}px,0,0)`;
+  const pressing=!!drag;
+  pics.forEach((p,i)=>{
+    const off=i*W+trackX;                       // where this slide sits relative to the viewport
+    const active=Math.abs(off)<W;
+    if(!active)return;
+    const near=1-Math.min(1,Math.abs(off)/W);   // mouse response fades as a slide leaves
+    const tx=-off*H.depth - sx*H.shiftX*near, ty=-sy*H.shiftY*near;
+    const s=1+(pressing?0.03:0);
+    p.style.transform=`translate3d(${tx}px,${ty}px,0) rotateY(${sx*H.tiltY*near}deg) rotateX(${-sy*H.tiltX*near}deg) scale(${s})`;
+  });
+  cursorEl.style.transform=`translate3d(${cx}px,${cy}px,0)`;
+}
+addEventListener('resize',()=>{W=hero.clientWidth;trackX=-idx*W;},{passive:true});
+setIndex(0);
+
+/* ---------- bloom: static fallback, then Lottie scrubbed by scroll ---------- */
+const slab=document.getElementById('bloomSlab');
+(function drawStatic(){
+  const svg=document.getElementById('bloomStatic');let s='<g transform="translate(200 200)" fill="none" stroke="#fff" stroke-width="1.6">';
+  for(let i=0;i<18;i++)s+=`<ellipse cx="0" cy="-82" rx="31" ry="82" transform="rotate(${i*20})"/>`;
+  svg.innerHTML=s+'<circle r="4.5" fill="#fff" stroke="none"/></g>';
+})();
+let bloom=null,bloomFrames=119,bloomP=1,bloomSmooth=1;
+const BLOOM={"v":"5.12.1","fr":60,"ip":0,"op":120,"w":400,"h":400,"nm":"Aliya bloom","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"bloom","sr":1,"ip":0,"op":120,"st":0,"bm":0,"ks":{"o":{"a":0,"k":100},"r":{"a":1,"k":[{"t":0,"s":[-60],"o":{"x":[0.4],"y":[0]},"i":{"x":[0.2],"y":[1]}},{"t":119,"s":[0]}]},"p":{"a":0,"k":[200.0,200.0,0]},"a":{"a":0,"k":[0,0,0]},"s":{"a":1,"k":[{"t":0,"s":[86,86,100],"o":{"x":[0.33],"y":[0]},"i":{"x":[0.67],"y":[1]}},{"t":119,"s":[100,100,100]}]}},"shapes":[{"ty":"gr","nm":"core","it":[{"ty":"el","p":{"a":0,"k":[0,0]},"s":{"a":1,"k":[{"t":78,"s":[0,0],"o":{"x":[0.34],"y":[1.56]},"i":{"x":[0.64],"y":[1]}},{"t":98,"s":[9,9]}]}},{"ty":"fl","c":{"a":0,"k":[1,1,1,1]},"o":{"a":0,"k":100}},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]},{"ty":"gr","nm":"petals","it":[{"ty":"el","nm":"petal","d":1,"p":{"a":0,"k":[0,-82]},"s":{"a":0,"k":[62,164]}},{"ty":"tm","nm":"draw","m":2,"s":{"a":0,"k":0},"e":{"a":1,"k":[{"t":0,"s":[0],"o":{"x":[0.33],"y":[0]},"i":{"x":[0.67],"y":[1]}},{"t":48,"s":[100]}]},"o":{"a":1,"k":[{"t":0,"s":[-90],"o":{"x":[0.33],"y":[0]},"i":{"x":[0.67],"y":[1]}},{"t":48,"s":[0]}]}},{"ty":"st","nm":"line","c":{"a":0,"k":[1,1,1,1]},"o":{"a":0,"k":100},"w":{"a":0,"k":1.6},"lc":2,"lj":2},{"ty":"rp","nm":"bloom","c":{"a":0,"k":18},"o":{"a":0,"k":0},"m":1,"tr":{"ty":"tr","a":{"a":0,"k":[0,0]},"p":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":1,"k":[{"t":24,"s":[0],"o":{"x":[0.5],"y":[0]},"i":{"x":[0.25],"y":[1]}},{"t":104,"s":[20]}]},"so":{"a":0,"k":100},"eo":{"a":0,"k":100}}},{"ty":"tr","p":{"a":0,"k":[0,0]},"a":{"a":0,"k":[0,0]},"s":{"a":0,"k":[100,100]},"r":{"a":0,"k":0},"o":{"a":0,"k":100}}]}]}]};
+if(window.lottie&&!reduced){
+  try{
+    bloom=lottie.loadAnimation({container:document.getElementById('bloomLottie'),renderer:'svg',loop:false,autoplay:false,animationData:BLOOM});
+    bloom.addEventListener('DOMLoaded',()=>{document.getElementById('bloomStatic').style.display='none';bloom.goToAndStop(bloomFrames*bloomSmooth,true);});
+  }catch(e){bloom=null}
+}
+function bloomTarget(){
+  const r=slab.getBoundingClientRect(),vh=innerHeight;
+  // fully open by the time the slab's middle reaches the upper third of the screen
+  return clamp((vh-r.top)/(vh*0.55+r.height*0.35));
+}
+
+function loop(now){
+  const dt=Math.min((now-last)/16.667,4);last=now;
+  if(!onProduct&&scrollY<innerHeight*1.2)paintHero(dt);
+  if(bloom){
+    bloomP=bloomTarget();
+    bloomSmooth=lerp(bloomSmooth,bloomP,1-Math.pow(1-0.1,dt));
+    bloom.goToAndStop(bloomFrames*bloomSmooth,true);
+  }
+  const solid=onProduct||scrollY>innerHeight*0.85;
+  top.classList.toggle('solid',solid);top.classList.toggle('on-photo',!solid);
+  requestAnimationFrame(loop);
+}
+bloomSmooth=bloomTarget();paintHero(1);requestAnimationFrame(loop);
+
+/* ---------- ritual demo: micro-animations over the photos ---------- */
+(function(){
+const NS='http://www.w3.org/2000/svg';
+const fx=$('rFx'),stage=$('rStage'),note=$('rNote'),clock=$('rClock'),playBtn=$('rPlay'),
+  IMG={front:$('rImgFront'),cream:$('rImgCream'),dab:$('rImgDab'),macro:$('rImgMacro')},tabs=[...document.querySelectorAll('.r-step')];
+const EASE='cubic-bezier(.16,1,.3,1)',SOFT='cubic-bezier(.45,0,.2,1)';
+const STEPS=[
+  {real:10,start:0, play:5600,img:'front',build:mist},
+  {real:5, start:10,play:5200,img:'cream',build:warm},
+  {real:30,start:15,play:8400,img:'dab',end:'macro',build:press}
+];
+let shown='front',holdTimer=0,cur=0,anims=[],t0=0,pausedAt=null,parked=false,userPlaying=!reduced,inView=false,notes=[];
+const ICON={pause:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>'};
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);(parent||fx).appendChild(e);return e;}
+function A(node,kf,opt){const a=node.animate(kf,Object.assign({fill:'both',easing:EASE},opt));anims.push(a);return a;}
+const at=(P,f)=>P*f;  // time at a fraction of the step
+
+function defs(){
+  const d=el('defs',{});
+  const g=el('radialGradient',{id:'gDrop',cx:'38%',cy:'34%',r:'70%'},d);
+  el('stop',{offset:'0','stop-color':'#fff','stop-opacity':'.85'},g);
+  el('stop',{offset:'.45','stop-color':'#fff','stop-opacity':'.18'},g);
+  el('stop',{offset:'1','stop-color':'#fff','stop-opacity':'.42'},g);
+  const lg=el('linearGradient',{id:'gGloss',x1:'0',y1:'0',x2:'1',y2:'0'},d);
+  el('stop',{offset:'0','stop-color':'#fff','stop-opacity':'0'},lg);
+  el('stop',{offset:'.5','stop-color':'#fff','stop-opacity':'.85'},lg);
+  el('stop',{offset:'1','stop-color':'#fff','stop-opacity':'0'},lg);
+  const cp=el('clipPath',{id:'cCream'},d);
+  el('ellipse',{cx:'492',cy:'442',rx:'330',ry:'118',transform:'rotate(-16 492 442)'},cp);
+  const sg=el('radialGradient',{id:'gSoft'},d);
+  el('stop',{offset:'0','stop-color':'#fff','stop-opacity':'.55'},sg);el('stop',{offset:'1','stop-color':'#fff','stop-opacity':'0'},sg);
+}
+// timed caption: [[fraction, text], ...]
+function captions(P,list){notes=list.map(([f,txt])=>({t:at(P,f),txt}));}
+
+/* 1 · damp skin: droplets settle and bead on the skin */
+function mist(P){
+  // points sit on forehead, cheeks, nose and chin of the front-facing photo (1000 x 1000 space)
+  const pts=[[520,70,14],[650,112,11],[760,66,9],[400,84,10],[250,450,14],[340,430,10],[200,560,11],[300,585,13],
+    [150,660,9],[240,705,10],[560,425,9],[702,480,12],[732,560,9],[480,862,12],[400,822,9],[565,885,8],[250,800,9],[620,30,8]];
+  const sheen=el('ellipse',{cx:450,cy:470,rx:430,ry:400,fill:'url(#gSoft)',opacity:0,style:'mix-blend-mode:soft-light'});
+  A(sheen,[{opacity:0},{opacity:.9}],{duration:at(P,.6),delay:at(P,.3),easing:SOFT});
+  pts.forEach(([x,y,r],i)=>{
+    const delay=at(P,.04+(i/pts.length)*.5);
+    const ring=el('circle',{cx:0,cy:0,r:r,fill:'none',stroke:'#fff','stroke-width':1.2,opacity:0});
+    ring.style.transform=`translate(${x}px,${y}px)`;
+    A(ring,[{transform:`translate(${x}px,${y}px) scale(1)`,opacity:.7},{transform:`translate(${x}px,${y}px) scale(3.4)`,opacity:0}],{duration:900,delay:delay+420,fill:'forwards'});
+    const g=el('g',{});
+    el('circle',{cx:0,cy:0,r:r,fill:'url(#gDrop)',stroke:'rgba(255,255,255,.75)','stroke-width':1},g);
+    el('ellipse',{cx:-r*.32,cy:-r*.36,rx:r*.28,ry:r*.18,fill:'#fff',opacity:.95,transform:'rotate(-30)'},g);
+    A(g,[{transform:`translate(${x}px,${y-70}px) scale(.35,.6)`,opacity:0},
+         {transform:`translate(${x}px,${y-4}px) scale(.8,1.15)`,opacity:1,offset:.55},
+         {transform:`translate(${x}px,${y}px) scale(1.12,.86)`,offset:.75},
+         {transform:`translate(${x}px,${y}px) scale(1,1)`,opacity:1}],{duration:620,delay,easing:'cubic-bezier(.5,0,.75,0)'});
+  });
+  captions(P,[[0,'damp, not dripping'],[.62,'pat, don’t rub dry']]);
+}
+
+/* 2 · warm it: pea-sized ring, two fingertips rub, then the cream turns glossy */
+function warm(P){
+  const cx=718,cy=392;
+  const pea=el('circle',{cx,cy,r:70,fill:'none',stroke:'#fff','stroke-width':2,'stroke-dasharray':'4 9','stroke-linecap':'round',opacity:0});
+  pea.style.transformOrigin=`${cx}px ${cy}px`;
+  A(pea,[{opacity:0,transform:'scale(.6)'},{opacity:1,transform:'scale(1)',offset:.5},{opacity:1,transform:'scale(1)',offset:.8},{opacity:0,transform:'scale(1.15)'}],{duration:at(P,.42)});
+  // fingertips: two rings orbiting each other
+  const orbit=34,turns=3,frames=48,start=at(P,.28),dur=at(P,.5);
+  [0,Math.PI].forEach(ph=>{
+    const f=el('circle',{cx:0,cy:0,r:44,fill:'rgba(255,255,255,.2)',stroke:'#fff','stroke-width':2.4,opacity:0});
+    const kf=[];for(let k=0;k<=frames;k++){const a=ph+(k/frames)*turns*2*Math.PI,o=k===0||k===frames?0:1;
+      kf.push({transform:`translate(${cx+Math.cos(a)*orbit}px,${cy+Math.sin(a)*orbit*.7}px)`,opacity:o,offset:k/frames});}
+    A(f,kf,{duration:dur,delay:start,easing:'linear'});
+  });
+  const trail=el('ellipse',{cx,cy,rx:orbit,ry:orbit*.7,fill:'none',stroke:'#fff','stroke-width':1,'stroke-dasharray':'2 7',opacity:0});
+  A(trail,[{opacity:0},{opacity:.7,offset:.15},{opacity:.7,offset:.85},{opacity:0}],{duration:dur,delay:start});
+  // warmth: soft rings breathing out
+  for(let i=0;i<3;i++){const w=el('circle',{cx,cy,r:60,fill:'none',stroke:'rgba(255,226,196,.9)','stroke-width':1.4,opacity:0});
+    w.style.transformOrigin=`${cx}px ${cy}px`;
+    A(w,[{opacity:.0,transform:'scale(.8)'},{opacity:.8,transform:'scale(1.2)',offset:.3},{opacity:0,transform:'scale(2.4)'}],{duration:1300,delay:start+i*520,easing:SOFT});}
+  // gloss: highlight band sweeps the cream, then the whole swatch keeps a sheen
+  const clip=el('g',{'clip-path':'url(#cCream)',style:'mix-blend-mode:screen'});
+  const glow=el('ellipse',{cx:492,cy:442,rx:330,ry:118,transform:'rotate(-16 492 442)',fill:'#fff',opacity:0},clip);
+  A(glow,[{opacity:0},{opacity:.22}],{duration:at(P,.3),delay:at(P,.7),easing:SOFT});
+  const band=el('rect',{x:-160,y:200,width:220,height:520,fill:'url(#gGloss)'},clip);
+  A(band,[{transform:'translate(0px,0) skewX(-18deg)'},{transform:'translate(1000px,0) skewX(-18deg)'}],{duration:at(P,.32),delay:at(P,.66),easing:SOFT});
+  captions(P,[[0,'a pea-sized amount'],[.28,'rub between two fingertips'],[.68,'whipped → glossy']]);
+}
+
+/* 3 · press, then smooth outward */
+function press(P){
+  // phase 1 · press: pulses land on the three real dots of cream in the wide shot
+  const pts=[[880,125],[465,410],[908,525]];
+  pts.forEach(([x,y],i)=>{
+    const d=at(P,.04+i*.08);
+    for(let k=0;k<3;k++){const ring=el('circle',{cx:0,cy:0,r:16,fill:'none',stroke:'#fff','stroke-width':1.6,opacity:0});
+      A(ring,[{transform:`translate(${x}px,${y}px) scale(1)`,opacity:.95},{transform:`translate(${x}px,${y}px) scale(5.5)`,opacity:0}],{duration:1150,delay:d+k*330,easing:SOFT,fill:'forwards'});}
+    const tag=el('circle',{cx:0,cy:0,r:5,fill:'#fff',opacity:0});
+    A(tag,[{transform:`translate(${x}px,${y}px) scale(0)`,opacity:0},{transform:`translate(${x}px,${y}px) scale(1.4)`,opacity:1,offset:.5},{transform:`translate(${x}px,${y}px) scale(1)`,opacity:1}],{duration:600,delay:d});
+    A(tag,[{opacity:1},{opacity:0}],{duration:300,delay:at(P,.4),fill:'forwards'});
+  });
+  // the camera pushes in on the cheek: wide shot zooms toward the dot, macro takes over
+  const sw=at(P,.42);
+  A(IMG.dab,[{transform:`scale(${1+.05*.42})`,opacity:1},{transform:'scale(1.6)',opacity:0}],{duration:900,delay:sw,easing:'cubic-bezier(.55,0,.75,.2)',fill:'forwards'});
+  A(IMG.macro,[{opacity:0},{opacity:1}],{duration:900,delay:sw,easing:SOFT});
+  A(IMG.macro,[{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:P-sw,delay:sw,easing:EASE});
+  // phase 2 · strokes fan out from the cream toward the hairline
+  const paths=['M540 385 Q470 225 380 90','M425 420 Q265 330 110 235','M395 470 Q235 452 65 440','M430 545 Q280 605 120 690'];
+  paths.forEach((d,i)=>{
+    const p=el('path',{d,fill:'none',stroke:'#fff','stroke-width':2.4,'stroke-linecap':'round',opacity:.95});
+    const L=p.getTotalLength();p.style.strokeDasharray=L;p.style.strokeDashoffset=L;
+    const delay=at(P,.56+i*.05),dur=at(P,.26);
+    A(p,[{strokeDashoffset:L},{strokeDashoffset:0}],{duration:dur,delay,easing:SOFT});
+    const head=el('circle',{cx:0,cy:0,r:6,fill:'#fff',opacity:0});
+    const kf=[];for(let k=0;k<=20;k++){const q=p.getPointAtLength(L*k/20);kf.push({transform:`translate(${q.x}px,${q.y}px)`,opacity:k===0||k===20?0:1,offset:k/20});}
+    A(head,kf,{duration:dur,delay,easing:SOFT});
+  });
+  // the dot of cream softens as it's spread
+  const clip=el('ellipse',{cx:560,cy:490,rx:170,ry:105,transform:'rotate(28 560 490)',fill:'rgba(196,140,104,.0)'});
+  A(clip,[{fill:'rgba(196,140,104,0)'},{fill:'rgba(196,140,104,.38)'}],{duration:at(P,.3),delay:at(P,.66),easing:SOFT});
+  captions(P,[[0,'press into cheeks and forehead'],[.52,'then smooth outward'],[.78,'toward the hairline']]);
+}
+
+function render(i,keepTime){
+  anims.forEach(a=>a.cancel());anims=[];fx.replaceChildren();defs();
+  cur=i;const S=STEPS[i];
+  clearTimeout(holdTimer);
+  for(const k in IMG){IMG[k].classList.toggle('on',k===S.img);IMG[k].classList.toggle('hold',k===shown&&k!==S.img);}
+  const prev=shown;holdTimer=setTimeout(()=>IMG[prev].classList.remove('hold'),760);
+  shown=S.end||S.img;
+  A(IMG[S.img],[{transform:'scale(1.0)'},{transform:'scale(1.05)'}],{duration:S.play,easing:'linear'});
+  S.build(S.play);
+  tabs.forEach((t,k)=>{t.setAttribute('aria-selected',k===i?'true':'false');t.tabIndex=k===i?0:-1;
+    t.querySelector('.r-prog i').style.width=k<i?'100%':'0%';});
+  stage.setAttribute('aria-labelledby',tabs[i].id);
+  t0=performance.now();pausedAt=null;parked=false;
+  // not playing (off-screen, paused or reduced motion): show the finished state of this step
+  if(!running()){anims.forEach(a=>{a.pause();a.currentTime=S.play;});pausedAt=t0+S.play;parked=true;tick(true);}
+}
+const running=()=>userPlaying&&inView&&!reduced;
+function setPlaying(on){
+  userPlaying=on;playBtn.innerHTML=on?ICON.pause:ICON.play;playBtn.setAttribute('aria-label',on?'Pause the demo':'Play the demo');playBtn.dataset.tip=on?'Pause the demo':'Play the demo';
+  sync();
+}
+function sync(){
+  const go=running();
+  if(go&&pausedAt!==null){
+    if(parked){render(cur);return;}                              // was showing the finished frame: replay
+    t0+=performance.now()-pausedAt;pausedAt=null;anims.forEach(a=>a.play());
+  }else if(!go&&pausedAt===null){pausedAt=performance.now();anims.forEach(a=>a.pause());}
+}
+function tick(once){
+  const S=STEPS[cur],now=pausedAt??performance.now(),t=clamp((now-t0)/S.play);
+  tabs[cur].querySelector('.r-prog i').style.width=(t*100).toFixed(1)+'%';
+  const sec=Math.min(45,Math.floor(S.start+t*S.real));
+  clock.innerHTML=`<b>0:${String(sec).padStart(2,'0')}</b> / 0:45`;
+  const elapsed=now-t0;let txt=notes[0]?.txt||'';for(const n of notes)if(elapsed>=n.t)txt=n.txt;
+  if(note.textContent!==txt){note.style.opacity=0;setTimeout(()=>{note.textContent=txt;note.style.opacity=1;},180);}
+  if(t>=1&&running()){render((cur+1)%STEPS.length);}
+  if(!once)requestAnimationFrame(()=>tick());
+}
+tabs.forEach((t,i)=>{
+  t.addEventListener('click',()=>render(i));
+  t.addEventListener('keydown',e=>{
+    const d=e.key==='ArrowDown'||e.key==='ArrowRight'?1:e.key==='ArrowUp'||e.key==='ArrowLeft'?-1:0;
+    if(d){e.preventDefault();const n=(cur+d+3)%3;render(n);tabs[n].focus();}
+  });
+});
+playBtn.addEventListener('click',()=>setPlaying(!userPlaying));
+new IntersectionObserver(es=>{inView=es[0].isIntersecting;sync();},{threshold:.35}).observe(stage);
+setPlaying(userPlaying);render(0);requestAnimationFrame(()=>tick());
+})();
+
+/* ---------- word wave: split paragraphs into words, run the tone wave when they come into view ---------- */
+const waveIO=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting)playWave(e.target);else e.target.classList.remove('wave-on');
+}),{threshold:.6});
+function splitWords(p){
+  p.setAttribute('aria-label',p.textContent.replace(/\s+/g,' ').trim());
+  const wrap=node=>{
+    [...node.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const frag=document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(t=>{
+          if(!t)return;
+          if(/^\s+$/.test(t)){frag.appendChild(document.createTextNode(t));return;}
+          const w=document.createElement('span');w.className='w';w.setAttribute('aria-hidden','true');w.textContent=t;frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      }else if(n.nodeType===1&&!n.classList.contains('w'))wrap(n);
+    });
+  };
+  wrap(p);
+  p.style.setProperty('--wb',getComputedStyle(p).color);
+}
+const WAVE_SPEED=170;   // px per second the band travels: lower is slower
+function playWave(p){
+  p.classList.remove('wave-on');
+  requestAnimationFrame(()=>{
+    const band=parseFloat(getComputedStyle(p).getPropertyValue('--band'))||110;
+    let t=0;
+    p.querySelectorAll('.w').forEach(w=>{
+      const ww=w.offsetWidth;
+      w.style.setProperty('--ww',ww+'px');
+      w.style.setProperty('--del',Math.round(t)+'ms');
+      w.style.setProperty('--dur',Math.round((ww+band)/WAVE_SPEED*1000)+'ms');
+      t+=(ww+5)/WAVE_SPEED*1000;   // next word starts as the band's leading edge reaches it
+    });
+    p.querySelectorAll('mark.hl').forEach(m=>{
+      const ws=[...m.querySelectorAll('.w')];if(!ws.length)return;
+      const d0=parseFloat(ws[0].style.getPropertyValue('--del')),last=ws[ws.length-1];
+      const d1=parseFloat(last.style.getPropertyValue('--del'))+last.offsetWidth/WAVE_SPEED*1000;
+      m.style.setProperty('--hdel',Math.round(d0+120)+'ms');m.style.setProperty('--hdur',Math.round(Math.max(500,d1-d0))+'ms');
+    });
+    void p.offsetWidth;p.classList.add('wave-on');
+  });
+}
+document.querySelectorAll('[data-wave]').forEach(p=>{
+  splitWords(p);waveIO.observe(p);
+  p.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'&&!p.classList.contains('wave-run'))playWave(p);});
+  p.addEventListener('animationstart',()=>p.classList.add('wave-run'));
+  p.addEventListener('animationend',e=>{if(e.target===p.lastElementChild)p.classList.remove('wave-run');});
+});
+
+/* ---------- bag: line items kept on this device, shown in a side drawer ---------- */
+const bagCount=$('bagCount'),bagBtn=$('bagBtn'),toast=$('toast');
+let tt,bag=[],lastFocus=null;
+try{const v=JSON.parse(localStorage.getItem('aliya-bag-v2')||'[]');if(Array.isArray(v))bag=v;}catch(e){}
+function say(msg){toast.textContent=msg;toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),2400);}
+const saveBag=()=>{try{localStorage.setItem('aliya-bag-v2',JSON.stringify(bag))}catch(e){}};
+const bagQty=()=>bag.reduce((n,l)=>n+l.qty,0);
+function addToBag(key,plan,freq,q){
+  const same=bag.find(l=>l.key===key&&l.plan===plan&&(plan==='once'||l.freq===freq));
+  if(same)same.qty=Math.min(9,same.qty+q);else bag.push({key,plan,freq:plan==='sub'?freq:null,qty:q});
+  saveBag();renderBag(bag.indexOf(same||bag[bag.length-1]));
+}
+function renderBag(flash){
+  const n=bagQty();
+  bagCount.textContent=n;bagBtn.setAttribute('aria-label',`Bag, ${n} item${n===1?'':'s'}`);
+  $('bagHeadCount').textContent=n?`(${n})`:'';
+  const empty=!bag.length;
+  $('bagEmpty').hidden=!empty;$('bagFoot').hidden=empty;$('bagList').hidden=empty;
+  let total=0,full=0,hasSub=false;
+  $('bagList').innerHTML=bag.map((l,i)=>{
+    const p=PRODUCTS[l.key];if(!p)return '';
+    const sub=l.plan==='sub',each=sub?p.sub:p.price;total+=each*l.qty;full+=p.price*l.qty;hasSub=hasSub||sub;
+    const plan=sub
+      ?`<span class="pill">Subscribe · 15% off</span><label class="sr" for="bf${i}">Delivery frequency</label><select id="bf${i}" data-i="${i}" data-act="freq">${['1','2','3'].map(v=>`<option value="${v}"${v===l.freq?' selected':''}>every ${freqText(v)}</option>`).join('')}</select>`
+      :`<span class="pill soft">One-time purchase</span>`;
+    return `<li class="line${i===flash?' flash':''}">
+      <a class="line-img" href="#${l.key}" data-bag-close aria-label="View ${p.name}"><img src="${p.thumb}" alt=""></a>
+      <div class="line-body">
+        <div class="line-top"><b>${p.name}</b><span class="line-price">${fmt(each*l.qty)}${sub?`<s>${fmt(p.price*l.qty)}</s>`:''}</span></div>
+        <div class="line-plan">${plan}</div>
+        <div class="line-ctrl">
+          <span class="mini-qty" role="group" aria-label="Quantity of ${p.name}">
+            <button type="button" data-i="${i}" data-act="dec" aria-label="One less ${p.name}">&minus;</button>
+            <output>${l.qty}</output>
+            <button type="button" data-i="${i}" data-act="inc" aria-label="One more ${p.name}">+</button>
+          </span>
+          <button class="link-btn" type="button" data-i="${i}" data-act="rm">Remove</button>
+        </div>
+      </div></li>`;}).join('');
+  const freeShip=hasSub||total>=60,left=Math.max(0,60-total);
+  $('bagShipText').innerHTML=hasSub?'<b>Free shipping</b> comes with your subscription.'
+    :freeShip?'<b>Free shipping</b> unlocked.':`You're <b>${fmt(left)}</b> away from free shipping.`;
+  $('bagShipBar').style.width=(freeShip?100:Math.min(100,total/60*100))+'%';
+  $('bagShip').hidden=empty;
+  $('bagShipAmt').textContent=freeShip?'Free':'A$9.95';
+  $('bagTotal').textContent=fmt(total+(freeShip||empty?0:9.95));
+  $('bagSave').hidden=full-total<0.01;$('bagSaveAmt').textContent='−'+fmt(full-total);
+}
+$('bagList').addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b||b.tagName==='SELECT')return;
+  const i=+b.dataset.i,l=bag[i];if(!l)return;
+  if(b.dataset.act==='inc')l.qty=Math.min(9,l.qty+1);
+  if(b.dataset.act==='dec'){if(l.qty>1)l.qty--;else bag.splice(i,1);}
+  if(b.dataset.act==='rm'){const name=PRODUCTS[l.key].name;bag.splice(i,1);say(`Removed ${name}`);}
+  saveBag();renderBag();
+  const again=$('bagList').querySelector(`[data-i="${i}"][data-act="${b.dataset.act}"]`);(again||$('bagClose')).focus();
+});
+$('bagList').addEventListener('change',e=>{
+  const s=e.target.closest('select[data-act="freq"]');if(!s)return;
+  bag[+s.dataset.i].freq=s.value;saveBag();renderBag();
+  $('bagList').querySelector(`select[data-i="${s.dataset.i}"]`).focus();
+});
+const drawer=$('bag');
+function openBag(){
+  if(document.documentElement.classList.contains('bag-open'))return;
+  lastFocus=document.activeElement;drawer.inert=false;
+  document.documentElement.classList.add('bag-open');document.documentElement.style.overflow='hidden';
+  setTimeout(()=>$('bagClose').focus(),60);
+}
+function closeBag(){
+  if(!document.documentElement.classList.contains('bag-open'))return;
+  document.documentElement.classList.remove('bag-open');document.documentElement.style.overflow='';
+  drawer.inert=true;if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true});
+}
+bagBtn.addEventListener('click',openBag);
+$('bagClose').addEventListener('click',closeBag);
+$('bagScrim').addEventListener('click',closeBag);
+drawer.addEventListener('click',e=>{if(e.target.closest('[data-bag-close]')){lastFocus=null;closeBag();}});
+addEventListener('keydown',e=>{
+  if(!document.documentElement.classList.contains('bag-open'))return;
+  if(e.key==='Escape'){closeBag();return;}
+  if(e.key!=='Tab')return;
+  const f=[...drawer.querySelectorAll('a[href],button:not([disabled]),select')].filter(x=>x.offsetParent!==null);
+  if(!f.length)return;const first=f[0],last=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===first){last.focus();e.preventDefault();}
+  else if(!e.shiftKey&&document.activeElement===last){first.focus();e.preventDefault();}
+});
+$('bagCheckout').addEventListener('click',()=>say('Checkout opens at launch. Your bag is saved on this device.'));
+
+/* ---------- products (prices and copy are placeholders until confirmed) ---------- */
+const PRODUCTS={
+  'hydra':{name:'Hydra face cream',title:'hydra face cream',thumb:'/aliyaskin/img/tube-studio.webp',price:48,sub:40.80,unit:'tube',freq:'1',
+    desc:'A whipped, [[water-light]] cream for normal to dry skin. It melts on contact, sinks in without a film and keeps skin soft from morning to night. [[100 ml lasts about two months]] used twice a day.',
+    chips:['100 ml','Normal to dry skin','100% natural','Dermatologist tested'],
+    inside:'A short, plant-based formula built around water-binding humectants and light plant oils, with nothing added for fragrance alone. The full ingredient list is printed on the tube.',
+    use:'Apply to slightly damp skin after cleansing. Warm a pea-sized amount between your fingertips, press into cheeks and forehead, then smooth outward. Use morning and night.',
+    photos:[['/aliyaskin/img/tube-studio-45.webp','Aliya hydra face cream, 100 ml blue tube, on a pale grey backdrop','the tube'],
+      ['/aliyaskin/img/gallery-profile.webp','Profile of a woman’s cheek with hydrated, glowing skin','skin in profile'],
+      ['/aliyaskin/img/tube-model-45.webp','A woman holding the Aliya hydra face cream tube beside her face','holding the tube'],
+      ['/aliyaskin/img/face.webp','A woman pressing hydra cream into her cheek','applying the cream']]},
+  'eye-roller':{name:'Eye roller',title:'eye roller',thumb:'/aliyaskin/img/eye-studio-grey.webp',price:36,sub:30.60,unit:'roller',freq:'2',
+    desc:'A cooling roller for the under-eye area. The steel ball [[stays cool against the skin]] and glides the formula on in a few passes, morning or night. At 15 ml it [[fits in a pocket]] or a carry-on.',
+    chips:['15 ml','Steel roller ball','Under-eye area','Travel size'],
+    inside:'A light eye formula in a 15 ml roller with a stainless steel ball. The full ingredient list is printed on the pack.',
+    use:'After cleansing, roll gently from the inner corner outward along the under-eye, three or four passes on each side. Wipe the ball clean and store it upright. Use morning and night.',
+    photos:[['/aliyaskin/img/eye-studio-grey-45.webp','Aliya eye roller, 15 ml blue roller with a steel ball, on a pale grey backdrop','the roller'],
+      ['/aliyaskin/img/eye-model-45.webp','A woman rolling the Aliya eye roller under her eye','rolling under the eye']]}
+};
+
+/* ---------- views: home <-> product page ---------- */
+const homeV=$('home'),pdpV=$('pdp'),gMain=$('gMain'),thumbsEl=$('thumbs');
+let P=PRODUCTS.hydra;
+function showPhoto(i){
+  [...thumbsEl.children].forEach((t,k)=>t.setAttribute('aria-current',k===i?'true':'false'));
+  gMain.src=P.photos[i][0];gMain.alt=P.photos[i][1];
+}
+function fillProduct(key){
+  P=PRODUCTS[key];
+  $('crumbName').textContent=P.name;$('pdpTitle').textContent=P.title;$('pdpDesc').innerHTML=P.desc.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\[\[(.+?)\]\]/g,'<mark class="hl">$1</mark>');splitWords($('pdpDesc'));playWave($('pdpDesc'));
+  $('pdpChips').innerHTML=P.chips.map(c=>`<li>${c}</li>`).join('');
+  $('accInside').textContent=P.inside;$('accUse').textContent=P.use;
+  $('accShip').textContent=`Ships from Melbourne in 2 business days. Free on subscriptions and on one-time orders over A$60. If it doesn't suit your skin, return the ${P.unit} within 30 days for a full refund, even if it's opened.`;
+  $('firstShip').textContent=`Your first ${P.unit} ships within 2 business days.`;
+  thumbsEl.innerHTML=P.photos.map((p,i)=>`<button class="thumb" type="button" aria-current="false" aria-label="Show photo ${i+1}, ${p[2]}"><img src="${p[0]}" alt=""></button>`).join('');
+  [...thumbsEl.children].forEach((t,i)=>t.addEventListener('click',()=>showPhoto(i)));
+  showPhoto(0);
+  $('planSub').checked=true;$('freqSel').value=P.freq;qty=1;
+  document.querySelectorAll('.acc details').forEach((d,i)=>d.open=i===0);
+  sync();
+}
+function route(){
+  closeBag();
+  const h=location.hash.slice(1);
+  onProduct=Object.hasOwn(PRODUCTS,h);
+  if(onProduct)fillProduct(h);
+  homeV.hidden=onProduct;pdpV.hidden=!onProduct;
+  top.classList.toggle('solid',onProduct||scrollY>innerHeight*0.85);top.classList.toggle('on-photo',!onProduct&&scrollY<=innerHeight*0.85);
+  document.title=onProduct?`${P.name} · Aliya Skin`:'Aliya Skin';
+  if(onProduct){scrollTo(0,0);$('pdpTitle').focus({preventScroll:true});}
+  else if(h){const el=document.getElementById(h);if(el)requestAnimationFrame(()=>el.scrollIntoView());}
+  else scrollTo(0,0);
+}
+$('pdpTitle').tabIndex=-1;
+
+/* purchase options */
+const fmt=n=>'A$'+(Math.round(n*100)/100).toFixed(2).replace(/\.00$/,'');
+const planSub=document.getElementById('planSub'),freqSel=document.getElementById('freqSel'),
+  qVal=document.getElementById('qVal'),buyBtn=document.getElementById('buyBtn'),
+  priceNow=document.getElementById('priceNow'),priceWas=document.getElementById('priceWas'),
+  subPlan=document.getElementById('subPlan'),cadence=document.getElementById('cadence');
+let qty=1;
+const freqText=v=>v==='1'?'month':v+' months';
+function sync(){
+  const sub=planSub.checked,f=freqSel.value,each=sub?P.sub:P.price,total=each*qty;
+  $('subPrice').textContent=fmt(P.sub);$('oncePrice').textContent=fmt(P.price);
+  qVal.textContent=qty;
+  priceNow.textContent=sub?`${fmt(P.sub)} every ${freqText(f)}`:fmt(P.price);
+  priceWas.textContent=fmt(P.price);
+  priceWas.hidden=!sub;
+  subPlan.hidden=!sub;
+  cadence.textContent='Every '+freqText(f);
+  buyBtn.textContent=sub?`Subscribe · ${fmt(total)}`:`Add to bag · ${fmt(total)}`;
+  buyBtn.dataset.tip=sub?`Add a delivery every ${freqText(f)} to your bag`:(qty>1?`Add ${qty} to your bag`:'Add one to your bag');
+}
+document.querySelectorAll('input[name=plan]').forEach(r=>r.addEventListener('change',sync));
+freqSel.addEventListener('change',sync);
+document.getElementById('qMinus').addEventListener('click',()=>{qty=Math.max(1,qty-1);sync();});
+document.getElementById('qPlus').addEventListener('click',()=>{qty=Math.min(6,qty+1);sync();});
+document.getElementById('buyForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const key=Object.keys(PRODUCTS).find(k=>PRODUCTS[k]===P);
+  addToBag(key,planSub.checked?'sub':'once',freqSel.value,qty);
+  openBag();
+});
+renderBag();
+addEventListener('hashchange',route);route();
+
+document.getElementById('news').addEventListener('submit',e=>{
+  e.preventDefault();const f=e.target,m=document.getElementById('formMsg'),v=f.email.value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){m.textContent='Enter an email address like name@example.com.';f.email.focus();return;}
+  m.textContent=`You're on the list. We'll write to ${v} when new formulas land.`;f.reset();
+});
+})();
+</script>
+
+</body>
+</html>
