@@ -78,8 +78,8 @@ a:hover .ar,a:focus-visible .ar,button:hover .ar{transform:translate(3px,-3px)}
 
 /* ---------- nav ---------- */
 .nav{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(246,245,241,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color var(--t-ui),transform var(--t-scene) var(--ease-snap)}
+html{scroll-padding-top:64px}
 .nav.scrolled{border-color:var(--rule)}
-.nav.hide{transform:translateY(-100%)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
 .logo{display:block;color:var(--ink);text-decoration:none}
 .logo svg{display:block;height:24px;width:auto;fill:currentColor}
@@ -811,9 +811,9 @@ html.off *,html.off *::before,html.off *::after{transition-duration:1ms!importan
   }
   setScene(root.classList.contains('m') ? 0 : 1);
 
-  /* ---------- nav: border on scroll, hide on scroll down ---------- */
-  var nav = $('#nav'), lastY = 0;
-  function onScroll() { var y = scrollY; nav.classList.toggle('scrolled', y > 10); nav.classList.toggle('hide', !reduced && y > 400 && y > lastY && !drawer.classList.contains('open')); lastY = y; }
+  /* ---------- nav: stays visible, border on scroll ---------- */
+  var nav = $('#nav');
+  function onScroll() { var y = scrollY; nav.classList.toggle('scrolled', y > 10);  }
   var drawer = $('#drawer'), mb = $('#menuBtn');
   mb.addEventListener('click', function () { var o = !drawer.classList.contains('open'); drawer.classList.toggle('open', o); drawer.setAttribute('aria-hidden', String(!o)); mb.setAttribute('aria-expanded', String(o)); mb.textContent = o ? 'Close ×' : 'Menu +'; });
   $$('#drawer a').forEach(function (a) { a.addEventListener('click', function () { if (drawer.classList.contains('open')) mb.click(); }); });
@@ -845,7 +845,7 @@ html.off *,html.off *::before,html.off *::after{transition-duration:1ms!importan
     reduced = v;
     root.classList.toggle('m', !v && hasGSAP); root.classList.toggle('off', v); sw.setAttribute('aria-checked', String(!v));
     if (v) { stopLenis(); setScene(1); $('.ink-word .fill').style.clipPath = 'none'; $('.ink-word .stroke').style.opacity = 0; $('#h1').classList.add('go');
-      $$('[data-reveal],[data-wipe],#converge').forEach(function (el) { el.classList.add('in'); }); cPaths.forEach(function (p) { p.style.strokeDashoffset = 0; }); nav.classList.remove('hide'); }
+      $$('[data-reveal],[data-wipe],#converge').forEach(function (el) { el.classList.add('in'); }); cPaths.forEach(function (p) { p.style.strokeDashoffset = 0; }); }
     else { startLenis(); if (sceneST) setScene(sceneST.progress); }
     if (hasGSAP) ScrollTrigger.refresh();
   }
