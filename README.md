@@ -4,8 +4,8 @@ Source for [via77.com.au](https://www.via77.com.au). Static site, served from `p
 
 ## Cloudflare
 
-If this repo is connected to Cloudflare Pages, use no build command and `public` as the output directory.
+Deployed to the `via77` Cloudflare Pages project by direct upload. The project isn't linked to this repo, so changes here don't go live on their own.
 
-## Not in this repo yet
+## Forms
 
-The live site has server code behind its forms at `/api/project` and `/api/form-config`. Only the public files could be copied from the live site, so that code is missing here. Add it to `functions/` before deploying this repo over the live site, or the contact and assessment forms will stop working.
+The contact and assessment forms don't send enquiries anywhere. People only get a copy of their own answers. `/api/project` and `/api/form-config` aren't in this repo.
