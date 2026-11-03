@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.via77.com.au/sitemap.xml
