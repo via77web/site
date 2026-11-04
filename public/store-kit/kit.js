@@ -292,6 +292,7 @@
   var heroInView = true;
   function syncVideo() { var hv = $('#heroVideo'); if (!hv) return; if (reduced || !heroInView) { hv.pause(); if (reduced) hv.removeAttribute('autoplay'); } else { var pr = hv.play(); pr && pr.catch(function () {}); } }
   if ($('#heroVideo') && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { heroInView = es[0].isIntersecting; syncVideo(); }).observe($('#heroVideo'));
+  var hvEl = $('#heroVideo'); if (hvEl && hvEl.dataset.posterSmall && matchMedia('(max-width: 760px)').matches) hvEl.poster = hvEl.dataset.posterSmall;
   syncVideo();
   function apply(v) { reduced = v; html.classList.toggle('m', !v); html.classList.toggle('off', v); ms && ms.setAttribute('aria-checked', String(!v));
     syncVideo();
