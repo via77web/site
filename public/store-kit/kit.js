@@ -35,7 +35,7 @@
     var y = scrollY, nh = notice ? notice.offsetHeight : 0;
     hd.style.setProperty('--nh', nh + 'px');
     var heroH = $('.hero') ? $('.hero').offsetHeight - 80 : 0;
-    hd.classList.toggle('solid', document.body.classList.contains('solid-hd') || y > heroH * .9 || !$('.hero'));
+    hd.classList.toggle('solid', document.body.classList.contains('solid-hd') || y > 60 || !$('.hero'));
     hd.style.top = Math.max(0, nh - y) + 'px';
   }
   addEventListener('scroll', headerState, { passive: true }); addEventListener('resize', headerState); headerState();
