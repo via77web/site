@@ -288,7 +288,13 @@
 
   /* ---------------- motion switch ---------------- */
   var ms = $('#motionSwitch');
+  /* hero video: stays on its poster when motion is off, and pauses off screen */
+  var heroInView = true;
+  function syncVideo() { var hv = $('#heroVideo'); if (!hv) return; if (reduced || !heroInView) { hv.pause(); if (reduced) hv.removeAttribute('autoplay'); } else { var pr = hv.play(); pr && pr.catch(function () {}); } }
+  if ($('#heroVideo') && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { heroInView = es[0].isIntersecting; syncVideo(); }).observe($('#heroVideo'));
+  syncVideo();
   function apply(v) { reduced = v; html.classList.toggle('m', !v); html.classList.toggle('off', v); ms && ms.setAttribute('aria-checked', String(!v));
+    syncVideo();
     if (v) { stopLenis(); words.forEach(function (w) { w.style.opacity = 1; }); $$('[data-r],.wipe').forEach(function (el) { el.classList.add('in'); }); var big = $('#big'); big && big.style.setProperty('--fp', 1); var bg = $('.hero .bg'); if (bg) bg.style.transform = ''; }
     else startLenis(); hasGSAP && ScrollTrigger.refresh(); }
   ms && ms.setAttribute('aria-checked', String(!reduced));
