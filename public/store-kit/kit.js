@@ -137,12 +137,13 @@
   }
   function quickView(id) {
     var p = byId[id], el = $('#qv');
-    $('#qvBody').innerHTML = '<div class="qv"><div class="qimg"><img src="' + (p.gallery ? p.gallery[0] : p.img) + '" alt="' + esc(p.alt) + '"></div><div class="qinfo"><span class="lbl muted">' + esc(p.type) + '</span><h2 class="disp" id="qvTitle">' + esc(p.name) + '</h2>' +
+    $('#qvBody').innerHTML = '<div class="qv"><div class="qimg"><img id="qvMain" src="' + (p.gallery ? p.gallery[0] : p.img) + '" alt="' + esc(p.alt) + '">' + (p.gallery && p.gallery.length > 1 ? '<div class="qthumbs">' + p.gallery.map(function (g, i) { return '<button type="button" class="qth' + (i ? '' : ' on') + '" data-src="' + g + '" aria-label="Show image ' + (i + 1) + ' of ' + p.gallery.length + '"' + (i ? '' : ' aria-current="true"') + '><img src="' + g + '" alt=""></button>'; }).join('') + '</div>' : '') + '</div><div class="qinfo"><span class="lbl muted">' + esc(p.type) + '</span><h2 class="disp" id="qvTitle">' + esc(p.name) + '</h2>' +
       '<div class="price"><span class="pv"><span id="qvPrice">' + money(p.price) + '</span></span></div><p class="muted" style="margin:0">' + esc(p.desc) + '</p>' + optionsHTML(p, 'qvopt') +
       '<button class="btn wide" id="qvAdd" data-focus><span class="st">Add to bag</span><span class="st2">Added ✓</span></button>' +
       (p.details ? '<div class="acc"><details open><summary>Details <i></i></summary><div class="body"><dl>' + p.details.map(function (d) { return '<dt>' + esc(d[0]) + '</dt><dd>' + esc(d[1]) + '</dd>'; }).join('') + '</dl></div></details></div>' : '') +
       '<p class="fine">A VIA77 commerce concept. Checkout is a demonstration and takes no payment.</p></div></div>';
     $$('input[name=qvopt]', el).forEach(function (r) { r.addEventListener('change', function () { $('#qvPrice').textContent = money(unitPrice(p, r.value)); }); });
+    $$('.qth', el).forEach(function (t) { t.addEventListener('click', function () { $('#qvMain', el).src = t.dataset.src; $$('.qth', el).forEach(function (x) { x.classList.toggle('on', x === t); x.removeAttribute('aria-current'); }); t.setAttribute('aria-current', 'true'); }); });
     $('#qvAdd').addEventListener('click', function () { var v = ($('input[name=qvopt]:checked', el) || {}).value; add(id, v, 1, true); var b = this; b.classList.add('done'); setTimeout(function () { b.classList.remove('done'); close(true); open($('#cart')); }, 700); });
     open(el);
   }

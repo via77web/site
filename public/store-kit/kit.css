@@ -308,6 +308,7 @@ html:not(.m) .step{opacity:1;min-height:auto;padding:40px 0}
 .qv .qimg{position:relative;background:var(--bg2);overflow:hidden}
 .qv .qimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .qv .qinfo{overflow:auto;padding:28px;display:flex;flex-direction:column;gap:20px}
+.qv .qinfo>*{flex-shrink:0}
 .qv .qinfo h2{margin:0;font-size:40px}
 @media (max-width:760px){.qv{grid-template-columns:1fr;grid-template-rows:42vh 1fr}}
 
@@ -360,3 +361,9 @@ html:not(.m) .step{opacity:1;min-height:auto;padding:40px 0}
 
 html.off *,html.off *::before,html.off *::after{transition-duration:1ms!important;animation-duration:1ms!important;animation-iteration-count:1!important}
 html.off .cur{display:none}
+/* ---------- quick view thumbnails ---------- */
+.qthumbs{position:absolute;left:14px;bottom:14px;z-index:2;display:flex;gap:8px}
+.qth{width:54px;height:68px;padding:0;background:none;border:1px solid rgba(255,255,255,.55);overflow:hidden;cursor:pointer;opacity:.78;box-shadow:0 4px 14px rgba(0,0,0,.28);transition:opacity var(--t-ui),border-color var(--t-ui)}
+.qth:hover,.qth.on{opacity:1;border-color:#fff}
+.qth.on{outline:2px solid #fff;outline-offset:1px}
+.qv .qimg .qth img{position:static;inset:auto;display:block;width:100%;height:100%;max-width:none;object-fit:cover;transform:none}
