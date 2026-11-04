@@ -57,15 +57,9 @@ html.m.ready .fm-hero-foot>*:nth-child(2){transition-delay:.12s}html.m.ready .fm
 .fm-card:hover .ph .ast{transform:rotate(90deg)}
 .fm-tt{position:absolute;left:20px;top:16px;z-index:2;margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(26px,2.2vw,36px);line-height:1;max-width:8ch}
 .fm-tt i{font-family:var(--f-ital);font-style:italic;font-size:1.06em}
-.fm-card .stack{position:absolute;inset:18% 10% 7%;display:flex;align-items:flex-end;justify-content:center}
+.fm-card .stack{position:absolute;inset:17% 8% 13%;display:flex;align-items:center;justify-content:center}
 .fm-card .cut{position:relative;max-height:100%;max-width:78%;object-fit:contain;filter:drop-shadow(0 26px 22px rgba(20,8,4,.45));transition:transform var(--t-scene) var(--ease-build)}
 .fm-card:hover .cut.c0{transform:translateY(-10px) rotate(-3deg)}
-.fm-card .stack.many .cut{max-width:44%}
-.fm-card .stack.many .c0{margin-right:-10%;max-height:62%}
-.fm-card .stack.many .c1{z-index:2;max-height:92%}
-.fm-card .stack.many .c2{margin-left:-14%;max-height:46%}
-.fm-card:hover .stack.many .c0{transform:translate(-8px,-6px) rotate(-6deg)}
-.fm-card:hover .stack.many .c2{transform:translate(8px,-4px) rotate(5deg)}
 .fm-card .rings{position:absolute;inset:0;pointer-events:none}
 .fm-card .ring{position:absolute;border:1px solid rgba(247,239,232,.55);border-radius:50%;display:grid;place-items:center;opacity:0;transform:scale(.7);transition:opacity var(--t-reveal) var(--ease-build),transform var(--t-reveal) var(--ease-build)}
 .fm-card .ring span{font-size:11px;letter-spacing:.02em;font-family:var(--f-ital);font-style:italic;font-size:15px}
@@ -145,3 +139,14 @@ html.m.ready .fm-hero-foot>*:nth-child(2){transition-delay:.12s}html.m.ready .fm
   .fm-hero .shade{inset:0 0 auto 0;height:calc(var(--v) + 1px);background:linear-gradient(180deg,rgba(40,20,14,.38),rgba(40,20,14,0) 28%,rgba(42,23,16,0) 74%,#2a1710)}
   .fm-hero-in{justify-content:flex-start;padding-top:calc(var(--v) + 6px)}
 }
+/* shop cards: products centred, with room around them */
+.fm-card .ph .stack .cut{position:relative;inset:auto;flex:none;object-fit:contain}
+.fm-card[data-id="radiant-serum"] .ph .stack .cut{height:88%;width:auto}
+.fm-card[data-id="restore-elixir"] .ph .stack .cut{height:80%;width:auto}
+.fm-card[data-id="nourishing-creme"] .ph .stack .cut{width:76%;height:auto;max-width:none;max-height:none}
+.fm-card .stack.many{align-items:flex-end;gap:4.5%;inset:30% 7% 22%}
+.fm-card .ph .stack.many .cut{height:auto;max-height:none;max-width:none}
+.fm-card .ph .stack.many .c0{width:18.5%}
+.fm-card .ph .stack.many .c1{width:21%}
+.fm-card .ph .stack.many .c2{width:39%}
+.fm-card:hover .stack.many .cut,.fm-card:hover .stack.many .cut.c0{transform:translateY(-6px)}
