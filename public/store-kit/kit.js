@@ -235,6 +235,14 @@
   var nf = $('#nform');
   nf && nf.addEventListener('submit', function (e) { e.preventDefault(); var i = $('input', nf); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(i.value)) { $('.ok', nf).textContent = 'Please enter a valid email.'; return; } $('.ok', nf).textContent = 'Thank you. (Concept store: nothing was sent.)'; i.value = ''; });
 
+  /* ---------------- footer wordmark: shrink to fit so the whole word shows ---------------- */
+  var bigEl = $('#big');
+  if (bigEl) {
+    var fitBig = function () { var o = bigEl.querySelector('.o'); bigEl.style.fontSize = ''; var w = o.getBoundingClientRect().width, W = bigEl.clientWidth; if (w > W) bigEl.style.fontSize = (parseFloat(getComputedStyle(bigEl).fontSize) * W / w * .995) + 'px'; };
+    fitBig(); addEventListener('resize', fitBig); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitBig);
+    addEventListener('scroll', function () { if (scrollY + innerHeight >= document.documentElement.scrollHeight - 4) bigEl.style.setProperty('--fp', 1); }, { passive: true });
+  }
+
   /* ---------------- search ---------------- */
   var sEl = $('#search'), sIn = $('#sInput'), sRes = $('#sRes');
   function renderSearch() { var t = sIn.value.trim().toLowerCase(); var list = cat.products.filter(function (p) { return !t || (p.name + ' ' + p.type + ' ' + p.cat).toLowerCase().indexOf(t) > -1; });
@@ -273,7 +281,7 @@
     if (scrub && !reduced) ScrollTrigger.create({ trigger: scrub, start: 'top 80%', end: 'bottom 55%', scrub: true, onUpdate: function (s) { var n = words.length * s.progress; words.forEach(function (w, i) { w.style.opacity = Math.min(1, Math.max(.16, n - i + .16)); }); } });
     $$('[data-speed]').forEach(function (el) { var k = +el.dataset.speed; ScrollTrigger.create({ trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true, onUpdate: function (st) { if (!reduced) el.style.transform = 'translate3d(0,' + ((st.progress - .5) * k * 600).toFixed(1) + 'px,0)'; } }); });
     var big = $('#big');
-    if (big) ScrollTrigger.create({ trigger: big, start: 'top 98%', end: 'max', scrub: true, onUpdate: function (s) { big.style.setProperty('--fp', reduced ? 1 : s.progress.toFixed(3)); } });
+    if (big) ScrollTrigger.create({ trigger: big, start: 'top 98%', end: 'max', scrub: true, onUpdate: function (s) { big.style.setProperty('--fp', reduced ? 1 : Math.min(1, s.progress * 1.1).toFixed(3)); } });
     if (big && !reduced) big.style.setProperty('--fp', 0);
   }
 

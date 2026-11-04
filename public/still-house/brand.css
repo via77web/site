@@ -116,3 +116,4 @@ a.sh-card:hover{border-color:var(--line-strong);transform:translateY(-4px)}
 .sh .card .badge{background:var(--ink);color:var(--bg)}
 .sh .ft .big{font-stretch:125%;font-weight:600}
 .sh .scrim{background:rgba(0,0,0,.6)}
+@media (max-width:480px){.sh .logo{font-size:13px;letter-spacing:.1em;gap:6px}.sh .logo::before{width:11px;height:11px}.sh .hd .wrap{column-gap:6px}.sh #openCart{padding-left:8px;padding-right:8px}.sh #openCart>span:not(#cartCount){display:none}}

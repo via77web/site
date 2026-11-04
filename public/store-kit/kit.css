@@ -262,7 +262,7 @@ html:not(.m) .step{opacity:1;min-height:auto;padding:40px 0}
 .ft a:hover{text-decoration:underline}
 .ft .big{position:relative;margin:70px 0 24px;font-family:var(--f-display);font-weight:var(--dw,400);text-transform:uppercase;font-size:var(--big,clamp(70px,17vw,300px));letter-spacing:var(--big-track,.02em);line-height:.8;white-space:nowrap}
 .ft .big .o{color:transparent;-webkit-text-stroke:1px color-mix(in srgb,var(--ft-ink,var(--bg)) 30%,transparent)}
-.ft .big .f{position:absolute;inset:0;clip-path:inset(calc(100% - var(--fp,1)*100%) 0 0 0)}
+.ft .big .f{position:absolute;inset:0;clip-path:inset(calc(100% - var(--fp,1)*100%) -100vw -.2em -100vw)}
 .ft .bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:13px;opacity:.75;border-top:1px solid color-mix(in srgb,var(--ft-ink,var(--bg)) 18%,transparent);padding-top:18px}
 .ft .sw-row{display:inline-flex;align-items:center;gap:10px}
 .mswitch{all:unset;position:relative;width:40px;height:22px;border:1px solid currentColor;border-radius:999px;cursor:pointer}
