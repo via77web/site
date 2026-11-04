@@ -130,3 +130,18 @@ html.m.ready .fm-hero-foot>*:nth-child(2){transition-delay:.12s}html.m.ready .fm
 .fm .news .btn{background:#F7EFE8;color:var(--ink)}
 .fm .ft .big{font-family:var(--f-display)}
 .fm .hd:not(.solid){background:linear-gradient(to bottom,rgba(40,22,16,.5),rgba(40,22,16,0))}
+/* hero video: keep the product tiles clear of the bottles and jar */
+.fm-hero{--hero-pos:50% 100%}
+@media (min-width:901px){
+  .fm-hero .fm-picks{position:absolute;right:calc(clamp(14px,2vw,32px) - (100vw - 100%)/2);bottom:0;flex-direction:column;gap:8px}
+  .fm-hero .fm-pick-ph{width:clamp(72px,5.6vw,92px);border-radius:12px}
+  .fm-hero .fm-pick i{width:22px;height:22px;left:6px;bottom:6px;font-size:11px}
+  .fm-hero-foot{grid-template-columns:minmax(0,320px) auto}
+  .fm-hero .fm-stats{justify-content:flex-start}
+}
+@media (max-width:900px){
+  .fm-hero{--v:max(500px,62vw);height:auto;min-height:calc(var(--v) + 520px);background:#2a1710}
+  .fm-hero .bg{inset:0 0 auto 0;height:var(--v);transform:none!important}
+  .fm-hero .shade{inset:0 0 auto 0;height:calc(var(--v) + 1px);background:linear-gradient(180deg,rgba(40,20,14,.38),rgba(40,20,14,0) 28%,rgba(42,23,16,0) 74%,#2a1710)}
+  .fm-hero-in{justify-content:flex-start;padding-top:calc(var(--v) + 6px)}
+}
