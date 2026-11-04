@@ -1,0 +1,113 @@
+/* ATELIER 09 · fashion drop
+   References: THE LOFT (giant bold grotesk, oxblood on cream, dense grid,
+   swatches, size boxes, oxblood newsletter) and Nike x SKIMS (white index,
+   cut-out product, tiny centred uppercase labels). */
+.at{--hd:64px}
+.at .hd{box-shadow:0 1px 0 var(--line)}
+.at .hd nav{font-size:13px;text-transform:none;letter-spacing:0;gap:22px}
+.at .logo{font-family:var(--f-display);letter-spacing:-.02em;padding-left:0;text-transform:uppercase}
+.at .icon-btn{text-transform:none;letter-spacing:0;font-size:13px}
+.at .btn{text-transform:none;letter-spacing:0;font-size:15px;height:48px}
+.at .disp,.at .sec-h h2,.at .info h2,.at .step h3,.at .values h3,.at .dh h2,.at .co h2,.at .mnav a{font-family:var(--f-display);font-weight:800;text-transform:uppercase;letter-spacing:-.045em}
+.at .lbl{letter-spacing:.08em}
+
+/* NEW DROP */
+.at-top{padding-top:calc(var(--hd) + 34px + 18px)}
+.at-drop{display:grid;grid-template-columns:1fr auto;align-items:end;gap:24px;margin-bottom:22px}
+.at-giant{margin:0;font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(76px,15.4vw,280px);line-height:.8;letter-spacing:-.06em;color:var(--ink)}
+.at-giant .ln{padding-bottom:.04em}
+.at-drop-meta{display:flex;flex-direction:column;align-items:flex-start;gap:14px;max-width:300px;padding-bottom:10px}
+.at-drop-meta p{margin:0;font-size:15px;color:var(--muted)}
+@media (max-width:900px){.at-drop{grid-template-columns:1fr}}
+.at-look{position:relative;margin:0}
+.at-look-ph{position:relative;aspect-ratio:3/2;overflow:hidden;background:var(--bg2)}
+.at-look-ph img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform:scale(1.08);transition:transform calc(var(--t-draw)*2) var(--ease-build)}
+.ready .at-look-ph img{transform:none}
+.at-look figcaption{display:flex;justify-content:space-between;padding-top:10px;color:var(--muted)}
+.at-tag{position:absolute;z-index:3;display:flex;align-items:center;gap:0;padding:0;height:38px;border:0;border-radius:999px;background:var(--bg);color:var(--ink);cursor:pointer;box-shadow:0 10px 30px -12px rgba(0,0,0,.4);transform:translate(-19px,-19px)}
+.at-tag i{width:38px;height:38px;display:grid;place-items:center;font-style:normal;font-size:18px;flex:none;transition:transform var(--t-ui) var(--ease-snap)}
+.at-tag span{display:flex;gap:10px;align-items:center;max-width:0;overflow:hidden;white-space:nowrap;font-size:13px;transition:max-width var(--t-reveal) var(--ease-snap),padding var(--t-reveal) var(--ease-snap)}
+.at-tag b{font-weight:600}
+.at-tag:hover span,.at-tag:focus-visible span{max-width:320px;padding-right:16px}
+.at-tag:hover i{transform:rotate(90deg)}
+.at-tag::before{content:"";position:absolute;left:0;top:0;width:38px;height:38px;border-radius:50%;box-shadow:0 0 0 0 rgba(246,238,232,.7);animation:tagp 2.4s var(--ease-build) infinite}
+@keyframes tagp{to{box-shadow:0 0 0 16px rgba(246,238,232,0)}}
+html.m .at-tag{opacity:0;transition:opacity var(--t-reveal) var(--ease-build) 1s}
+html.m.ready .at-tag{opacity:1}
+@media (max-width:760px){.at-tag span{display:none}}
+
+.at-statement p{font-family:var(--f-display);font-weight:700;letter-spacing:-.035em;font-size:clamp(30px,4.2vw,70px);line-height:1;text-transform:none}
+.at-statement em{font-style:normal;color:var(--accent);text-decoration:underline;text-decoration-thickness:.06em;text-underline-offset:.08em}
+
+/* grid: dense, square, swatches */
+.at .sec-h h2{font-size:clamp(56px,9.4vw,170px);line-height:.82}
+.at .grid{gap:20px 10px}
+.at .card .ph{border-radius:0;background:#EEE2D9}
+.at .card .ph img{object-position:50% 20%}
+.at .card h3{font-family:var(--f-body);font-weight:500;font-size:14px;letter-spacing:0;text-transform:none}
+.at .card .pr{font-size:14px;text-align:left;grid-column:1;grid-row:2}
+.at .card .ty{display:none}
+.at .card .meta{grid-template-columns:1fr auto}
+.at .swcs{grid-column:2;grid-row:1;display:flex;gap:4px;align-self:center}
+.at .swc{display:block;width:11px;height:11px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.at .chip{border-radius:0;height:34px;font-size:12px}
+.at .qa{border-radius:0;height:42px;text-transform:none;letter-spacing:0;font-size:13px}
+.at .card .badge{border-radius:0;background:var(--ink);color:var(--bg)}
+
+/* PDP: THE LOFT */
+.at #pdp{background:var(--bg)!important;border-top:1px solid var(--line)}
+.at .stage,.at .thumbs button{border-radius:0}
+.at .gal{grid-template-columns:110px 1fr}
+.at .thumbs button{width:110px}
+@media(max-width:900px){.at .gal{grid-template-columns:1fr}.at .thumbs button{width:76px}.at .gal,.at .thumbs{min-width:0}}
+.at .info{gap:18px}
+.at .info h2{font-size:clamp(34px,3.4vw,58px);line-height:.92}
+.at .price{font-size:24px;font-weight:500}
+.at .opts{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;border:1px solid var(--line-strong)}
+.at .opts label{height:42px;justify-content:center;border:0;border-right:1px solid var(--line-strong);border-radius:0;font-size:13px;padding:0}
+.at .opts input:checked+label{color:var(--bg)}
+.at .opt legend::after{content:"Size guide";margin-left:12px;text-decoration:underline;text-transform:none;letter-spacing:0;color:var(--muted)}
+.at .qty{border-radius:0}
+.at .acc summary{text-transform:none;letter-spacing:0;font-size:15px}
+
+/* SKIMS index */
+.at-index{background:#fff;padding:clamp(50px,7vw,100px) 0}
+.at-index-h{display:flex;justify-content:space-between;color:var(--muted);margin-bottom:10px}
+.at-index-stage{position:relative;height:min(84vh,860px);display:grid;place-items:center}
+.at-index-stage>img{height:100%;width:auto;max-width:56%;object-fit:contain;transition:transform var(--t-scene) var(--ease-build)}
+html.m .at-index-stage>img{transform:translateY(40px);opacity:0;transition:transform calc(var(--t-scene)*1.4) var(--ease-build),opacity var(--t-reveal)}
+html.m .at-index.seen .at-index-stage>img,html.off .at-index-stage>img{transform:none;opacity:1}
+.at-idx{position:absolute;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;color:var(--ink);cursor:pointer;text-align:center;transform:translate(-50%,-50%);padding:6px}
+.at-idx b{font-family:var(--f-body);font-weight:500;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.at-idx span{font-size:11px;color:var(--muted);letter-spacing:.04em}
+.at-idx::after{content:"";position:absolute;top:50%;height:1px;width:clamp(40px,8vw,140px);background:var(--ink);opacity:.35;transform-origin:left;transform:scaleX(.5);transition:transform var(--t-reveal) var(--ease-snap),opacity var(--t-ui)}
+.at-idx.l::after{left:100%}
+.at-idx.r::after{right:100%;transform-origin:right}
+.at-idx:hover::after,.at-idx:focus-visible::after{transform:scaleX(1);opacity:1}
+.at-index-f{text-align:center;margin-top:16px}
+.at-mini{font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:3px}
+@media (max-width:760px){.at-idx b{font-size:10px}.at-idx::after{display:none}.at-index-stage>img{max-width:62%}}
+
+/* story, reel, values: square */
+.at .story .media,.at .slide .ph{border-radius:0}
+.at .step h3{font-size:clamp(36px,3.6vw,60px);line-height:.92}
+.at .values div{border-top-width:2px}
+
+/* newsletter: oxblood block */
+.at-news{background:var(--ink);color:var(--bg);padding:clamp(60px,8vw,120px) 0}
+.at-news h2{margin:0 0 50px;font-family:var(--f-display);font-weight:500;font-size:clamp(32px,4.4vw,74px);line-height:1;letter-spacing:-.035em;max-width:20ch}
+.at-nform{display:grid;grid-template-columns:minmax(0,520px) auto;gap:16px;align-items:end}
+.at-nform input{color:var(--bg);border-color:rgba(246,238,232,.5)}
+.at-nform label.lbl{color:rgba(246,238,232,.7)}
+.at-consent{grid-column:1/-1;display:flex;gap:10px;align-items:center;font-size:13px;color:rgba(246,238,232,.75)}
+.at-nform .at-consent input,.at-consent input{width:16px!important;height:16px!important;flex:0 0 16px;padding:0;margin:0;border:0;accent-color:var(--bg)}
+.at-nform .f{min-width:0}
+.at-nform button{justify-self:start}
+@media(max-width:700px){.at-nform{grid-template-columns:1fr}}
+.at-nform .ok{position:static;grid-column:1/-1;color:var(--bg)}
+
+/* footer: cream, huge bold word */
+.at .ft{border-top:1px solid var(--line)}
+.at .ft .big{font-weight:800;letter-spacing:-.06em}
+.at .ft .big .o{-webkit-text-stroke:1px rgba(58,13,13,.25)}
+.at .ft .bot{border-top-color:var(--line)}
