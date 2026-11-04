@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>glassi Afterparty preview</title>
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script type="importmap">
 {"imports":{
   "three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -17,15 +14,13 @@
 <style>
 :root{--night:#e8f1f5;--night-2:#a9bcc6;--pink:#ff4fa3;--orange:#ff6a2b;--green:#56f07a;color-scheme:dark}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden;background:#161d21;color:var(--night);font-family:"Schibsted Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+html,body{margin:0;height:100%;overflow:hidden;background:#161d21;color:var(--night);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
 canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:pointer}
-.brand{position:absolute;left:clamp(14px,3vw,28px);top:clamp(12px,2.6vw,22px);display:flex;align-items:center;gap:9px;font-weight:700;font-size:clamp(15px,1.9vw,22px);letter-spacing:-.045em;pointer-events:none}
-.mark{display:grid;grid-template-columns:7px 5px 4px;grid-template-rows:7px 3px;gap:1px}
-.mark i:nth-child(1){background:var(--pink)}.mark i:nth-child(2){background:var(--orange)}.mark i:nth-child(3){background:#8af0a0}.mark i:nth-child(4){grid-column:1/4;background:var(--green)}
+.brand{position:absolute;left:clamp(14px,3vw,28px);top:clamp(12px,2.6vw,22px);pointer-events:none}.brand svg{display:block;width:clamp(112px,12vw,150px);height:auto}
 .intro{position:absolute;left:clamp(14px,3vw,28px);bottom:clamp(14px,3.4vw,36px);max-width:min(420px,70%);pointer-events:none}
 .intro h1{font-size:clamp(34px,7.4vw,92px);line-height:.9;font-weight:600;letter-spacing:-.055em;margin:0 0 clamp(8px,1.4vw,16px)}
 .intro p{font-size:clamp(12px,1.35vw,16px);line-height:1.5;color:var(--night-2);margin:0 0 clamp(12px,2vw,22px);max-width:34ch}
-.btn{pointer-events:auto;border:0;border-radius:999px;padding:clamp(10px,1.2vw,15px) clamp(16px,1.9vw,24px);font:600 clamp(13px,1.3vw,16px)/1 "Schibsted Grotesk",system-ui,sans-serif;background:var(--night);color:#18242a;cursor:pointer;transition:box-shadow .4s,transform .2s}
+.btn{pointer-events:auto;border:0;border-radius:999px;padding:clamp(10px,1.2vw,15px) clamp(16px,1.9vw,24px);font:600 clamp(13px,1.3vw,16px)/1 Arial,Helvetica,sans-serif;background:var(--night);color:#18242a;cursor:pointer;transition:box-shadow .4s,transform .2s}
 .btn:hover,.btn:focus-visible{box-shadow:0 0 40px 4px rgba(170,220,255,.38)}
 .btn:focus-visible{outline:2px solid #8cc8e6;outline-offset:3px}
 .btn:active{transform:scale(.98)}
@@ -37,7 +32,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:poi
 </head>
 <body>
 <canvas id="c" aria-hidden="true"></canvas>
-<div class="brand" aria-hidden="true"><span class="mark"><i></i><i></i><i></i><i></i></span>glassi.</div>
+<div class="brand" aria-hidden="true"><svg viewBox="0 0 924 180" fill="#F20D19"><g transform="translate(55 20) skewX(-16)"><path d="M140 0H46C15 0 0 20 0 50V90C0 120 18 140 48 140H140V60H70V90H104V108H52C39 108 35 102 35 88V52C35 38 40 32 54 32H140Z"/><path transform="translate(162 0)" d="M0 0H35V108H135V140H0Z"/><path transform="translate(310 0)" fill-rule="evenodd" d="M0 140L57 0H96L154 140H117L106 111H46L35 140ZM58 80H94L76 31Z"/><path transform="translate(480 0)" d="M142 0H43C15 0 0 16 0 42C0 67 16 82 44 82H99C106 82 110 86 110 93V98C110 104 106 108 99 108H0V140H103C131 140 146 123 146 98V91C146 65 129 50 102 50H47C39 50 35 47 35 41C35 35 39 32 47 32H142Z"/><path transform="translate(646 0)" d="M142 0H43C15 0 0 16 0 42C0 67 16 82 44 82H99C106 82 110 86 110 93V98C110 104 106 108 99 108H0V140H103C131 140 146 123 146 98V91C146 65 129 50 102 50H47C39 50 35 47 35 41C35 35 39 32 47 32H142Z"/><path transform="translate(814 0)" d="M0 0H35V140H0Z"/></g></svg></div>
 <section class="intro">
   <h1>Afterparty</h1>
   <p>Sculpted wraparound sunglasses, kept somewhere warmer. Open the portal and walk in.</p>
@@ -179,11 +174,11 @@ function enter(x, y) {
   // hand off to the homepage so its whole screen fills with portal light
   try {
     const fe = window.frameElement, host = window.parent;
-    if (fe && host && typeof host.glassiEnter === 'function') { const r = fe.getBoundingClientRect(); host.glassiEnter(r.left + x, r.top + y); hoverT = 1; return; }
+    if (fe && host && typeof host.glassiEnter === 'function') { const r = fe.getBoundingClientRect(); host.glassiEnter(r.left + x, r.top + y, '/glassi/world'); hoverT = 1; return; }
   } catch { }
-  if (RM) { window.top.location.href = '/glassi/'; return; }
+  if (RM) { window.top.location.href = '/glassi/world'; return; }
   const w = document.getElementById('warp'); w.style.setProperty('--x', x + 'px'); w.style.setProperty('--y', y + 'px'); w.classList.add('on');
-  setTimeout(() => { window.top.location.href = '/glassi/'; }, 720);
+  setTimeout(() => { window.top.location.href = '/glassi/world'; }, 720);
 }
 canvas.addEventListener('click', e => enter(e.clientX, e.clientY));
 document.getElementById('go').addEventListener('click', e => { const r = e.currentTarget.getBoundingClientRect(); enter(r.left + r.width / 2, r.top + r.height / 2); });
