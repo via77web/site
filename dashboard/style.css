@@ -142,7 +142,7 @@ input,select,textarea{width:100%;min-height:var(--hit);padding:10px 12px;backgro
 .track{margin-top:var(--s6);border-top:1px solid var(--rule-strong)}
 .steps{display:grid;grid-template-columns:repeat(5,1fr)}
 .steps li{display:flex}
-.step{display:block;width:100%;min-height:64px;padding:var(--s3) var(--s2) var(--s3) 0;vertical-align:top;background:none;border:0;border-top:4px solid var(--rule);margin-top:-1px;text-align:left;color:var(--ink-soft);font-size:var(--t-sm);transition:color .15s,border-color .15s}
+.step{display:flex;flex-direction:column;justify-content:flex-start;width:100%;min-height:64px;padding:var(--s3) var(--s2) var(--s3) 0;vertical-align:top;background:none;border:0;border-top:4px solid var(--rule);margin-top:-1px;text-align:left;color:var(--ink-soft);font-size:var(--t-sm);transition:color .15s,border-color .15s}
 .step small{display:block;font:400 var(--t-xs)/1.4 var(--mono)}
 .step:hover{color:var(--ink);border-top-color:var(--ink-soft)}
 .step.done{border-top-color:var(--ink);color:var(--ink)}
