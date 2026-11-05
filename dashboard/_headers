@@ -1,0 +1,7 @@
+/*
+  X-Robots-Tag: noindex, nofollow
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src https://lvdxatacwqaiveoimrbc.supabase.co wss://lvdxatacwqaiveoimrbc.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  Cache-Control: no-cache

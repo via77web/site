@@ -1,9 +1,10 @@
 // Tells the enquiry form whether delivery is configured. Never exposes a secret:
 // the Turnstile site key is public by design.
-const REQUIRED = ['TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY', 'RESEND_API_KEY', 'ENQUIRY_TO', 'ENQUIRY_FROM'];
 
 export function onRequestGet({ env }) {
-  const enabled = REQUIRED.every((name) => Boolean(env[name]));
+  const canStore = env.SUPABASE_URL && env.SUPABASE_SECRET_KEY;
+  const canEmail = env.RESEND_API_KEY && env.ENQUIRY_TO && env.ENQUIRY_FROM;
+  const enabled = Boolean(env.TURNSTILE_SITE_KEY && env.TURNSTILE_SECRET_KEY && (canStore || canEmail));
   return new Response(JSON.stringify({ enabled, siteKey: enabled ? env.TURNSTILE_SITE_KEY : null }), {
     headers: {
       'content-type': 'application/json; charset=utf-8',
