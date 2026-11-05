@@ -78,7 +78,7 @@ function supabaseHeaders(env, extra) {
   return { apikey: env.SUPABASE_SECRET_KEY, authorization: `Bearer ${env.SUPABASE_SECRET_KEY}`, 'content-type': 'application/json', ...extra };
 }
 
-function saveEnquiry(env, data) {
+function saveEnquiry(env, data, suspected) {
   const optional = (value) => oneLine(value) || null;
   // A repeated request id is ignored, so a retry cannot create a second enquiry.
   return fetch(`${env.SUPABASE_URL}/rest/v1/enquiries?on_conflict=request_id`, {
@@ -94,6 +94,7 @@ function saveEnquiry(env, data) {
       project: optional(data.project),
       budget: optional(data.investment),
       timeline: optional(data.timeline),
+      ...(suspected ? { status: 'spam' } : {}),
     }),
     signal: AbortSignal.timeout(8000),
   });
@@ -147,9 +148,6 @@ export async function onRequestPost({ request, env }) {
     return reply(400, { ok: false, error: 'This request was not accepted.' });
   }
 
-  // Filled only by bots. Answer as a normal bot-facing success and send nothing.
-  if (data.company_fax) return reply(200, { ok: true });
-
   const fields = validation.validate(data);
   if (Object.keys(fields).length) return reply(422, { ok: false, fields });
 
@@ -169,7 +167,11 @@ export async function onRequestPost({ request, env }) {
   }
   if (!human) return reply(400, { ok: false, fields: { security: 'The security check did not pass. Please try it again.' } });
 
-  const stored = canStore(env) && (await attempt(() => saveEnquiry(env, data), 'storage'));
+  // The hidden field is normally only filled by bots, but browser autofill can fill it too.
+  // Keep the enquiry under Spam so a real person is never silently lost, and skip the email.
+  const suspected = Boolean(data.leave_blank || data.company_fax);
+  const stored = canStore(env) && (await attempt(() => saveEnquiry(env, data, suspected), 'storage'));
+  if (suspected) return stored ? reply(200, { ok: true }) : reply(502, { ok: false, error: RETRY });
   const emailed = canEmail(env) && (await attempt(() => sendEmail(env, data), 'email'));
   if (stored && emailed) await attempt(() => markEmailed(env, data.requestId), 'email flag');
 
