@@ -15,17 +15,25 @@ Deployed by the `via77-site` Cloudflare Pages project (build output `public`, no
 
 `/contact/` and `/commerce-assessment/` use `public/enquiry.js`, `public/form-validation.js` and `functions/api/`.
 
-Until all of these are set in Cloudflare Pages under Settings > Variables and Secrets (Production), the form prepares a downloadable brief and says plainly that nothing is sent:
+Until these are set in Cloudflare Pages under Settings > Variables and Secrets (Production), the form prepares a downloadable brief and says plainly that nothing is sent:
 
 | Name | Type | What it is |
 | --- | --- | --- |
-| `ENQUIRY_TO` | Text | Inbox that receives enquiries |
-| `ENQUIRY_FROM` | Text | Verified Resend sender, such as `VIA77 <enquiries@via77.com.au>` |
-| `RESEND_API_KEY` | Secret | Resend API key |
 | `TURNSTILE_SITE_KEY` | Text | Cloudflare Turnstile site key |
 | `TURNSTILE_SECRET_KEY` | Secret | Cloudflare Turnstile secret key |
+| `SUPABASE_URL` | Text | `https://lvdxatacwqaiveoimrbc.supabase.co` |
+| `SUPABASE_SECRET_KEY` | Secret | Supabase secret key, which saves enquiries for the dashboard |
+| `RESEND_API_KEY` | Secret | Resend API key |
+| `ENQUIRY_FROM` | Text | Verified Resend sender: `VIA77 Website <website@via77.com.au>` |
+| `ENQUIRY_TO` | Text | Notification inbox: `info@via77.com.au` |
+
+An enquiry counts as accepted once Supabase stores it or Resend accepts the email. Either service can fail without losing it.
 
 Redeploy after setting them. Once they are in place, the button changes to "Send enquiry".
+
+## Directors' dashboard
+
+`dashboard/` is a separate static app, deployed by its own Cloudflare Pages project to `dashboard.via77.com.au` (root directory `dashboard`, no build command). Data and sign-in use the `via77` Supabase project. To add a director, add their email to the `directors` table.
 
 ## Concept stores
 

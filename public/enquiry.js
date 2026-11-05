@@ -70,7 +70,7 @@ document.querySelectorAll('.enquiry-form').forEach((form) => {
       if (!config.enabled || !config.siteKey) return;
       delivery = true;
       submit.querySelector('span').textContent = type === 'assessment' ? 'Request an assessment' : 'Send enquiry';
-      note.textContent = 'Your enquiry goes to VIA77. Cloudflare Turnstile checks for spam and Resend delivers the email.';
+      note.textContent = 'Your enquiry goes to VIA77. Cloudflare Turnstile checks for spam, Supabase stores it and Resend emails us a notification.';
       holder.hidden = false;
       loadTurnstile(config.siteKey);
     } catch { /* Stays in the truthful download mode when configuration is unavailable. */ }
