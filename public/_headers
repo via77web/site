@@ -1,0 +1,29 @@
+# The custom domain is the only version search engines should index.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Concept storefronts stay reachable for visitors but out of search results.
+# Case studies at /work/<name>/ are the indexable versions.
+/forme/*
+  X-Robots-Tag: noindex
+/atelier-09/*
+  X-Robots-Tag: noindex
+/still-house/*
+  X-Robots-Tag: noindex
+/aliyaskin/*
+  X-Robots-Tag: noindex
+/fern-and-field/*
+  X-Robots-Tag: noindex
+/uppers/*
+  X-Robots-Tag: noindex
+/salim/*
+  X-Robots-Tag: noindex
+/glassi/*
+  X-Robots-Tag: noindex

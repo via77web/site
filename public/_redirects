@@ -1,11 +1,14 @@
+# Consolidated pages
+/capabilities/shopify-migration /solutions/shopify-growth-replatform/ 301
+/capabilities/shopify-migration/ /solutions/shopify-growth-replatform/ 301
+/capabilities/shopify-plus /insights/shopify-vs-shopify-plus/ 301
+/capabilities/shopify-plus/ /insights/shopify-vs-shopify-plus/ 301
+/commerce-review /commerce-assessment/ 301
+/commerce-review/ /commerce-assessment/ 301
+
+# Short names for the concept stores
 /aliya /aliyaskin/ 301
 /aliya/* /aliyaskin/:splat 301
-/work/forme /forme/ 301
-/work/forme/ /forme/ 301
-/work/atelier-09 /atelier-09/ 301
-/work/atelier-09/ /atelier-09/ 301
-/work/still-house /still-house/ 301
-/work/still-house/ /still-house/ 301
 /atelier09 /atelier-09/ 301
 /atelier09/ /atelier-09/ 301
 /stillhouse /still-house/ 301

@@ -3,22 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shopify &amp; ecommerce agency Melbourne, Australia | VIA77</title>
-<meta name="description" content="Melbourne-based ecommerce strategy, website design, Shopify development and optimisation for Australian brands. Explore the work and plan your next step.">
+<title>Shopify &amp; Ecommerce Agency Melbourne | VIA77</title>
+<meta name="description" content="Melbourne-based Shopify and ecommerce agency for Australian brands. Strategy, store design, development, migrations and ongoing optimisation.">
 <link rel="canonical" href="https://www.via77.com.au/">
 <meta name="robots" content="index, follow">
-<meta property="og:title" content="Shopify &amp; ecommerce agency Melbourne, Australia | VIA77">
-<meta property="og:description" content="Ecommerce strategy, design and Shopify development. Based in Melbourne. Working across Australia.">
+<meta property="og:title" content="Shopify &amp; Ecommerce Agency Melbourne | VIA77">
+<meta property="og:description" content="Melbourne-based Shopify and ecommerce agency for Australian brands. Strategy, store design, development, migrations and ongoing optimisation.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.via77.com.au/">
 <meta property="og:image" content="https://www.via77.com.au/media/homepage/build-aliya.webp">
+<meta property="og:site_name" content="VIA77">
 <meta property="og:locale" content="en_AU">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shopify &amp; Ecommerce Agency Melbourne | VIA77">
+<meta name="twitter:description" content="Melbourne-based Shopify and ecommerce agency for Australian brands. Strategy, store design, development, migrations and ongoing optimisation.">
+<meta name="twitter:image" content="https://www.via77.com.au/media/homepage/build-aliya.webp">
 <meta name="theme-color" content="#F6F5F1">
-<link rel="icon" href="/assets/via77-logo.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/via77-favicon.svg" type="image/svg+xml">
 <style>
 /* =====================================================================
    VIA77 — Motion system v1, VIA77 flavour
@@ -33,7 +34,7 @@
   --ink:#000; --ink-2:#242621; --muted:#62675D; --faint:#7E8278;
   --clay:#88412C; --sage:#D0D8C9; --forest:#232B25; --forest-2:#2C352E;
   --on-forest:#F5F4ED; --on-forest-muted:#CED2C9;
-  --f-sans:"Helvetica Neue",Helvetica,"Inter Tight",Arial,sans-serif;
+  --f-sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
   --motion-scale:1.1;
   --ease-draft:cubic-bezier(.65,0,.35,1);
   --ease-build:cubic-bezier(.16,1,.3,1);
@@ -109,11 +110,11 @@ html.m .imgwipe.in img{transform:none}
 /* ---------- hero ---------- */
 .hero{padding:120px 0 0}
 .hero-meta{display:flex;justify-content:space-between;gap:20px;color:var(--muted);margin-bottom:34px}
-.h1{font-weight:400;font-size:clamp(46px,7.6vw,128px);line-height:.96;letter-spacing:-.045em;margin:0}
-.h1 .l2{display:block;color:var(--muted)}
+.h1{font-weight:400;font-size:clamp(42px,6.3vw,108px);line-height:.98;letter-spacing:-.045em;margin:0}
+.h1 .l2{display:block;color:var(--muted)}.h1 .l2+.l2{transition-delay:.12s}
 .ink-word{position:relative;display:inline-block}
 .ink-word .fill{display:block}
-.ink-word .stroke{position:absolute;inset:0;color:transparent;-webkit-text-stroke:1px var(--clay);pointer-events:none}
+.ink-word .stroke::before{content:attr(data-t)}.ink-word .stroke{position:absolute;inset:0;color:transparent;-webkit-text-stroke:1px var(--clay);pointer-events:none}
 .ink-word .scan{position:absolute;top:4%;bottom:4%;left:0;width:1.5px;background:var(--clay);opacity:0;pointer-events:none}
 html.m .ink-word .fill{clip-path:inset(0 100% 0 0)}
 html:not(.m) .ink-word .stroke{display:none}
@@ -163,18 +164,6 @@ section{position:relative}
 .h2 .soft{color:var(--muted)}
 .forest .h2 .soft{color:var(--on-forest-muted)}
 
-/* picture: brand / experience / technology → commerce */
-.picture-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px 6vw;align-items:end}
-.picture-grid p{margin:0;max-width:520px;color:var(--muted);font-size:18px}
-@media (max-width:860px){.picture-grid{grid-template-columns:1fr}}
-.converge{position:relative;margin-top:clamp(60px,8vw,110px);height:clamp(240px,30vw,420px)}
-.converge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.converge path{fill:none;stroke:var(--ink);stroke-width:1;vector-effect:non-scaling-stroke}
-.converge .node{position:absolute;top:0;transform:translateX(-50%);color:var(--muted)}
-.converge .sink{position:absolute;left:50%;bottom:0;transform:translateX(-50%);font-size:clamp(46px,8.4vw,140px);line-height:.8;letter-spacing:-.05em;color:var(--clay);white-space:nowrap}
-html.m .converge .sink{opacity:0;letter-spacing:.06em;transition:opacity var(--t-scene) var(--ease-build) .9s,letter-spacing calc(var(--t-scene)*1.4) var(--ease-build) .9s}
-html.m .converge.in .sink{opacity:1;letter-spacing:-.05em}
-
 /* assessment */
 .assess{background:var(--paper-3)}
 .assess-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px 6vw;align-items:end}
@@ -188,26 +177,6 @@ html.m .converge.in .sink{opacity:1;letter-spacing:-.05em}
 .sol-head{display:grid;grid-template-columns:1fr 1fr;gap:30px 6vw;align-items:end;margin-bottom:56px}
 .sol-head p{margin:0;color:var(--muted);max-width:520px}
 @media (max-width:860px){.sol-head{grid-template-columns:1fr}}
-.row{position:relative;border-top:1px solid var(--rule)}
-.row:last-child{border-bottom:1px solid var(--rule)}
-.row .rule{position:absolute;left:0;top:-1px;width:100%;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform var(--t-reveal) var(--ease-build)}
-.row:hover .rule,.row.open .rule{transform:scaleX(1)}
-.row button{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:72px 1fr minmax(0,420px) 32px;gap:20px;align-items:baseline;padding:26px 0;cursor:pointer}
-.row button:focus-visible{outline:2px solid var(--clay);outline-offset:4px}
-.row .idx{color:var(--muted)}
-.row .nm{font-size:clamp(26px,3.3vw,50px);line-height:1.02;letter-spacing:-.035em;transition:transform var(--t-reveal) var(--ease-build),color var(--t-ui)}
-.row:hover .nm,.row.open .nm{transform:translateX(16px)}
-.row.open .nm{color:var(--clay)}
-.row .tag{color:var(--muted);font-size:15px}
-.row .pl{width:16px;height:16px;justify-self:end;align-self:center;transition:transform var(--t-ui) var(--ease-snap)}
-.row.open .pl{transform:rotate(45deg)}
-.row .body{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--t-reveal) var(--ease-build)}
-.row.open .body{grid-template-rows:1fr}
-.row .body>div{overflow:hidden}
-.row .inner{display:grid;grid-template-columns:72px 1fr minmax(0,420px) 32px;gap:20px;padding:0 0 32px}
-.row .inner p{margin:0 0 18px;font-size:17px;max-width:460px}
-@media (max-width:860px){.row button{grid-template-columns:40px 1fr 24px}.row .tag{display:none}.row .inner{grid-template-columns:40px 1fr}.row .inner>.sp2{display:none}}
-
 /* ---------- S5 framework scene ---------- */
 .forest{background:var(--forest);color:var(--on-forest)}
 .scene-track{position:relative}
@@ -215,7 +184,8 @@ html.m .scene-track{height:420vh}
 .scene-sticky{padding:110px 0}
 html.m .scene-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;padding:86px 0 30px;overflow:hidden}
 .scene-grid{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:clamp(24px,4vw,72px);align-items:center;width:100%}
-@media (max-width:960px){.scene-grid{grid-template-columns:1fr}.stages{display:none}html.m .scene-track{height:260vh}}
+@media (max-width:960px){.scene-grid{grid-template-columns:1fr}html.m .scene-track{height:auto}html.m .scene-sticky{position:static;height:auto;display:block;padding:80px 0;overflow:visible}.stages li,.stages li.done{color:var(--on-forest)}.stages li small{max-height:none;opacity:1;color:var(--on-forest-muted)}.scan{display:none}}
+@media (min-width:961px) and (max-height:760px){.stages li{padding:7px 0}.scene-sticky h2{font-size:clamp(30px,3.4vw,46px)}}
 .stages{list-style:none;margin:30px 0 0;padding:0}
 .stages li{display:grid;grid-template-columns:36px 1fr;gap:2px 8px;padding:10px 0;border-top:1px solid rgba(245,244,237,.14);color:#7F877F;transition:color var(--t-ui) var(--ease-snap)}
 .stages li span{font-size:12px;letter-spacing:.06em;padding-top:4px}
@@ -223,7 +193,7 @@ html.m .scene-sticky{position:sticky;top:0;height:100vh;display:flex;align-items
 .stages li small{grid-column:2;font-size:14px;line-height:1.4;max-height:0;opacity:0;overflow:hidden;transition:max-height var(--t-reveal) var(--ease-build),opacity var(--t-reveal) var(--ease-build)}
 .stages li.on{color:var(--on-forest)}
 .stages li.on span{color:var(--sage)}
-.stages li.on small{max-height:60px;opacity:1;color:var(--on-forest-muted)}
+.stages li.on small{max-height:90px;opacity:1;color:var(--on-forest-muted)}
 .stages li.done{color:#A9B0A7}
 html:not(.m) .stages li{color:var(--on-forest)}html:not(.m) .stages li small{max-height:none;opacity:1;color:var(--on-forest-muted)}
 .stage{position:relative;aspect-ratio:16/10;width:100%;max-height:72vh;justify-self:center;--p:1}
@@ -258,13 +228,6 @@ html:not(.m) .scan{display:none}
 .cases .case.lift{margin-top:clamp(60px,10vw,160px)}
 @media (max-width:860px){.cases{grid-template-columns:1fr}.cases .case.lift{margin-top:0}.case .meta{grid-template-columns:1fr}}
 
-/* ---------- journey (3 columns) ---------- */
-.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:56px}
-.journey div{border-top:1px solid var(--ink);padding-top:18px}
-.journey h3{font-weight:400;font-size:24px;letter-spacing:-.02em;margin:0 0 10px}
-.journey p{margin:0 0 18px;color:var(--muted);font-size:16px}
-@media (max-width:860px){.journey{grid-template-columns:1fr}}
-
 /* ---------- insights ---------- */
 .ins{border-top:1px solid var(--rule)}
 .ins a{display:grid;grid-template-columns:160px 1fr 40px;gap:20px;align-items:baseline;padding:26px 0;border-bottom:1px solid var(--rule);text-decoration:none;position:relative}
@@ -277,40 +240,13 @@ html:not(.m) .scan{display:none}
 @media (max-width:760px){.ins a{grid-template-columns:1fr 24px}.ins .lbl{grid-column:1/-1}}
 
 
-/* ---------- builds index + hover preview ---------- */
-.b-list{border-top:1px solid var(--rule)}
-.b-row{position:relative;display:grid;grid-template-columns:72px minmax(0,1.05fr) minmax(0,1.25fr) minmax(0,.9fr) 32px;gap:20px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--rule);text-decoration:none;transition:color var(--t-ui) var(--ease-snap)}
-.b-rule{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform var(--t-reveal) var(--ease-build)}
-.b-row:hover .b-rule,.b-row:focus-visible .b-rule{transform:scaleX(1)}
-.b-row .idx{color:var(--muted)}
-.b-nm{font-size:clamp(28px,3.4vw,54px);line-height:1;letter-spacing:-.04em;transition:transform var(--t-reveal) var(--ease-build),color var(--t-ui)}
-.b-row:hover .b-nm,.b-row:focus-visible .b-nm{transform:translateX(16px);color:var(--clay)}
-.b-what{font-size:16px;color:var(--muted);max-width:440px}
-.b-tags{display:flex;flex-direction:column;gap:6px;color:var(--muted)}
-.b-tags .b-cat{color:var(--ink)}
-.b-row .ar{justify-self:end;font-size:20px}
-@media (hover:hover) and (pointer:fine){.b-list:hover .b-row:not(:hover){color:#B9B8AF}.b-list:hover .b-row:not(:hover) .b-what,.b-list:hover .b-row:not(:hover) .b-tags,.b-list:hover .b-row:not(:hover) .b-cat{color:#B9B8AF}}
-.b-thumb{display:none;grid-column:1/-1;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;margin-bottom:6px}
-html:not(.m) .b-thumb{display:block}
-@media (max-width:860px),(hover:none),(pointer:coarse){.b-thumb{display:block}.b-row{grid-template-columns:40px 1fr 24px}.b-what,.b-tags{grid-column:2/-1}.b-row .ar{grid-row:2;grid-column:3}}
-.b-prev{position:fixed;left:0;top:0;z-index:40;width:min(32vw,500px);aspect-ratio:16/10;pointer-events:none;visibility:hidden;will-change:transform}
-.b-mask{position:absolute;inset:0;overflow:hidden;clip-path:inset(50% 50% 50% 50%);transition:clip-path var(--t-ui) var(--ease-snap);box-shadow:0 30px 60px -30px rgba(0,0,0,.45);background:var(--paper-3)}
-.b-prev.on .b-mask{clip-path:inset(0 0 0 0)}
-.b-mask img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:translateY(102%);transition:transform calc(var(--t-reveal)*.8) var(--ease-snap)}
-.b-mask img.act{transform:none;z-index:2}
-.b-mask img.out{transform:translateY(-28%);z-index:1}
-.b-lbl{position:absolute;left:0;top:calc(100% + 10px);color:var(--muted);white-space:nowrap;opacity:0;transition:opacity var(--t-ui)}
-.b-prev.on .b-lbl{opacity:1}
-@media (max-width:860px),(hover:none),(pointer:coarse){.b-prev{display:none}}
-html.off .b-prev{display:none}
-
 /* ---------- final CTA + footer ---------- */
 .final .h2{font-size:clamp(46px,7.4vw,124px);line-height:.95}
 .final-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-top:40px;flex-wrap:wrap}
 .final-row p{margin:0;max-width:440px;color:var(--on-forest-muted)}
 .footer{padding:70px 0 30px}
 .f-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}
-.f-grid h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--muted);margin:0 0 14px}
+.f-grid h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--muted);margin:0 0 14px}
 .f-grid a{display:block;text-decoration:none;font-size:14px;padding:3px 0;width:max-content;background:linear-gradient(currentColor,currentColor) no-repeat right bottom/0 1px;transition:background-size var(--t-reveal) var(--ease-snap)}
 .f-grid a:hover{background-size:100% 1px;background-position-x:left}
 @media (max-width:860px){.f-grid{grid-template-columns:1fr 1fr}}
@@ -324,142 +260,91 @@ html.off .b-prev{display:none}
 .switch[aria-checked="true"]::after{transform:translateX(20px);background:var(--clay)}
 .switch:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
 html.off *,html.off *::before,html.off *::after{transition-duration:1ms!important;animation-duration:1ms!important}
+
+/* ---------- offer, pathways, identity ---------- */
+.hero-meta .eyebrow-main{color:var(--ink-2)}
+.hero-row p{max-width:560px;font-size:18px}
+.vp picture{position:absolute;inset:0}
+.phone .poster{border-radius:20px}
+.shield .pill{opacity:1;transform:none}
+.live.active .poster{display:none}
+.work-note{max-width:620px;margin:14px 0 0}
+.status{color:var(--ink-2);grid-column:1/-1;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.paths{border-top:1px solid var(--rule)}
+.path{position:relative;display:grid;grid-template-columns:72px minmax(0,1fr) minmax(0,480px) 32px;gap:20px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--rule);text-decoration:none}
+.path::before{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform var(--t-reveal) var(--ease-build)}
+.path:hover::before,.path:focus-visible::before{transform:scaleX(1)}
+.path .idx{color:var(--muted)}
+.path h3{font-weight:400;margin:0;font-size:clamp(26px,3.3vw,50px);line-height:1.02;letter-spacing:-.035em;transition:transform var(--t-reveal) var(--ease-build),color var(--t-ui)}
+.path:hover h3,.path:focus-visible h3{transform:translateX(12px);color:var(--clay)}
+.path p{margin:0;color:var(--muted);font-size:16px}
+.path .ar{justify-self:end;font-size:20px}
+@media (max-width:860px){.path{grid-template-columns:40px 1fr 24px}.path p{grid-column:2/-1}.path .ar{grid-row:1;grid-column:3}}
+.who-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px 6vw;align-items:start}
+.who-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.who-list li{padding:14px 0;border-bottom:1px solid var(--rule);font-size:17px}
+@media (max-width:860px){.who-grid{grid-template-columns:1fr}}
+.case .al{justify-self:start;width:max-content}
+@media (max-width:860px){.f-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.f-grid>div:first-child{grid-column:1/-1}.f-grid a{width:auto}}
+.tagline{color:var(--on-forest-muted);margin-top:30px}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://www.via77.com.au/#organization", "name": "VIA77", "url": "https://www.via77.com.au", "logo": "https://www.via77.com.au/assets/via77-logo-black.svg?v=2", "description": "Melbourne-based commerce strategy, UX/UI, Shopify engineering and optimisation company serving Australia.", "areaServed": "Australia", "location": {"@type": "Place", "name": "Melbourne, Australia"}}, {"@type": "WebSite", "@id": "https://www.via77.com.au/#website", "name": "VIA77", "url": "https://www.via77.com.au", "publisher": {"@id": "https://www.via77.com.au/#organization"}}, {"@type": "WebPage", "@id": "https://www.via77.com.au/#page", "name": "Shopify & ecommerce agency Melbourne, Australia | VIA77", "description": "Melbourne-based ecommerce strategy, website design, Shopify development and optimisation for Australian brands. Explore the work and plan your next step.", "url": "https://www.via77.com.au/", "image": "https://www.via77.com.au/media/home/hero-poster.webp"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://www.via77.com.au/#organization", "name": "VIA77", "url": "https://www.via77.com.au/", "logo": "https://www.via77.com.au/assets/via77-logo-black.svg?v=2", "slogan": "Commerce engineered for growth", "description": "VIA77 is a Melbourne-based Shopify and ecommerce agency connecting strategy, customer experience, design and development for Australian brands.", "areaServed": {"@type": "Country", "name": "Australia"}, "location": {"@type": "Place", "name": "Melbourne, Australia", "address": {"@type": "PostalAddress", "addressLocality": "Melbourne", "addressRegion": "VIC", "addressCountry": "AU"}}, "knowsAbout": ["Shopify development", "Ecommerce website design", "Shopify migration", "Commerce integrations", "Conversion rate optimisation"]}, {"@type": "WebSite", "@id": "https://www.via77.com.au/#website", "name": "VIA77", "url": "https://www.via77.com.au/", "inLanguage": "en-AU", "publisher": {"@id": "https://www.via77.com.au/#organization"}}, {"@type": "WebPage", "@id": "https://www.via77.com.au/#page", "name": "Shopify & Ecommerce Agency Melbourne | VIA77", "description": "Melbourne-based Shopify and ecommerce agency for Australian brands. Strategy, store design, development, migrations and ongoing optimisation.", "url": "https://www.via77.com.au/", "inLanguage": "en-AU", "isPartOf": {"@id": "https://www.via77.com.au/#website"}, "about": {"@id": "https://www.via77.com.au/#organization"}, "image": "https://www.via77.com.au/media/homepage/build-aliya.webp", "dateModified": "2026-11-05"}]}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-
-<header class="nav" id="nav">
-  <div class="wrap nav-in">
-    <a class="logo" href="#top" aria-label="VIA77 home"><svg viewBox="41 48 545 116" aria-hidden="true" focusable="false"><path d="M41.28,49.56h22.41c1.31,0,2.52.7,3.17,1.83l49.73,86.41c.23.4.81.4,1.04,0l49.65-87.04c.42-.74,1.22-1.2,2.07-1.2h6.48l-63.3,111.35c-.91,1.6-3.22,1.61-4.14.02L49.37,59.06c-2.1-3.63-4.84-6.85-8.09-9.5h0Z"/><path d="M364.58,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M492.87,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M345.78,162.12h-21.82c-1.65,0-3.18-.88-4.01-2.32l-48.97-85.08c-.42-.73-1.48-.73-1.9,0l-48.87,85.67c-.61,1.07-1.74,1.72-2.97,1.72h-5.88l63.34-111.42c.86-1.52,3.05-1.53,3.93-.02l59.12,102.01h0c2.06,3.56,4.74,6.72,7.91,9.34l.11.09Z"/><path d="M187.85,49.56h11.43c.64,0,1.15.52,1.15,1.15v110.25c0,.64-.52,1.15-1.15,1.15h-11.43c-.64,0-1.15-.52-1.15-1.15V50.71c0-.64.52-1.15,1.15-1.15Z"/></svg></a>
-    <nav class="nav-links" aria-label="Main">
-      <a href="#work">Work</a><a href="#solutions">Solutions</a><a href="#framework">Approach</a><a href="#insights">Insights</a><a href="#about">About</a>
-    </nav>
-    <a class="btn sm" href="/contact/">Start a project <span class="ar" aria-hidden="true">↗</span></a>
-    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="drawer">Menu +</button>
-  </div>
-</header>
-<div class="drawer" id="drawer" aria-hidden="true">
-  <a href="#work">Work</a><a href="#solutions">Solutions</a><a href="#framework">Approach</a><a href="#insights">Insights</a><a href="/contact/">Start a project ↗</a>
-</div>
-
+<header class="nav" id="nav"><div class="wrap nav-in">
+<a class="logo" href="/" aria-label="VIA77 home"><svg viewBox="41 48 545 116" aria-hidden="true" focusable="false"><path d="M41.28,49.56h22.41c1.31,0,2.52.7,3.17,1.83l49.73,86.41c.23.4.81.4,1.04,0l49.65-87.04c.42-.74,1.22-1.2,2.07-1.2h6.48l-63.3,111.35c-.91,1.6-3.22,1.61-4.14.02L49.37,59.06c-2.1-3.63-4.84-6.85-8.09-9.5h0Z"/><path d="M364.58,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M492.87,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M345.78,162.12h-21.82c-1.65,0-3.18-.88-4.01-2.32l-48.97-85.08c-.42-.73-1.48-.73-1.9,0l-48.87,85.67c-.61,1.07-1.74,1.72-2.97,1.72h-5.88l63.34-111.42c.86-1.52,3.05-1.53,3.93-.02l59.12,102.01h0c2.06,3.56,4.74,6.72,7.91,9.34l.11.09Z"/><path d="M187.85,49.56h11.43c.64,0,1.15.52,1.15,1.15v110.25c0,.64-.52,1.15-1.15,1.15h-11.43c-.64,0-1.15-.52-1.15-1.15V50.71c0-.64.52-1.15,1.15-1.15Z"/></svg></a>
+<nav class="nav-links" aria-label="Main"><a href="/work/">Work</a><a href="/solutions/">Solutions</a><a href="/capabilities/">Capabilities</a><a href="/insights/">Insights</a><a href="/about/">About</a></nav>
+<a class="btn sm" href="/contact/" data-event="hero_cta">Discuss your project <span class="ar" aria-hidden="true">↗</span></a>
+<button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="drawer">Menu +</button>
+</div></header>
+<div class="drawer" id="drawer" aria-hidden="true"><a href="/work/">Work</a><a href="/solutions/">Solutions</a><a href="/capabilities/">Capabilities</a><a href="/insights/">Insights</a><a href="/about/">About</a><a href="/contact/">Discuss your project ↗</a></div>
 <main id="main">
-<!-- HERO -->
-<section class="hero" id="top">
-  <div class="wrap">
-    <div class="hero-meta lbl"><span>Melbourne / Australia</span><span>Strategy + Experience + Technology</span></div>
-    <h1 class="h1" id="h1" aria-label="Commerce engineered for growth.">
-      <span aria-hidden="true"><span class="ink-word"><span class="fill">Commerce engineered</span><span class="stroke">Commerce engineered</span><span class="scan"></span></span></span>
-      <span class="l2" aria-hidden="true">for growth.</span>
-    </h1>
-    <div class="hero-row">
-      <p data-reveal>Ecommerce strategy, design and Shopify development.<br>Based in Melbourne. Working across Australia.</p>
-      <div class="acts" data-reveal>
-        <a class="btn" href="/contact/">Start a project <span class="ar" aria-hidden="true">↗</span></a>
-        <a class="al" href="#work">Explore our work <span class="ar" aria-hidden="true">↗</span></a>
-      </div>
-    </div>
-    <figure style="margin:0">
-      <div class="live" id="live" data-wipe>
-        <div class="dev desk" id="desk">
-          <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span class="url">via77/aliyaskin</span></div>
-          <div class="vp" data-w="1440" data-h="900">
-            <img class="poster" src="/media/homepage/build-aliya.webp" alt="" width="1600" height="1000">
-            <iframe src="/aliyaskin/" title="Aliya Skin store preview, desktop" tabindex="-1"></iframe>
-          </div>
-        </div>
-        <div class="dev phone" id="phone">
-          <div class="vp" data-w="390" data-h="844">
-            <iframe data-src="/aliyaskin/" title="Aliya Skin store preview, mobile" tabindex="-1"></iframe>
-          </div>
-        </div>
-        <button class="shield" id="shield" aria-describedby="liveHint"><span class="pill">Try the store <span class="ar" aria-hidden="true">↗</span></span></button>
-      </div>
-      <figcaption class="caption lbl"><span>Aliya Skin / Hydration, made simple</span><span id="liveHint">Preview · Click to shop inside, move away to return</span><span>Concept · Launching on Shopify</span></figcaption>
-    </figure>
-  </div>
-</section>
+<section class="hero" id="top"><div class="wrap">
+<div class="hero-meta lbl"><span class="eyebrow-main">Shopify &amp; ecommerce agency / Melbourne, Australia</span><span>Commerce engineered for growth</span></div>
+<h1 class="h1" id="h1"><span class="ink-word"><span class="fill">Shopify stores.</span><span class="stroke" data-t="Shopify stores." aria-hidden="true"></span><span class="scan"></span></span><span class="l2">Designed for customers.</span><span class="l2">Built for your business.</span></h1>
+<div class="hero-row">
+<p data-reveal>VIA77 brings ecommerce strategy, design and Shopify development together for Australian brands. Launch a new store, improve an existing one or plan your move to Shopify, with clear priorities from the start.</p>
+<div class="acts" data-reveal><a class="btn" href="/contact/" data-event="hero_cta">Discuss your project <span class="ar" aria-hidden="true">↗</span></a><a class="al" href="/work/" data-event="hero_cta">Explore our commerce concepts <span class="ar" aria-hidden="true">↗</span></a></div>
+</div>
+<figure>
+<div class="live" id="live" data-wipe>
+<div class="dev desk" id="desk"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span class="url">via77/aliyaskin</span></div>
+<div class="vp" data-w="1440" data-h="900"><picture><source media="(max-width:760px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACw="><img class="poster" src="/media/homepage/build-aliya.webp" srcset="/media/homepage/build-aliya-800.webp 800w,/media/homepage/build-aliya.webp 1600w" sizes="84vw" alt="Aliya Skin concept store homepage with a close-up portrait" width="1600" height="1000" fetchpriority="high"></picture><iframe data-src="/aliyaskin/" title="Aliya Skin concept store, desktop" tabindex="-1"></iframe></div></div>
+<div class="dev phone" id="phone"><div class="vp" data-w="390" data-h="844"><img class="poster" src="/media/work/phones/aliya-skin.webp" alt="Aliya Skin concept store on a phone" width="585" height="1266"><iframe data-src="/aliyaskin/" title="Aliya Skin concept store, phone" tabindex="-1"></iframe></div></div>
+<button class="shield" id="shield" aria-describedby="liveHint"><span class="pill">Open the interactive demo <span class="ar" aria-hidden="true">↗</span></span></button>
+</div>
+<figcaption class="caption lbl"><span>Aliya Skin</span><span id="liveHint">Loads the demo store here. Press Esc or move away to return</span><span>Commerce concept</span></figcaption>
+</figure>
+</div></section>
 
-<!-- THE COMMERCIAL PICTURE -->
-<section class="pad" id="about">
-  <div class="wrap">
-    <div class="sec-lbl lbl"><b>02</b><span>/ The commercial picture</span></div>
-    <div class="picture-grid">
-      <h2 class="h2" data-reveal>A website isn't the goal.<br><span class="soft">A better commerce business is.</span></h2>
-      <p data-reveal>Great ecommerce sits at the intersection of brand, customer experience and technology. VIA77 brings those disciplines together into one connected commerce system.</p>
-    </div>
-    <div class="converge" id="converge" aria-label="Brand, experience and technology connect into commerce" role="img">
-      <svg viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M200 30 C 200 170, 500 120, 500 230"/>
-        <path d="M500 30 L 500 230"/>
-        <path d="M800 30 C 800 170, 500 120, 500 230"/>
-      </svg>
-      <span class="node lbl" style="left:20%">Brand</span>
-      <span class="node lbl" style="left:50%">Experience</span>
-      <span class="node lbl" style="left:80%">Technology</span>
-      <span class="sink" aria-hidden="true">COMMERCE</span>
-    </div>
-  </div>
-</section>
+<section class="pad" id="work"><div class="wrap">
+<div class="sec-lbl lbl"><b>01</b><span>/ Selected work</span></div>
+<div class="work-head"><div><h2 class="h2" data-reveal>Commerce concepts,<br><span class="soft">labelled as concepts.</span></h2><p class="muted work-note" data-reveal>Stores we designed and built to show how we think. They are demonstrations, not client results, and each case page explains the decisions and trade-offs.</p></div><a class="al" href="/work/">View all concepts <span class="ar" aria-hidden="true">↗</span></a></div>
+<div class="cases">
+<a class="case full" href="/work/forme/" data-event="case_study_cta"><div class="media imgwipe" data-wipe><img src="/media/homepage/store-forme-v6.webp" srcset="/media/homepage/store-forme-v6-800.webp 800w,/media/homepage/store-forme-v6.webp 1600w" sizes="100vw" alt="FORME skincare storefront with amber bottles on warm stone" width="1600" height="1000" loading="lazy" decoding="async"></div><div class="meta"><div><span class="lbl">Beauty / Skincare</span><h3>FORME</h3></div><span class="line">A small range with a clear routine, a set, and a full bag and checkout flow.</span><span class="al">View concept <span class="ar" aria-hidden="true">↗</span></span><span class="status">Commerce concept</span></div></a>
+<a class="case " href="/work/aliya-skin/" data-event="case_study_cta"><div class="media imgwipe" data-wipe><img src="/media/homepage/aliya-shop.webp" srcset="/media/homepage/aliya-shop-800.webp 800w,/media/homepage/aliya-shop.webp 1600w" sizes="(max-width:860px) 100vw,50vw" alt="Aliya Skin shop page with a face cream and an eye roller" width="1600" height="1000" loading="lazy" decoding="async"></div><div class="meta"><div><span class="lbl">Skincare / Direct to consumer</span><h3>Aliya Skin</h3></div><span class="line">A two-product store built around subscribe-and-save.</span><span class="al">View concept <span class="ar" aria-hidden="true">↗</span></span><span class="status">Commerce concept</span></div></a>
+<a class="case lift" href="/work/glassi/" data-event="case_study_cta"><div class="media imgwipe" data-wipe><img src="/media/homepage/glassi-afterparty-2026.webp" srcset="/media/homepage/glassi-afterparty-2026-800.webp 800w,/media/homepage/glassi-afterparty-2026.webp 1600w" sizes="(max-width:860px) 100vw,50vw" alt="glassi Afterparty store homepage with a model wearing silver wraparound sunglasses" width="1600" height="1000" loading="lazy" decoding="async"></div><div class="meta"><div><span class="lbl">Eyewear / 3D and AR</span><h3>glassi Afterparty</h3></div><span class="line">A product drop with a 3D viewer and camera try-on.</span><span class="al">View concept <span class="ar" aria-hidden="true">↗</span></span><span class="status">Commerce concept</span></div></a>
+</div></div></section>
 
-<!-- ASSESSMENT -->
-<section class="pad assess">
-  <div class="wrap">
-    <div class="sec-lbl lbl"><b>03</b><span>/ A clearer starting point</span></div>
-    <div class="assess-grid">
-      <h2 class="h2" data-reveal>Find the right thing<br><span class="soft">to improve next.</span></h2>
-      <div data-reveal>
-        <p>An ecommerce assessment of the journey, the technology and the priorities. Human-led, with scope agreed before work begins.</p>
-        <div class="areas" aria-label="Areas reviewed"><span>Customer journey</span><span>Navigation</span><span>Search</span><span>PDP</span><span>Cart</span><span>Checkout</span><span>Mobile</span><span>Performance</span><span>Analytics</span><span>SEO</span><span>AI discoverability</span><span>Architecture</span></div>
-        <p style="margin-top:26px"><a class="al" href="/commerce-assessment/">Explore the Commerce Assessment <span class="ar" aria-hidden="true">↗</span></a></p>
-      </div>
-    </div>
-  </div>
-</section>
+<section class="pad" id="solutions" style="padding-top:0"><div class="wrap">
+<div class="sec-lbl lbl"><b>02</b><span>/ Four ways we help</span></div>
+<div class="sol-head"><h2 class="h2" data-reveal>Where are you<br><span class="soft">starting from?</span></h2><p data-reveal>Each path brings together what your project needs, and each page spells out what is included, what you provide and what affects the cost.</p></div>
+<div class="paths">
+<a class="path" href="/solutions/ecommerce-launch/"><span class="idx lbl">01</span><h3>Launch</h3><p>Plan, design and build a new Shopify store, then test the whole buying journey before opening.</p><span class="ar" aria-hidden="true">↗</span></a>
+<a class="path" href="/solutions/shopify-growth-replatform/"><span class="idx lbl">02</span><h3>Migrate or rebuild</h3><p>Move to Shopify or rebuild your store with data mapping, redirects and a rehearsed launch.</p><span class="ar" aria-hidden="true">↗</span></a>
+<a class="path" href="/capabilities/commerce-integrations/"><span class="idx lbl">03</span><h3>Integrate</h3><p>Connect Shopify to the systems you run on, with clear data ownership and failure handling.</p><span class="ar" aria-hidden="true">↗</span></a>
+<a class="path" href="/solutions/commerce-optimisation/"><span class="idx lbl">04</span><h3>Improve</h3><p>Work through a prioritised list of fixes and features on a live store, and check what changed.</p><span class="ar" aria-hidden="true">↗</span></a>
+</div></div></section>
 
-<!-- S6 SOLUTIONS -->
-<section class="pad" id="solutions">
-  <div class="wrap">
-    <div class="sec-lbl lbl"><b>04</b><span>/ Four ways forward</span></div>
-    <div class="sol-head">
-      <h2 class="h2" data-reveal>Start with your<br><span class="soft">commerce challenge.</span></h2>
-      <p data-reveal>No two ecommerce businesses arrive at the same point. VIA77 brings strategy, design and technology together around the stage you're at.</p>
-    </div>
-    <div id="rows">
-      <div class="row"><span class="rule"></span>
-        <button aria-expanded="false"><span class="idx lbl">01</span><span class="nm">Ecommerce Launch</span><span class="tag">Build the right commerce foundation from day one.</span><svg class="pl" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0v16M0 8h16" stroke="currentColor" stroke-width="1.2"/></svg></button>
-        <div class="body"><div><div class="inner"><span></span><div><p>Strategy, UX, design and Shopify development for brands creating a serious ecommerce business.</p><a class="al" href="/solutions/ecommerce-launch/">Explore Ecommerce Launch <span class="ar" aria-hidden="true">↗</span></a></div><span class="sp2"></span></div></div></div></div>
-      <div class="row"><span class="rule"></span>
-        <button aria-expanded="false"><span class="idx lbl">02</span><span class="nm">Shopify Growth &amp; Replatform</span><span class="tag">Move without losing momentum.</span><svg class="pl" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0v16M0 8h16" stroke="currentColor" stroke-width="1.2"/></svg></button>
-        <div class="body"><div><div class="inner"><span></span><div><p>Replatform complex or outdated ecommerce systems to a faster, cleaner and more scalable Shopify architecture.</p><a class="al" href="/solutions/shopify-growth-replatform/">Explore Replatforming <span class="ar" aria-hidden="true">↗</span></a></div><span class="sp2"></span></div></div></div></div>
-      <div class="row"><span class="rule"></span>
-        <button aria-expanded="false"><span class="idx lbl">03</span><span class="nm">Advanced Commerce</span><span class="tag">When standard ecommerce isn't enough.</span><svg class="pl" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0v16M0 8h16" stroke="currentColor" stroke-width="1.2"/></svg></button>
-        <div class="body"><div><div class="inner"><span></span><div><p>Integrations, custom functionality and advanced commerce systems for businesses with complex requirements.</p><a class="al" href="/solutions/advanced-commerce/">Explore Advanced Commerce <span class="ar" aria-hidden="true">↗</span></a></div><span class="sp2"></span></div></div></div></div>
-      <div class="row"><span class="rule"></span>
-        <button aria-expanded="false"><span class="idx lbl">04</span><span class="nm">Commerce Optimisation</span><span class="tag">Launch is only the beginning.</span><svg class="pl" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0v16M0 8h16" stroke="currentColor" stroke-width="1.2"/></svg></button>
-        <div class="body"><div><div class="inner"><span></span><div><p>Continuous experimentation, UX improvement and development designed to increase ecommerce performance over time.</p><a class="al" href="/solutions/commerce-optimisation/">Explore Commerce Optimisation <span class="ar" aria-hidden="true">↗</span></a></div><span class="sp2"></span></div></div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- S5 FRAMEWORK SCENE -->
 <section class="scene forest" id="framework" aria-labelledby="fwTitle">
   <div class="scene-track">
     <div class="scene-sticky">
       <div class="wrap scene-grid">
         <div>
-          <div class="sec-lbl lbl" style="margin-bottom:18px"><b>01—07</b><span>/ VIA/77 Commerce framework</span></div>
-          <h2 class="h2" id="fwTitle" style="font-size:clamp(30px,3.2vw,50px)">Seven stages.<br><span class="soft">One connected commerce system.</span></h2>
-          <ol class="stages" id="stages">
-            <li><span>01</span><b>Discover</b><small>Understand customers, business objectives, technology and opportunity.</small></li>
-            <li><span>02</span><b>Define</b><small>Priorities, architecture, customer journeys and commercial requirements.</small></li>
-            <li><span>03</span><b>Design</b><small>Create the ecommerce experience across desktop and mobile.</small></li>
-            <li><span>04</span><b>Develop</b><small>Engineer the commerce platform and required integrations.</small></li>
-            <li><span>05</span><b>Deploy</b><small>Test, migrate, validate and launch.</small></li>
-            <li><span>06</span><b>Discover again</b><small>Analyse real customer behaviour after launch.</small></li>
-            <li><span>07</span><b>Drive growth</b><small>Continuously test, optimise and improve.</small></li>
-          </ol>
+          <div class="sec-lbl lbl" style="margin-bottom:18px"><b>03</b><span>/ How delivery works</span></div>
+          <h2 class="h2" id="fwTitle" style="font-size:clamp(30px,3.2vw,50px)">Seven stages.<br><span class="soft">A clear output from each.</span></h2>
+          <ol class="stages" id="stages"><li><span>01</span><b>Discover</b><small>Understand customers, goals, systems and constraints. <em style="font-style:normal;color:var(--sage)">You get: A shared brief.</em></small></li><li><span>02</span><b>Define</b><small>Agree priorities and requirements. <em style="font-style:normal;color:var(--sage)">You get: Scope, site structure and a plan.</em></small></li><li><span>03</span><b>Design</b><small>Design for phones and desktop. <em style="font-style:normal;color:var(--sage)">You get: Reusable page and component designs.</em></small></li><li><span>04</span><b>Develop</b><small>Build the store and required integrations. <em style="font-style:normal;color:var(--sage)">You get: A tested development store.</em></small></li><li><span>05</span><b>Deploy</b><small>Move data, test and launch. <em style="font-style:normal;color:var(--sage)">You get: A launch checklist and handover notes.</em></small></li><li><span>06</span><b>Learn</b><small>Review how real customers use the store. <em style="font-style:normal;color:var(--sage)">You get: An evidence-based list of fixes.</em></small></li><li><span>07</span><b>Improve</b><small>Ship changes in priority order. <em style="font-style:normal;color:var(--sage)">You get: A maintained backlog and change record.</em></small></li></ol>
         </div>
         <div>
           <div class="stage" id="stage" role="img" aria-label="An Aliya Skin shop wireframe that becomes the finished shop page as you scroll">
@@ -492,369 +377,149 @@ html.off *,html.off *::before,html.off *::after{transition-duration:1ms!importan
               <i style="left:0;top:6.8%;width:100%;height:0;border-width:1px 0 0 0"></i>
               <em style="left:13.5%;top:18%">Product card · hover</em><em style="left:52.9%;top:18%">Product card</em>
             </div>
-            <div class="lay built"><img src="/media/homepage/aliya-shop.webp" alt="" width="1600" height="1000" loading="lazy" decoding="async"></div>
+            <div class="lay built"><img src="/media/homepage/aliya-shop.webp" srcset="/media/homepage/aliya-shop-800.webp 800w,/media/homepage/aliya-shop.webp 1600w" sizes="(max-width:960px) 100vw,60vw" alt="" width="1600" height="1000" loading="lazy" decoding="async"></div>
             <div class="scan" aria-hidden="true"><b id="stageRO">STAGE 01 / 07 · DISCOVER</b></div>
           </div>
-          <div class="cap lbl"><span>Aliya Skin / Shop</span><span>Concept · Launching on Shopify</span></div>
+          <div class="cap lbl"><span>Aliya Skin / Shop</span><span>Commerce concept</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WORK -->
-<section class="pad" id="work">
-  <div class="wrap">
-    <div class="sec-lbl lbl"><b>05</b><span>/ Selected work</span></div>
-    <div class="work-head"><div><h2 class="h2" data-reveal>Commerce in action.</h2><p class="muted" data-reveal style="margin:18px 0 0;max-width:520px">Concept stores designed and built end to end, from brand to product page to cart. Each is launching as client work on a Shopify backend.</p></div><a class="al" href="/work/">View all work <span class="ar" aria-hidden="true">↗</span></a></div>
-    <div class="cases">
-      <a class="case full" href="/aliyaskin/">
-        <div class="media imgwipe" data-wipe><img src="/media/homepage/build-aliya.webp" alt="Aliya Skin storefront hero with a close-up portrait" width="1600" height="1000" loading="lazy" decoding="async"></div>
-        <div class="meta"><div><span class="lbl">Skincare / DTC</span><h3>Aliya Skin</h3></div><span class="line">Hydration, made simple. A store built around subscribe-and-save.</span><span class="al">View project <span class="ar" aria-hidden="true">↗</span></span><span class="cc lbl">Concept · Launching on Shopify</span></div>
-      </a>
-      <a class="case " href="/atelier-09/">
-        <div class="media imgwipe" data-wipe><img src="/media/homepage/store-atelier09-v2.webp" alt="ATELIER 09 fashion commerce interface with sculptural editorial photography" width="1600" height="1000" loading="lazy" decoding="async"></div>
-        <div class="meta"><div><span class="lbl">Fashion / Editorial</span><h3>ATELIER 09</h3></div><span class="line">A wardrobe. A point of view.</span><span class="al">View project <span class="ar" aria-hidden="true">↗</span></span><span class="cc lbl">VIA77 Commerce Concept</span></div>
-      </a>
-      <a class="case lift" href="/still-house/">
-        <div class="media imgwipe" data-wipe><img src="/media/homepage/store-stillhouse-v2.webp" alt="STILL HOUSE furniture commerce interface with warm architectural interiors" width="1600" height="1000" loading="lazy" decoding="async"></div>
-        <div class="meta"><div><span class="lbl">Furniture / Interiors</span><h3>STILL HOUSE</h3></div><span class="line">Objects for a slower everyday.</span><span class="al">View project <span class="ar" aria-hidden="true">↗</span></span><span class="cc lbl">VIA77 Commerce Concept</span></div>
-      </a>
-      <a class="case " href="/forme/">
-        <div class="media imgwipe" data-wipe><img src="/media/homepage/store-forme-v6.webp" alt="FORME skincare storefront concept" width="1600" height="1000" loading="lazy" decoding="async"></div>
-        <div class="meta"><div><span class="lbl">Beauty / Skincare</span><h3>FORME</h3></div><span class="line">A daily ritual. Reconsidered.</span><span class="al">View project <span class="ar" aria-hidden="true">↗</span></span><span class="cc lbl">VIA77 Commerce Concept</span></div>
-      </a>
-      <a class="case lift" href="/fern-and-field/">
-        <div class="media imgwipe" data-wipe><img src="/media/homepage/build-fern-pdp.webp" alt="Fern and Field product page for a stoneware bowl" width="1600" height="1000" loading="lazy" decoding="async"></div>
-        <div class="meta"><div><span class="lbl">Homewares / Multi-maker</span><h3>Fern &amp; Field</h3></div><span class="line">Ceramics, linen and glass from small studios.</span><span class="al">View project <span class="ar" aria-hidden="true">↗</span></span><span class="cc lbl">Concept · Launching on Shopify</span></div>
-      </a>
-      <a class="case full" href="/uppers/">
-        <div class="media imgwipe" data-wipe><img src="/media/homepage/build-uppers.webp" alt="Uppers storefront hero with the red protein bar wrapper" width="1600" height="1000" loading="lazy" decoding="async"></div>
-        <div class="meta"><div><span class="lbl">Food / Product launch</span><h3>Uppers</h3></div><span class="line">A protein bar you can hear.</span><span class="al">View project <span class="ar" aria-hidden="true">↗</span></span><span class="cc lbl">Concept · Launching on Shopify</span></div>
-      </a>
-      <a class="case " href="/salim/">
-        <div class="media imgwipe" data-wipe><img src="/media/homepage/build-salim.webp" alt="Salim Day and Night Cream product hero" width="1600" height="1000" loading="lazy" decoding="async"></div>
-        <div class="meta"><div><span class="lbl">Men's skincare / Single product</span><h3>Salim</h3></div><span class="line">One hero product, told well.</span><span class="al">View project <span class="ar" aria-hidden="true">↗</span></span><span class="cc lbl">Concept · Launching on Shopify</span></div>
-      </a>
-      <a class="case lift" href="/glassi/">
-        <div class="media imgwipe" data-wipe><img src="/media/homepage/glassi-afterparty-2026.webp" alt="glassi Afterparty store homepage with a model wearing silver wraparound sunglasses" width="1600" height="1000" loading="lazy" decoding="async"></div>
-        <div class="meta"><div><span class="lbl">Eyewear / 3D &amp; AR</span><h3>glassi Afterparty</h3></div><span class="line">A product drop you walk into.</span><span class="al">View project <span class="ar" aria-hidden="true">↗</span></span><span class="cc lbl">Concept · Launching on Shopify</span></div>
-      </a>
-    </div>
-  </div>
-</section>
+<section class="pad" id="about"><div class="wrap">
+<div class="sec-lbl lbl"><b>04</b><span>/ Who you would work with</span></div>
+<div class="who-grid"><div><h2 class="h2" data-reveal>Based in Melbourne.<br><span class="soft">Working across Australia.</span></h2><p style="margin-top:26px;max-width:520px" data-reveal><a class="al" href="/about/">More about VIA77 <span class="ar" aria-hidden="true">↗</span></a></p></div>
+<ul class="who-list" data-reveal><li>Design and development decisions are made together.</li><li>You deal directly with the people doing the work.</li><li>Responsibilities are written down, including what sits with third parties.</li><li>We do not promise rankings or conversion uplifts.</li></ul></div>
+</div></section>
 
-<!-- BUILDS: live storefronts (hover preview) -->
-<section class="pad builds" id="builds" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-lbl lbl"><b>06</b><span>/ Index</span></div>
-    <div class="sol-head">
-      <h2 class="h2" data-reveal>Every store,<br><span class="soft">one list.</span></h2>
-      <p data-reveal>Hover a name to preview it. Each concept is live online, so open any of them and shop around.</p>
-    </div>
-    <div class="b-list" id="bList">
-      <a class="b-row" href="/aliyaskin/">
-        <span class="b-rule" aria-hidden="true"></span>
-        <img class="b-thumb" src="/media/homepage/build-aliya.webp" alt="Aliya Skin storefront hero with a close-up portrait" width="1600" height="1000" loading="lazy" decoding="async">
-        <span class="idx lbl">01</span>
-        <span class="b-nm">Aliya Skin</span>
-        <span class="b-what">Hydration, made simple. A store built around subscribe-and-save.</span>
-        <span class="b-tags lbl"><span class="b-cat">Skincare / DTC</span><span>Subscriptions · PDP · Brand</span></span>
-        <span class="ar" aria-hidden="true">↗</span>
-      </a>
-      <a class="b-row" href="/atelier-09/">
-        <span class="b-rule" aria-hidden="true"></span>
-        <img class="b-thumb" src="/media/homepage/store-atelier09-v2.webp" alt="ATELIER 09 fashion commerce interface with sculptural editorial photography" width="1600" height="1000" loading="lazy" decoding="async">
-        <span class="idx lbl">02</span>
-        <span class="b-nm">ATELIER 09</span>
-        <span class="b-what">A wardrobe. A point of view.</span>
-        <span class="b-tags lbl"><span class="b-cat">Fashion / Editorial</span><span>Editorial · Collections · Lookbook</span></span>
-        <span class="ar" aria-hidden="true">↗</span>
-      </a>
-      <a class="b-row" href="/still-house/">
-        <span class="b-rule" aria-hidden="true"></span>
-        <img class="b-thumb" src="/media/homepage/store-stillhouse-v2.webp" alt="STILL HOUSE furniture commerce interface with warm architectural interiors" width="1600" height="1000" loading="lazy" decoding="async">
-        <span class="idx lbl">03</span>
-        <span class="b-nm">STILL HOUSE</span>
-        <span class="b-what">Objects for a slower everyday.</span>
-        <span class="b-tags lbl"><span class="b-cat">Furniture / Interiors</span><span>Interiors · Variants · PDP</span></span>
-        <span class="ar" aria-hidden="true">↗</span>
-      </a>
-      <a class="b-row" href="/forme/">
-        <span class="b-rule" aria-hidden="true"></span>
-        <img class="b-thumb" src="/media/homepage/store-forme-v6.webp" alt="FORME skincare storefront concept" width="1600" height="1000" loading="lazy" decoding="async">
-        <span class="idx lbl">04</span>
-        <span class="b-nm">FORME</span>
-        <span class="b-what">A daily ritual. Reconsidered.</span>
-        <span class="b-tags lbl"><span class="b-cat">Beauty / Skincare</span><span>Strategy · Experience · PDP</span></span>
-        <span class="ar" aria-hidden="true">↗</span>
-      </a>
-      <a class="b-row" href="/fern-and-field/">
-        <span class="b-rule" aria-hidden="true"></span>
-        <img class="b-thumb" src="/media/homepage/build-fern-pdp.webp" alt="Fern and Field product page for a stoneware bowl" width="1600" height="1000" loading="lazy" decoding="async">
-        <span class="idx lbl">05</span>
-        <span class="b-nm">Fern &amp; Field</span>
-        <span class="b-what">Ceramics, linen and glass from small studios.</span>
-        <span class="b-tags lbl"><span class="b-cat">Homewares / Multi-maker</span><span>Collections · Maker stories · Cart</span></span>
-        <span class="ar" aria-hidden="true">↗</span>
-      </a>
-      <a class="b-row" href="/uppers/">
-        <span class="b-rule" aria-hidden="true"></span>
-        <img class="b-thumb" src="/media/homepage/build-uppers.webp" alt="Uppers storefront hero with the red protein bar wrapper" width="1600" height="1000" loading="lazy" decoding="async">
-        <span class="idx lbl">06</span>
-        <span class="b-nm">Uppers</span>
-        <span class="b-what">A protein bar you can hear.</span>
-        <span class="b-tags lbl"><span class="b-cat">Food / Product launch</span><span>Launch · Brand · Boxes</span></span>
-        <span class="ar" aria-hidden="true">↗</span>
-      </a>
-      <a class="b-row" href="/salim/">
-        <span class="b-rule" aria-hidden="true"></span>
-        <img class="b-thumb" src="/media/homepage/build-salim.webp" alt="Salim Day and Night Cream product hero" width="1600" height="1000" loading="lazy" decoding="async">
-        <span class="idx lbl">07</span>
-        <span class="b-nm">Salim</span>
-        <span class="b-what">One hero product, told well.</span>
-        <span class="b-tags lbl"><span class="b-cat">Men's skincare / Single product</span><span>Single product · Purchase options</span></span>
-        <span class="ar" aria-hidden="true">↗</span>
-      </a>
-      <a class="b-row" href="/glassi/">
-        <span class="b-rule" aria-hidden="true"></span>
-        <img class="b-thumb" src="/media/homepage/glassi-afterparty-2026.webp" alt="glassi Afterparty store homepage with a model wearing silver wraparound sunglasses" width="1600" height="1000" loading="lazy" decoding="async">
-        <span class="idx lbl">08</span>
-        <span class="b-nm">glassi Afterparty</span>
-        <span class="b-what">A product drop you walk into.</span>
-        <span class="b-tags lbl"><span class="b-cat">Eyewear / 3D &amp; AR</span><span>3D viewer · AR try-on · Drop</span></span>
-        <span class="ar" aria-hidden="true">↗</span>
-      </a>
-    </div>
-  </div>
-  <div class="b-prev" id="bPrev" aria-hidden="true"><div class="b-mask"><img src="/media/homepage/build-aliya.webp" alt="" width="1600" height="1000" decoding="async"><img src="/media/homepage/store-atelier09-v2.webp" alt="" width="1600" height="1000" decoding="async"><img src="/media/homepage/store-stillhouse-v2.webp" alt="" width="1600" height="1000" decoding="async"><img src="/media/homepage/store-forme-v6.webp" alt="" width="1600" height="1000" decoding="async"><img src="/media/homepage/build-fern-pdp.webp" alt="" width="1600" height="1000" decoding="async"><img src="/media/homepage/build-uppers.webp" alt="" width="1600" height="1000" decoding="async"><img src="/media/homepage/build-salim.webp" alt="" width="1600" height="1000" decoding="async"><img src="/media/homepage/glassi-afterparty-2026.webp" alt="" width="1600" height="1000" decoding="async"></div><span class="b-lbl lbl" id="bLbl"></span></div>
-</section>
+<section class="pad assess"><div class="wrap">
+<div class="sec-lbl lbl"><b>05</b><span>/ A clearer starting point</span></div>
+<div class="assess-grid"><h2 class="h2" data-reveal>Not sure what<br><span class="soft">to fix first?</span></h2>
+<div data-reveal><p>The Commerce Assessment is a human-led review of your store. You get a ranked list of what to do next, with scope and any fees agreed first.</p>
+<div class="areas" aria-label="Areas reviewed"><span>Customer journey</span><span>Product pages</span><span>Cart and checkout</span><span>Mobile</span><span>Performance</span><span>Analytics</span><span>Search</span><span>Technology</span></div>
+<p style="margin-top:26px"><a class="al" href="/commerce-assessment/">See what the assessment covers <span class="ar" aria-hidden="true">↗</span></a></p></div></div>
+</div></section>
 
-<!-- ONE JOURNEY -->
-<section class="pad" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-lbl lbl"><b>07</b><span>/ The experience / The system / The next step</span></div>
-    <h2 class="h2" data-reveal>One journey.<br><span class="soft">Connected thinking.</span></h2>
-    <div class="journey">
-      <div data-reveal><h3>Define what matters.</h3><p>Agree the customer problem, business priorities and responsibilities before choosing the build.</p><a class="al" href="#framework">Our seven-stage approach <span class="ar" aria-hidden="true">↗</span></a></div>
-      <div data-reveal><h3>Connect the operation.</h3><p>Shopify, product data, inventory and fulfilment need clear ownership and recoverable failure states.</p><a class="al" href="/capabilities/commerce-integrations/">Explore integrations <span class="ar" aria-hidden="true">↗</span></a></div>
-      <div data-reveal><h3>Learn from real use.</h3><p>Validate measurement, study friction and choose changes worth testing. Keep useful evidence behind the roadmap.</p><a class="al" href="/solutions/commerce-optimisation/">Explore optimisation <span class="ar" aria-hidden="true">↗</span></a></div>
-    </div>
-  </div>
-</section>
+<section class="pad" id="insights"><div class="wrap">
+<div class="sec-lbl lbl"><b>06</b><span>/ Practical guides</span></div>
+<div class="work-head"><h2 class="h2" data-reveal>Answers to the<br><span class="soft">decisions you are facing.</span></h2><a class="al" href="/insights/">View all guides <span class="ar" aria-hidden="true">↗</span></a></div>
+<div class="ins">
+<a href="/insights/shopify-vs-shopify-plus/" data-event="insight_cta"><span class="lbl">Shopify</span><span class="t">Shopify vs Shopify Plus: when does upgrading make sense?</span><span class="ar" aria-hidden="true">↗</span></a>
+<a href="/insights/magento-to-shopify-migration/" data-event="insight_cta"><span class="lbl">Migration</span><span class="t">Magento to Shopify: what does a migration actually require?</span><span class="ar" aria-hidden="true">↗</span></a>
+<a href="/insights/ecommerce-website-cost-australia/" data-event="insight_cta"><span class="lbl">Cost</span><span class="t">What affects the cost of an ecommerce website in Australia?</span><span class="ar" aria-hidden="true">↗</span></a>
+</div></div></section>
 
-<!-- INSIGHTS -->
-<section class="pad" id="insights" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-lbl lbl"><b>08</b><span>/ Insights</span></div>
-    <div class="work-head"><h2 class="h2" data-reveal>Useful thinking for<br><span class="soft">ambitious commerce teams.</span></h2><a class="al" href="/insights/">View all insights <span class="ar" aria-hidden="true">↗</span></a></div>
-    <div class="ins">
-      <a href="/insights/shopify-vs-shopify-plus/"><span class="lbl">01 / Shopify</span><span class="t">Shopify Plus vs Shopify: when does upgrading make sense?</span><span class="ar" aria-hidden="true">↗</span></a>
-      <a href="/insights/magento-to-shopify-migration/"><span class="lbl">02 / Migration</span><span class="t">Magento to Shopify: what a successful migration actually requires</span><span class="ar" aria-hidden="true">↗</span></a>
-      <a href="/insights/ecommerce-website-redesign/"><span class="lbl">03 / Growth</span><span class="t">How to know when your ecommerce website needs rebuilding</span><span class="ar" aria-hidden="true">↗</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA -->
-<section class="pad forest final" id="contact">
-  <div class="wrap">
-    <div class="sec-lbl lbl"><b>—</b><span>Your next chapter</span></div>
-    <h2 class="h2" data-reveal>What are you<br><span class="soft">trying to build?</span></h2>
-    <div class="final-row" data-reveal>
-      <p>Tell us where your ecommerce business is now, where you want it to go and what's getting in the way.</p>
-      <a class="btn light" href="/contact/">Start a project <span class="ar" aria-hidden="true">↗</span></a>
-    </div>
-  </div>
-</section>
+<section class="pad forest final" id="contact"><div class="wrap">
+<div class="sec-lbl lbl"><b>—</b><span>Next step</span></div>
+<h2 class="h2" data-reveal>What are you<br><span class="soft">trying to build?</span></h2>
+<div class="final-row" data-reveal><p>Tell us where your store is now, where you want it to go and what is getting in the way. You do not need a full brief.</p><a class="btn light" href="/contact/" data-event="hero_cta">Discuss your project <span class="ar" aria-hidden="true">↗</span></a></div>
+</div></section>
 </main>
-
-<footer class="footer">
-  <div class="wrap">
-    <div class="f-grid">
-      <div><a class="logo" href="#top" aria-label="VIA77 home" style="background:none"><svg viewBox="41 48 545 116" aria-hidden="true" focusable="false"><path d="M41.28,49.56h22.41c1.31,0,2.52.7,3.17,1.83l49.73,86.41c.23.4.81.4,1.04,0l49.65-87.04c.42-.74,1.22-1.2,2.07-1.2h6.48l-63.3,111.35c-.91,1.6-3.22,1.61-4.14.02L49.37,59.06c-2.1-3.63-4.84-6.85-8.09-9.5h0Z"/><path d="M364.58,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M492.87,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M345.78,162.12h-21.82c-1.65,0-3.18-.88-4.01-2.32l-48.97-85.08c-.42-.73-1.48-.73-1.9,0l-48.87,85.67c-.61,1.07-1.74,1.72-2.97,1.72h-5.88l63.34-111.42c.86-1.52,3.05-1.53,3.93-.02l59.12,102.01h0c2.06,3.56,4.74,6.72,7.91,9.34l.11.09Z"/><path d="M187.85,49.56h11.43c.64,0,1.15.52,1.15,1.15v110.25c0,.64-.52,1.15-1.15,1.15h-11.43c-.64,0-1.15-.52-1.15-1.15V50.71c0-.64.52-1.15,1.15-1.15Z"/></svg></a><p class="muted" style="font-size:14px;margin:16px 0 0">Commerce engineered for growth.<br>Melbourne, Australia</p></div>
-      <div><h4>Solutions</h4><a href="/solutions/ecommerce-launch/">Ecommerce Launch</a><a href="/solutions/shopify-growth-replatform/">Shopify Growth &amp; Replatform</a><a href="/solutions/advanced-commerce/">Advanced Commerce</a><a href="/solutions/commerce-optimisation/">Commerce Optimisation</a></div>
-      <div><h4>Capabilities</h4><a href="/capabilities/commerce-strategy/">Strategy</a><a href="/capabilities/ecommerce-ux-ui/">UX/UI</a><a href="/capabilities/shopify-development/">Shopify</a><a href="/capabilities/commerce-integrations/">Integrations</a><a href="/capabilities/conversion-rate-optimisation/">CRO</a><a href="/capabilities/ai-commerce/">AI Commerce</a></div>
-      <div><h4>Company</h4><a href="#work">Work</a><a href="#builds">Storefronts</a><a href="#about">About</a><a href="#insights">Insights</a><a href="/commerce-assessment/">Commerce Assessment</a><a href="/contact/">Start a project</a></div>
-    </div>
-    <div class="bigmark" aria-hidden="true"><svg viewBox="41 48 545 116" preserveAspectRatio="xMidYMid meet"><path d="M41.28,49.56h22.41c1.31,0,2.52.7,3.17,1.83l49.73,86.41c.23.4.81.4,1.04,0l49.65-87.04c.42-.74,1.22-1.2,2.07-1.2h6.48l-63.3,111.35c-.91,1.6-3.22,1.61-4.14.02L49.37,59.06c-2.1-3.63-4.84-6.85-8.09-9.5h0Z"/><path d="M364.58,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M492.87,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M345.78,162.12h-21.82c-1.65,0-3.18-.88-4.01-2.32l-48.97-85.08c-.42-.73-1.48-.73-1.9,0l-48.87,85.67c-.61,1.07-1.74,1.72-2.97,1.72h-5.88l63.34-111.42c.86-1.52,3.05-1.53,3.93-.02l59.12,102.01h0c2.06,3.56,4.74,6.72,7.91,9.34l.11.09Z"/><path d="M187.85,49.56h11.43c.64,0,1.15.52,1.15,1.15v110.25c0,.64-.52,1.15-1.15,1.15h-11.43c-.64,0-1.15-.52-1.15-1.15V50.71c0-.64.52-1.15,1.15-1.15Z"/></svg></div>
-    <div class="f-bot"><span>© 2026 VIA77</span><span><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></span><span>Strategy / Experience / Technology</span><span class="sw-row">Motion <button class="switch" role="switch" aria-checked="true" id="motionSwitch" aria-label="Toggle motion"></button></span></div>
-  </div>
-</footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script>
-(function () {
-  var root = document.documentElement;
-  var S = 1.1; /* VIA77 motion scale */
-  var EASE = { draft:[.65,0,.35,1], build:[.16,1,.3,1], snap:[.7,0,.15,1] };
-  var hasGSAP = !!(window.gsap && window.ScrollTrigger);
-  var KEY = 'via77-motion', stored = null; try { stored = localStorage.getItem(KEY); } catch (e) {}
+<footer class="footer"><div class="wrap">
+<div class="f-grid">
+<div><a class="logo" href="/" aria-label="VIA77 home"><svg viewBox="41 48 545 116" aria-hidden="true" focusable="false"><path d="M41.28,49.56h22.41c1.31,0,2.52.7,3.17,1.83l49.73,86.41c.23.4.81.4,1.04,0l49.65-87.04c.42-.74,1.22-1.2,2.07-1.2h6.48l-63.3,111.35c-.91,1.6-3.22,1.61-4.14.02L49.37,59.06c-2.1-3.63-4.84-6.85-8.09-9.5h0Z"/><path d="M364.58,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M492.87,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M345.78,162.12h-21.82c-1.65,0-3.18-.88-4.01-2.32l-48.97-85.08c-.42-.73-1.48-.73-1.9,0l-48.87,85.67c-.61,1.07-1.74,1.72-2.97,1.72h-5.88l63.34-111.42c.86-1.52,3.05-1.53,3.93-.02l59.12,102.01h0c2.06,3.56,4.74,6.72,7.91,9.34l.11.09Z"/><path d="M187.85,49.56h11.43c.64,0,1.15.52,1.15,1.15v110.25c0,.64-.52,1.15-1.15,1.15h-11.43c-.64,0-1.15-.52-1.15-1.15V50.71c0-.64.52-1.15,1.15-1.15Z"/></svg></a><p class="muted">Commerce engineered for growth.<br>Melbourne, Australia</p></div>
+<div><h2>Solutions</h2><a href="/solutions/ecommerce-launch/">Launch a Shopify store</a><a href="/solutions/shopify-growth-replatform/">Migrate or rebuild</a><a href="/solutions/advanced-commerce/">Custom functionality</a><a href="/solutions/commerce-optimisation/">Ongoing improvement</a></div>
+<div><h2>Capabilities</h2><a href="/capabilities/shopify-development/">Shopify development</a><a href="/capabilities/ecommerce-ux-ui/">Ecommerce design and UX</a><a href="/capabilities/commerce-integrations/">Integrations</a><a href="/capabilities/conversion-rate-optimisation/">Conversion optimisation</a><a href="/capabilities/commerce-strategy/">Ecommerce strategy</a><a href="/capabilities/ai-commerce/">Product data and AI discovery</a></div>
+<div><h2>Company</h2><a href="/work/">Work</a><a href="/insights/">Insights</a><a href="/about/">About</a><a href="/commerce-assessment/">Commerce Assessment</a><a href="/contact/">Contact</a></div>
+</div>
+<div class="bigmark" aria-hidden="true"><svg viewBox="41 48 545 116" preserveAspectRatio="xMidYMid meet"><path d="M41.28,49.56h22.41c1.31,0,2.52.7,3.17,1.83l49.73,86.41c.23.4.81.4,1.04,0l49.65-87.04c.42-.74,1.22-1.2,2.07-1.2h6.48l-63.3,111.35c-.91,1.6-3.22,1.61-4.14.02L49.37,59.06c-2.1-3.63-4.84-6.85-8.09-9.5h0Z"/><path d="M364.58,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M492.87,161.27l-10.59-18.62c-.62-1.09-.61-2.42.02-3.5l48.29-82.16c.22-.38-.05-.86-.49-.86l-95.78-.12c-.82,0-1.57-.44-1.98-1.15l-3.06-5.39,122.43-.03c1.76,0,2.86,1.91,1.97,3.43l-56.74,97.18c-2.02,3.46-3.4,7.26-4.08,11.21h0Z"/><path d="M345.78,162.12h-21.82c-1.65,0-3.18-.88-4.01-2.32l-48.97-85.08c-.42-.73-1.48-.73-1.9,0l-48.87,85.67c-.61,1.07-1.74,1.72-2.97,1.72h-5.88l63.34-111.42c.86-1.52,3.05-1.53,3.93-.02l59.12,102.01h0c2.06,3.56,4.74,6.72,7.91,9.34l.11.09Z"/><path d="M187.85,49.56h11.43c.64,0,1.15.52,1.15,1.15v110.25c0,.64-.52,1.15-1.15,1.15h-11.43c-.64,0-1.15-.52-1.15-1.15V50.71c0-.64.52-1.15,1.15-1.15Z"/></svg></div>
+<div class="f-bot"><span>© 2026 VIA77</span><span><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a></span><span>Strategy / Experience / Technology</span><span class="sw-row">Motion <button class="switch" role="switch" aria-checked="true" id="motionSwitch" aria-label="Toggle motion"></button></span></div>
+</div></footer>
+<script src="/blueprint.js" defer></script>
+<script>(function () {
+  var root = document.documentElement, KEY = 'via77-motion', stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
   var reduced = stored ? stored === 'off' : matchMedia('(prefers-reduced-motion: reduce)').matches;
   function $(s, c) { return (c || document).querySelector(s); }
   function $$(s, c) { return [].slice.call((c || document).querySelectorAll(s)); }
-  function cubic(a) { var x1=a[0],y1=a[1],x2=a[2],y2=a[3],cx=3*x1,bx=3*(x2-x1)-cx,ax=1-cx-bx,cy=3*y1,by=3*(y2-y1)-cy,ay=1-cy-by;
-    return function (t) { var u=t; for (var i=0;i<6;i++){ var x=((ax*u+bx)*u+cx)*u-t, d=(3*ax*u+2*bx)*u+cx; if(Math.abs(d)<1e-6)break; u-=x/d; } u=Math.min(1,Math.max(0,u)); return ((ay*u+by)*u+cy)*u; }; }
-  function tween(ms, ease, fn, done) { var s0 = null, e = cubic(ease); requestAnimationFrame(function f(t){ if(!s0)s0=t; var p=Math.min(1,(t-s0)/ms); fn(e(p)); if(p<1) requestAnimationFrame(f); else done&&done(); }); }
+  function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function tween(ms, fn, done) { var s0 = null; requestAnimationFrame(function f(t) { if (!s0) s0 = t; var p = Math.min(1, (t - s0) / ms); fn(ease(p)); if (p < 1) requestAnimationFrame(f); else if (done) done(); }); }
+  root.classList.toggle('m', !reduced); root.classList.toggle('off', reduced);
 
-  root.classList.toggle('m', !reduced && hasGSAP); root.classList.toggle('off', reduced);
-
-  /* ---------- reveals, image wipes, convergence ---------- */
-  $$('[data-reveal]').forEach(function (el) { var sibs = $$(':scope > [data-reveal]', el.parentElement), i = sibs.indexOf(el); if (i > 0) el.style.transitionDelay = Math.min(i, 7) * 66 + 'ms'; });
-  /* clip-path hides a wipe from IntersectionObserver, so wipes are observed through their parent */
-  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { var t = e.target._wipe || e.target; t.classList.add('in'); if (t.id === 'converge') drawConverge(); io.unobserve(e.target); } }); }, { threshold: .12 }) : null;
-  $$('[data-reveal],#converge').forEach(function (el) { io ? io.observe(el) : el.classList.add('in'); });
+  /* reveals and image wipes. A clip-path hides a wipe from the observer, so its parent is observed. */
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { (e.target._wipe || e.target).classList.add('in'); io.unobserve(e.target); } }); }, { threshold: .12 }) : null;
+  $$('[data-reveal]').forEach(function (el) { if (io) io.observe(el); else el.classList.add('in'); });
   $$('[data-wipe]').forEach(function (el) { if (!io) { el.classList.add('in'); return; } el.parentElement._wipe = el; io.observe(el.parentElement); });
-  var cPaths = $$('#converge path');
-  if (root.classList.contains('m')) cPaths.forEach(function (p) { var l = p.getTotalLength(); p.style.strokeDasharray = l; p.style.strokeDashoffset = l; });
-  function drawConverge() {
-    if (!root.classList.contains('m')) return;
-    cPaths.forEach(function (p, i) { var l = p.getTotalLength(); setTimeout(function () { tween(1320, EASE.draft, function (e) { p.style.strokeDashoffset = (l * (1 - e)).toFixed(1); }); }, i * 120); });
-  }
-  if (!io) drawConverge();
 
-  /* ---------- S2 hero ink-fill ---------- */
-  function heroIn() {
-    var h1 = $('#h1'), w = $('.ink-word', h1);
-    if (!root.classList.contains('m') || innerWidth <= 760) { $('.fill', w).style.clipPath = 'none'; $('.stroke', w).style.display = 'none'; h1.classList.add('go'); return; }
-    var fill = $('.fill', w), scan = $('.scan', w), stroke = $('.stroke', w);
+  /* hero headline ink-fill */
+  (function () {
+    var h1 = $('#h1'), w = $('.ink-word', h1), fill = $('.fill', w), scan = $('.scan', w), stroke = $('.stroke', w);
+    if (reduced || innerWidth <= 760) { fill.style.clipPath = 'none'; stroke.style.display = 'none'; h1.classList.add('go'); return; }
     setTimeout(function () {
       scan.style.transition = 'opacity 200ms'; scan.style.opacity = 1;
-      tween(1210, EASE.draft, function (e) { fill.style.clipPath = 'inset(0 ' + (100 - e * 100).toFixed(2) + '% 0 0)'; scan.style.left = (e * 100).toFixed(2) + '%'; },
-        function () { scan.style.opacity = 0; fill.style.clipPath = 'none'; stroke.style.transition = 'opacity 500ms'; stroke.style.opacity = 0; });
-    }, 250);
-    setTimeout(function () { h1.classList.add('go'); }, 1050);
-  }
+      tween(1000, function (e) { fill.style.clipPath = 'inset(0 ' + (100 - e * 100).toFixed(2) + '% 0 0)'; scan.style.left = (e * 100).toFixed(2) + '%'; }, function () { scan.style.opacity = 0; fill.style.clipPath = 'none'; stroke.style.transition = 'opacity 500ms'; stroke.style.opacity = 0; });
+    }, 200);
+    setTimeout(function () { h1.classList.add('go'); }, 800);
+  })();
 
-  /* ---------- S6 solutions stack ---------- */
-  $$('.row').forEach(function (row) {
-    var b = $('button', row);
-    b.addEventListener('click', function () {
-      var open = !row.classList.contains('open');
-      $$('.row').forEach(function (r) { r.classList.remove('open'); $('button', r).setAttribute('aria-expanded', 'false'); });
-      if (open) { row.classList.add('open'); b.setAttribute('aria-expanded', 'true'); }
-      setTimeout(function () { hasGSAP && ScrollTrigger.refresh(); }, 760);
-    });
-  });
-
-
-
-  /* ---------- hero: live Aliya store (scaled iframes, click to interact, tilt) ---------- */
+  /* hero: the demo store loads only when someone asks for it */
   var live = $('#live'), shield = $('#shield');
-  if (live) {
-    $$('.vp', live).forEach(function (vp) {
-      var fr = $('iframe', vp), W0 = +vp.dataset.w, H0 = +vp.dataset.h;
-      function fit() { var w = vp.clientWidth, h = vp.clientHeight; if (!w) return; var k = w / W0; fr.style.width = W0 + 'px'; fr.style.height = Math.ceil(h / k) + 'px'; fr.style.transform = 'scale(' + k + ')'; }
-      fit(); if ('ResizeObserver' in window) new ResizeObserver(fit).observe(vp); else addEventListener('resize', fit);
-      fr.addEventListener('load', function () { if (fr.getAttribute('src')) fr.classList.add('ready'); });
+  $$('.vp', live).forEach(function (vp) {
+    var fr = $('iframe', vp), W0 = +vp.dataset.w;
+    function fit() { var w = vp.clientWidth, h = vp.clientHeight; if (!w) return; var k = w / W0; fr.style.width = W0 + 'px'; fr.style.height = Math.ceil(h / k) + 'px'; fr.style.transform = 'scale(' + k + ')'; }
+    fit(); if ('ResizeObserver' in window) new ResizeObserver(fit).observe(vp); else addEventListener('resize', fit);
+    fr.addEventListener('load', function () { if (fr.getAttribute('src')) fr.classList.add('ready'); });
+  });
+  function activate() {
+    live.classList.add('active');
+    $$('iframe', live).forEach(function (f) {
+      if (!f.offsetParent) return;
+      if (!f.getAttribute('src')) f.setAttribute('src', f.dataset.src);
+      f.removeAttribute('tabindex');
     });
-    var phoneFr = $('.phone iframe', live);
-    var loadPhone = function () { if (!phoneFr.getAttribute('src')) phoneFr.setAttribute('src', phoneFr.dataset.src); };
-    if (innerWidth <= 760) loadPhone(); else addEventListener('load', function () { setTimeout(loadPhone, 600); });
-    function activate() { live.classList.add('active'); $$('iframe', live).forEach(function (f) { f.removeAttribute('tabindex'); }); var d = $('#desk'), p = $('#phone'); d.style.transform = p.style.transform = ''; }
-    function deactivate() { live.classList.remove('active'); $$('iframe', live).forEach(function (f) { f.setAttribute('tabindex', '-1'); }); }
-    shield.addEventListener('click', activate);
-    live.addEventListener('pointerleave', function () { if (live.classList.contains('active')) deactivate(); });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && live.classList.contains('active')) { deactivate(); shield.focus(); } });
-    if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
-      live.addEventListener('pointermove', function (e) {
-        if (reduced || live.classList.contains('active')) return;
-        var r = live.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-        $('#desk').style.transform = 'rotateY(' + (x * 5).toFixed(2) + 'deg) rotateX(' + (-y * 4).toFixed(2) + 'deg)';
-        $('#phone').style.transform = 'translate(' + (x * -22).toFixed(1) + 'px,' + (y * -16).toFixed(1) + 'px)';
-      });
-      live.addEventListener('pointerleave', function () { $('#desk').style.transform = ''; $('#phone').style.transform = ''; });
-    }
+    $('#desk').style.transform = $('#phone').style.transform = '';
+    if (window.VIA77Analytics) window.VIA77Analytics.track('demo_open');
+    var first = $$('iframe', live).filter(function (f) { return f.offsetParent; })[0]; if (first) first.focus();
+  }
+  function deactivate() { live.classList.remove('active'); $$('iframe', live).forEach(function (f) { f.setAttribute('tabindex', '-1'); }); }
+  shield.addEventListener('click', activate);
+  live.addEventListener('pointerleave', function () { if (live.classList.contains('active')) deactivate(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && live.classList.contains('active')) { deactivate(); shield.focus(); } });
+  if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    live.addEventListener('pointermove', function (e) {
+      if (reduced || live.classList.contains('active')) return;
+      var r = live.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      $('#desk').style.transform = 'rotateY(' + (x * 5).toFixed(2) + 'deg) rotateX(' + (-y * 4).toFixed(2) + 'deg)';
+      $('#phone').style.transform = 'translate(' + (x * -22).toFixed(1) + 'px,' + (y * -16).toFixed(1) + 'px)';
+    });
+    live.addEventListener('pointerleave', function () { $('#desk').style.transform = ''; $('#phone').style.transform = ''; });
   }
 
-  /* ---------- builds: hover preview that follows the cursor ---------- */
-  var bList = $('#bList'), prev = $('#bPrev'), pImgs = $$('#bPrev img'), bLbl = $('#bLbl');
-  var finePtr = matchMedia('(hover:hover) and (pointer:fine)').matches;
-  if (bList && finePtr) {
-    var px = 0, py = 0, cx = 0, cy = 0, rot = 0, cur = -1, running = false, visible = false;
-    var W = function () { return prev.offsetWidth; }, H = function () { return prev.offsetHeight; };
-    function loop() {
-      var nx = cx + (px - cx) * .16, ny = cy + (py - cy) * .16;
-      var v = Math.max(-6, Math.min(6, (nx - cx) * .35)); rot += (v - rot) * .2; cx = nx; cy = ny;
-      var w = W(), h = H(), x = cx + 28, y = cy - h / 2;
-      if (x + w > innerWidth - 16) x = cx - w - 28;
-      y = Math.max(76, Math.min(innerHeight - h - 36, y));
-      prev.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) rotate(' + rot.toFixed(2) + 'deg)';
-      if (visible || Math.abs(rot) > .05) requestAnimationFrame(loop); else running = false;
-    }
-    function show(i) {
-      if (reduced) return;
-      if (i !== cur) {
-        pImgs.forEach(function (im, k) { im.classList.remove('out'); if (k === cur) im.classList.add('out'); im.classList.toggle('act', k === i); });
-        var row = bList.querySelectorAll('.b-row')[i]; bLbl.textContent = $('.b-cat', row).textContent + '  ·  Open ↗';
-        cur = i;
-      }
-      if (!visible) { visible = true; prev.style.visibility = 'visible'; requestAnimationFrame(function () { prev.classList.add('on'); }); if (!running) { running = true; requestAnimationFrame(loop); } }
-    }
-    function hide() { visible = false; prev.classList.remove('on'); setTimeout(function () { if (!visible) { prev.style.visibility = 'hidden'; pImgs.forEach(function (im) { im.classList.remove('act', 'out'); }); cur = -1; } }, 320); }
-    bList.addEventListener('pointermove', function (e) { px = e.clientX; py = e.clientY; if (!visible) { cx = px; cy = py; } });
-    $$('.b-row', bList).forEach(function (row, i) { row.addEventListener('pointerenter', function () { show(i); }); row.addEventListener('focus', function () { var r = row.getBoundingClientRect(); px = cx = r.left + r.width * .55; py = cy = r.top + r.height / 2; show(i); }); row.addEventListener('blur', hide); });
-    bList.addEventListener('pointerleave', hide);
-    addEventListener('scroll', function () { if (visible && !bList.matches(':hover')) hide(); }, { passive: true });
-  }
-
-  /* ---------- S5 framework scene ---------- */
-  var stage = $('#stage'), stages = $$('#stages li'), ro = $('#stageRO');
+  /* delivery scene: pinned and scrubbed on larger screens only */
+  var stage = $('#stage'), stages = $$('#stages li'), ro = $('#stageRO'), track = $('.scene-track');
   var names = stages.map(function (li) { return $('b', li).textContent.toUpperCase(); });
   function setScene(p) {
     stage.style.setProperty('--p', p.toFixed(4));
     var i = p >= 1 ? 6 : Math.min(6, Math.floor(p * 7));
-    ro.textContent = 'STAGE ' + ('0' + (i + 1)) + ' / 07 · ' + names[i];
+    ro.textContent = 'STAGE 0' + (i + 1) + ' / 07 · ' + names[i];
     stages.forEach(function (li, k) { li.classList.toggle('on', k === i); li.classList.toggle('done', k < i); });
   }
-  setScene(root.classList.contains('m') ? 0 : 1);
+  var pending = false;
+  function updateScene() {
+    pending = false;
+    if (reduced || innerWidth <= 960) { setScene(1); return; }
+    var r = track.getBoundingClientRect(), span = r.height - innerHeight;
+    setScene(span > 0 ? Math.max(0, Math.min(1, -r.top / span)) : 1);
+  }
+  function queueScene() { if (!pending) { pending = true; requestAnimationFrame(updateScene); } }
 
-  /* ---------- nav: stays visible, border on scroll ---------- */
-  var nav = $('#nav');
-  function onScroll() { var y = scrollY; nav.classList.toggle('scrolled', y > 10);  }
-  var drawer = $('#drawer'), mb = $('#menuBtn');
+  /* nav */
+  var nav = $('#nav'), drawer = $('#drawer'), mb = $('#menuBtn');
   mb.addEventListener('click', function () { var o = !drawer.classList.contains('open'); drawer.classList.toggle('open', o); drawer.setAttribute('aria-hidden', String(!o)); mb.setAttribute('aria-expanded', String(o)); mb.textContent = o ? 'Close ×' : 'Menu +'; });
-  $$('#drawer a').forEach(function (a) { a.addEventListener('click', function () { if (drawer.classList.contains('open')) mb.click(); }); });
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  function onScroll() { nav.classList.toggle('scrolled', scrollY > 10); queueScene(); }
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', queueScene); onScroll(); updateScene();
 
-  /* ---------- smooth scroll + scrubs ---------- */
-  var lenis = null, tick = null, sceneST = null;
-  function startLenis() {
-    if (lenis || reduced || !window.Lenis) return;
-    lenis = new Lenis({ lerp: .085, smoothWheel: true });
-    if (hasGSAP) { lenis.on('scroll', ScrollTrigger.update); tick = function (t) { lenis && lenis.raf(t * 1000); }; gsap.ticker.add(tick); gsap.ticker.lagSmoothing(0); }
-  }
-  function stopLenis() { if (lenis) { if (tick) gsap.ticker.remove(tick); lenis.destroy(); lenis = null; } }
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a || !lenis) return;
-    var t = document.querySelector(a.getAttribute('href')); if (!t) return;
-    e.preventDefault(); lenis.scrollTo(t, { offset: a.getAttribute('href') === '#top' ? 0 : -64, duration: 1.4, easing: function (x) { return 1 - Math.pow(1 - x, 4); } });
-  }, true);
-  if (hasGSAP) {
-    gsap.registerPlugin(ScrollTrigger);
-    sceneST = ScrollTrigger.create({ trigger: '.scene-track', start: 'top top', end: 'bottom bottom', scrub: true, onUpdate: function (s) { setScene(reduced ? 1 : s.progress); } });
-    if (!reduced) gsap.from('.b-row', { clipPath: 'inset(0 100% 0 0)', duration: .99, ease: cubic(EASE.snap), stagger: .088, clearProps: 'clipPath', scrollTrigger: { trigger: '#bList', start: 'top 85%' } });
-    if (!reduced) gsap.from('.row', { clipPath: 'inset(0 100% 0 0)', duration: .99, ease: cubic(EASE.snap), stagger: .088, clearProps: 'clipPath', scrollTrigger: { trigger: '#rows', start: 'top 85%' } });
-  }
-
-  /* ---------- motion switch ---------- */
+  /* motion switch */
   var sw = $('#motionSwitch');
-  function apply(v) {
-    reduced = v;
-    root.classList.toggle('m', !v && hasGSAP); root.classList.toggle('off', v); sw.setAttribute('aria-checked', String(!v));
-    if (v) { stopLenis(); setScene(1); $('.ink-word .fill').style.clipPath = 'none'; $('.ink-word .stroke').style.opacity = 0; $('#h1').classList.add('go');
-      $$('[data-reveal],[data-wipe],#converge').forEach(function (el) { el.classList.add('in'); }); cPaths.forEach(function (p) { p.style.strokeDashoffset = 0; }); }
-    else { startLenis(); if (sceneST) setScene(sceneST.progress); }
-    if (hasGSAP) ScrollTrigger.refresh();
-  }
   sw.setAttribute('aria-checked', String(!reduced));
-  sw.addEventListener('click', function () { apply(!reduced); try { localStorage.setItem(KEY, reduced ? 'off' : 'on'); } catch (e) {} });
-
-  startLenis();
-  heroIn();
-  addEventListener('load', function () { hasGSAP && ScrollTrigger.refresh(); });
+  sw.addEventListener('click', function () {
+    reduced = !reduced;
+    root.classList.toggle('m', !reduced); root.classList.toggle('off', reduced); sw.setAttribute('aria-checked', String(!reduced));
+    if (reduced) { $('.ink-word .fill').style.clipPath = 'none'; $('.ink-word .stroke').style.opacity = 0; $('#h1').classList.add('go'); $$('[data-reveal],[data-wipe]').forEach(function (el) { el.classList.add('in'); }); }
+    updateScene();
+    try { localStorage.setItem(KEY, reduced ? 'off' : 'on'); } catch (e) {}
+  });
 })();
 </script>
 </body>
