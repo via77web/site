@@ -19,7 +19,7 @@ document.querySelectorAll('.enquiry-form').forEach((form) => {
   function values() {
     const fd = new FormData(form);
     const get = (key) => String(fd.get(key) || '').trim();
-    return { type, name: get('name'), email: get('email'), website: get('website'), message: get('message'), project: get('project'), investment: get('investment'), timeline: get('timeline'), company_fax: get('company_fax') };
+    return { type, name: get('name'), email: get('email'), website: get('website'), message: get('message'), project: get('project'), investment: get('investment'), timeline: get('timeline'), leave_blank: get('leave_blank') };
   }
   function clearErrors() {
     form.querySelectorAll('.field-error').forEach((el) => el.remove());
