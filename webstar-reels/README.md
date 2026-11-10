@@ -163,8 +163,9 @@ It:
 2. runs `npm run check -- --live` (keys, gh login, one tiny Claude Code call to confirm the subscription works)
 3. installs two launchd jobs, `com.webstar-reels.weekly` (Sunday 6:00) and `com.webstar-reels.daily` (every day 6:00), in `~/Library/LaunchAgents`
 4. sets the wake schedule with `sudo pmset repeat wakeorpoweron MTWRFSU 05:55:00` (asks for your password; replaces any existing repeating `pmset` schedule)
-5. offers to crawl verrano.com.au and tag the photos
-6. offers to make the first week now rather than waiting for Sunday
+5. links `references/` to iCloud Drive › webstar-reels-references (anything already in `references/` is copied across and the old folder kept as a backup)
+6. offers to crawl verrano.com.au and tag the photos
+7. offers to make the first week now rather than waiting for Sunday
 
 Run it again after moving the folder or updating Node. `./scripts/uninstall-mac.sh` removes the jobs and the wake schedule.
 
@@ -190,7 +191,7 @@ Each external step (Claude, images, Vercel, recording, ElevenLabs, rendering, up
 | `npm run weekly -- --brand verrano --days 3` | Make the next 3 days for one brand (`--start YYYY-MM-DD`, `--mock`, `--dry-run`) |
 | `npm run daily -- --no-wait` | Offer today's reels without waiting (approve later with `npm run review`) |
 | `npm run review` | Open the approval page |
-| `npm run make "<brief>" --brand=webstar` | One concept site and its four reels now (left ready; approve on the review page) |
+| `npm run make "<brief>" --brand=webstar` | One concept site and its four reels now, designed from `references/` (left ready; approve on the review page). `--refs=<folder>` names the folder; `-- --no-refs` skips references |
 | `npm run approve -- <batch-id> all` | Approve from the terminal |
 | `npm run schedule` | Schedule approved reels into their slots now |
 | `npm run library:crawl -- --brand verrano` | Refresh Verrano's photo library |
@@ -201,9 +202,43 @@ Each external step (Claude, images, Vercel, recording, ElevenLabs, rendering, up
 
 Add `--mock` to `weekly` or `make` for a free run: example site, placeholder images, canned scripts and a silent voice.
 
+## References (your Pinterest workflow)
+
+Before a site is generated, the engine looks for screenshots you've saved for it and designs from them.
+
+**Where to save them.** `references/` is linked to **iCloud Drive › webstar-reels-references** by the setup script, so you can add images from your phone: in Pinterest (or anywhere), share or screenshot, then save to Files › iCloud Drive › webstar-reels-references › the project's folder.
+
+| Folder | Used for |
+| --- | --- |
+| `references/<project>/` | One site. The project name is the brief turned into a folder name (`"A dog groomer in Geelong"` → `a-dog-groomer-in-geelong`), or whatever you pass with `--refs=<folder>` |
+| `references/webstar/`, `references/via77/` | A standing moodboard for the brand, used when a site has no folder of its own |
+
+```bash
+npm run make "A dog groomer in Geelong" --brand=webstar                 # uses references/a-dog-groomer-in-geelong/
+npm run make "A dog groomer in Geelong" --brand=webstar --refs=pet-mood # uses references/pet-mood/
+npm run make "A dog groomer in Geelong" --brand=webstar -- --no-refs    # library directions only
+```
+
+**If there are none,** `make` stops before generating anything: it creates the folder, tells you where to save screenshots, and waits for you to press Enter (or type `skip`). Run without a terminal, it sends a notification and exits. The Sunday job never waits: it uses a project or brand folder if one has images, and the library's directions otherwise.
+
+**What happens with them:**
+
+1. **Analyse.** Claude Code opens every image (up to 24) and notes its feel, layout pattern, grid, spacing, type style, palette, imagery, implied motion and standout components.
+2. **Mood brief.** Those notes become `references/<project>/brief.md`: feel and emotion, layout patterns, grid, spacing, type, colour, imagery, motion cues and standout components.
+3. **Tokens, direction and components.** The same brief carries a design direction in your tokens (colours, a font pairing from `library/fonts.json`, corner radius, motion scale and ease, signature moves, photography style) and a list of components to build: which nav, hero, cards, gallery and CTA, plus up to two standout pieces. Colours must pass contrast or the brief is sent back. The machine-readable copy is `direction.json` beside it.
+4. **Build.** The site is written and built from that direction. The copywriter only ever sees the written brief, never the images, and the analysis is told not to transcribe wording, name brands or describe logos, so text and logos can't be carried over.
+5. **Compare.** Phone and desktop screenshots of the built site are put beside the references and scored out of 10 for palette, type, spacing, layout, imagery and overall. If it has drifted (under 7), or sits too close to one reference, the direction is refined **once**, the site rebuilt and compared again. The result is saved as `comparison.md`, and a site still too close to a reference is flagged as a blocking issue on the review page.
+6. **Keep.** A direction that scores 8 or more and passes the audit is saved to `library/directions/ref-<project>.json`, so future sites for that brand can use it without references.
+
+The brief is reused until the images change; delete `brief.md` and `direction.json` to have it rewritten. You can also edit `direction.json` by hand.
+
+For WEBSTAR's one-page sites the references change both the look and the structure (see the component variants in [`library/`](library/README.md)). VIA77's demo stores keep the store-kit structure, so references change their colour, type, radius, motion and imagery only.
+
+Reference analysis runs on Claude Code (it reads the image files), so it needs the default `LLM=claude-code`. Each new project uses about 4 to 7 extra Claude calls.
+
 ## Generated sites
 
-Unchanged from before: Claude picks one of the brand's design directions from [`library/`](library/README.md), writes the site, images come from Nano Banana 2, and the site is built on the motion-system tokens (WEBSTAR one-page sites; VIA77 demo stores on store-kit). It is then audited (axe-core, clipped controls, sideways scroll, alt text, concept label, banned phrases, motion easings), fixed once by Claude if needed, and deployed as a Vercel preview. Reels are recorded from the local build.
+When references exist the direction comes from them (above). Otherwise Claude picks one of the brand's design directions from [`library/`](library/README.md), writes the site, images come from Nano Banana 2, and the site is built on the motion-system tokens (WEBSTAR one-page sites; VIA77 demo stores on store-kit). It is then audited (axe-core, clipped controls, sideways scroll, alt text, concept label, banned phrases, motion easings), fixed once by Claude if needed, and deployed as a Vercel preview. Reels are recorded from the local build.
 
 ## State
 
@@ -215,6 +250,7 @@ All state is files in this folder, so back it up or commit it as you like:
 - `brands/<id>/hooks.json`: hooks, used in order
 - `brands/<id>/batches/*.json`: every reel: script, caption, status (`ready`, `awaiting`, `approved`, `scheduled`, `rejected`), planned day, slot, Buffer post IDs, photos used
 - `brands/verrano/library/`: crawled photos and `library.json`
+- `references/`: your saved screenshots, with each project's `brief.md`, `direction.json` and `comparison.md` (in iCloud Drive, not committed)
 - `out/`: rendered videos and built sites (not committed)
 
 ## Good to know

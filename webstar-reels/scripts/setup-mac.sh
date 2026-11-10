@@ -3,6 +3,7 @@
 #   - checks the tools, installs project dependencies and browsers
 #   - installs two launchd jobs: weekly (Sunday 6:00) and daily (every day 6:00)
 #   - schedules the Mac to wake at 5:55 every day (needs your password, for pmset)
+#   - links references/ to an iCloud Drive folder, so you can add screenshots from your phone
 #   - offers to crawl verrano.com.au and run the first weekly batch
 set -euo pipefail
 DIR="$(cd "$(dirname "$0")/.." && pwd)"
@@ -14,7 +15,7 @@ need() { command -v "$1" >/dev/null || { echo "Missing $1. $2"; exit 1; }; }
 
 [ "$(uname)" = "Darwin" ] || { echo "This script is for macOS."; exit 1; }
 
-step "1/7 Tools"
+step "1/8 Tools"
 need node "Install Node 20+: brew install node"
 need npm "Install Node 20+: brew install node"
 need ffmpeg "brew install ffmpeg"
@@ -25,16 +26,16 @@ gh auth status >/dev/null 2>&1 || { echo "Log in to GitHub first: gh auth login"
 echo "NODE_DIR=\"$(dirname "$(command -v node)")\"" > .mac-env
 echo "export NODE_DIR" >> .mac-env
 
-step "2/7 Project dependencies"
+step "2/8 Project dependencies"
 npm ci
 npx playwright install chromium
 npx remotion browser ensure
 [ -f .env ] || { cp .env.example .env; echo "Created .env from .env.example. Fill it in, then run this script again."; exit 1; }
 
-step "3/7 Checking setup"
+step "3/8 Checking setup"
 npm run --silent check -- --live || echo "Fix the items above; the jobs will log errors until they are."
 
-step "4/7 launchd jobs"
+step "4/8 launchd jobs"
 mkdir -p "$AGENTS" logs
 chmod +x scripts/run-job.sh
 write_plist() { # name, calendar-interval xml
@@ -61,12 +62,36 @@ PLIST
 write_plist weekly "<dict><key>Weekday</key><integer>0</integer><key>Hour</key><integer>6</integer><key>Minute</key><integer>0</integer></dict>"
 write_plist daily "<dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>0</integer></dict>"
 
-step "5/7 Wake schedule (asks for your password)"
+step "5/8 Wake schedule (asks for your password)"
 # One repeating wake covers both jobs. Note: this replaces any existing 'pmset repeat' schedule.
 sudo pmset repeat wakeorpoweron MTWRFSU 05:55:00
 pmset -g sched
 
-step "6/7 Verrano photo library"
+step "6/8 References folder (iCloud Drive)"
+# references/ becomes a link to iCloud Drive > webstar-reels-references, so screenshots saved
+# from your phone's Files app (or straight from Pinterest's share sheet) show up here.
+ICLOUD="$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+REFS="$ICLOUD/webstar-reels-references"
+if [ ! -d "$ICLOUD" ]; then
+  mkdir -p references
+  echo "iCloud Drive isn't turned on for this Mac, so references/ is a normal folder."
+  echo "Turn on iCloud Drive in System Settings and run this script again to sync it with your phone."
+elif [ -L references ]; then
+  echo "references/ already links to $(readlink references)"
+else
+  mkdir -p "$REFS"
+  if [ -d references ]; then
+    # Keep anything already saved: copy it across, and keep the old folder as a backup.
+    cp -Rn references/. "$REFS"/ 2>/dev/null || true
+    mv references "references.backup-$(date +%Y%m%d%H%M%S)"
+  fi
+  ln -s "$REFS" references
+  for b in webstar via77; do mkdir -p "$REFS/$b"; done
+  echo "references/ -> iCloud Drive > webstar-reels-references"
+  echo "On your phone: Files > iCloud Drive > webstar-reels-references > <project name>"
+fi
+
+step "7/8 Verrano photo library"
 if [ ! -f brands/verrano/library/library.json ]; then
   read -r -p "Crawl verrano.com.au now? (Y/n) " a
   if [ "${a:-y}" != "n" ]; then
@@ -78,7 +103,7 @@ else
   echo "Library exists (npm run library:crawl -- --brand verrano to refresh it)."
 fi
 
-step "7/7 First week"
+step "8/8 First week"
 read -r -p "Make this week's reels now instead of waiting for Sunday? It takes a while. (y/N) " w
 if [ "${w:-n}" = "y" ]; then
   ./scripts/run-job.sh weekly || true
@@ -90,6 +115,7 @@ Done.
   Weekly: Sundays 6:00, makes the next 7 days of reels.
   Daily:  every day 6:00, asks you to approve today's reels at http://localhost:4777
   Wake:   the Mac wakes at 5:55 every day. Keep it plugged in.
+  Refs:   iCloud Drive > webstar-reels-references (one folder per project, or one per brand)
   Logs:   $DIR/logs
   Run a job by hand: ./scripts/run-job.sh daily   (or: launchctl kickstart gui/$(id -u)/$LABEL.daily)
   Remove all of this: ./scripts/uninstall-mac.sh

@@ -53,8 +53,9 @@ export async function step<T>(label: string, fn: () => Promise<T>, { retryDelayM
       log(`✓ ${label} (${((Date.now() - started) / 1000).toFixed(1)}s${attempt > 1 ? ", on retry" : ""})`);
       return result;
     } catch (error) {
-      if (attempt >= 2) {
-        logError(`✗ ${label} failed twice: ${errorText(error)}`);
+      // A usage limit won't clear in 20 seconds; fail now with its own message.
+      if (attempt >= 2 || (error instanceof Error && error.name === "UsageLimitError")) {
+        logError(`✗ ${label} failed${attempt >= 2 ? " twice" : ""}: ${errorText(error)}`);
         throw error;
       }
       warn(`! ${label} failed, retrying once in ${retryDelayMs / 1000}s: ${errorText(error)}`);

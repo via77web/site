@@ -6,6 +6,7 @@ Everything `npm run make` builds sites from. Edit these files to change what eve
 | --- | --- |
 | `directions/*.json` | Design directions (style presets). Each lists the brands that may use it, its layout, palette, type pairing, radius, motion scale and primary ease, up to three signature moves, and a photography style for the image workflow. Claude picks one per site. |
 | `tokens/motion.css`, `tokens/motion.ts` | SOHEL Motion System v1: the draft, build, snap and press easings and the duration scale. The only motion a generated site may use; the audit flags anything else. The reels use the same eases (the before/after wipe is `snap`). |
+| `fonts.json` | The Google Fonts a reference-derived direction may use, with their weights. Add families here to widen the choice. |
 | `anti-patterns.json` | Banned phrases (checked by the audit) and rules (given to Claude). Add to it whenever a site does something you never want to see again. |
 | `components/` | Building blocks: the one-page site's CSS and JS, and shared HTML helpers. |
 | `layouts/onepage.ts` | One-page business site (WEBSTAR concepts): hero, statement, tabbed services, showcase, steps, gallery, FAQ, call to action. |
@@ -13,6 +14,25 @@ Everything `npm run make` builds sites from. Edit these files to change what eve
 | `store-kit/kit.css`, `store-kit/kit.js` | Copy of the store engine from the VIA77 site. One fix: footer headings used `opacity:.6`, which fails contrast; they now use the muted colour. |
 | `spec.ts` | The schema Claude fills in for each layout, and the size checks. |
 | `examples/` | One complete spec per layout. `--mock` runs use them, and they're a good reference for what a spec looks like. |
+
+## Component variants
+
+One-page sites are assembled from versions of each part, chosen by the direction's `components` recipe (defaults apply without one):
+
+| Part | Versions |
+| --- | --- |
+| nav | `bar`, `pill`, `centered` |
+| hero | `split`, `fullbleed`, `type` |
+| services | `tabs`, `cards`, `list` |
+| gallery | `bento`, `strip`, `stack` |
+| cta | `card`, `band` |
+| standouts (up to two) | `marquee`, `badge`, `big-numbers` |
+
+The markup is in `layouts/onepage.ts` and the styles at the end of `components/onepage.css`. To add a version, add it to `ComponentsSchema` in `index.ts`, then its markup and CSS.
+
+## Directions saved from references
+
+When a site built from `references/<project>/` matches its references well (8/10 or better) and passes the audit, its direction and component recipe are saved here as `directions/ref-<project>.json`, and from then on Claude can choose it for any site of that brand. Delete the file to retire it.
 
 ## Adding a direction
 

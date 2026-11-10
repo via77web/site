@@ -8,6 +8,36 @@ export const LIBRARY_DIR = path.dirname(fileURLToPath(import.meta.url));
 const hex = z.string().regex(/^#[0-9a-fA-F]{6}$/);
 const Font = z.object({ family: z.string(), weights: z.string(), stack: z.string() });
 
+/**
+ * Which version of each building block a one-page site uses. A direction may carry a recipe;
+ * without one the defaults apply. (Demo stores keep the store-kit structure and take tokens only.)
+ */
+export const ComponentsSchema = z.object({
+  /** bar: full-width sticky bar. pill: floating rounded bar. centered: logo in the middle. */
+  nav: z.enum(["bar", "pill", "centered"]),
+  /** split: text beside an image. fullbleed: text over a full-screen image. type: oversized headline, image below. */
+  hero: z.enum(["split", "fullbleed", "type"]),
+  /** tabs: one service at a time. cards: a grid of cards. list: large numbered rows. */
+  services: z.enum(["tabs", "cards", "list"]),
+  /** bento: one large and several small. strip: a sideways-scrolling row. stack: full-width images, one per row. */
+  gallery: z.enum(["bento", "strip", "stack"]),
+  /** card: a rounded dark panel. band: a full-width accent band. */
+  cta: z.enum(["card", "band"]),
+  /** Up to two extras: a scrolling text band, a round badge on the hero, oversized outline numbers on the steps. */
+  standouts: z.array(z.enum(["marquee", "badge", "big-numbers"])).max(2),
+});
+
+export type Components = z.infer<typeof ComponentsSchema>;
+
+export const DEFAULT_COMPONENTS: Components = {
+  nav: "bar",
+  hero: "split",
+  services: "tabs",
+  gallery: "bento",
+  cta: "card",
+  standouts: [],
+};
+
 const DirectionSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -27,7 +57,13 @@ const DirectionSchema = z.object({
   signatureMoves: z.array(z.string()).max(3),
   /** Photography direction, written for the image workflow. */
   imageStyle: z.string(),
+  /** Component recipe for one-page sites. */
+  components: ComponentsSchema.optional(),
+  /** Where the direction came from, e.g. "references/sourdough-bakery". */
+  source: z.string().optional(),
 });
+
+export { DirectionSchema };
 
 export type Direction = z.infer<typeof DirectionSchema>;
 
@@ -58,6 +94,17 @@ export interface AntiPatterns {
 
 export function loadAntiPatterns(): AntiPatterns {
   return JSON.parse(fs.readFileSync(path.join(LIBRARY_DIR, "anti-patterns.json"), "utf8"));
+}
+
+/** Google Fonts families a derived direction may use, with the weights each offers. */
+export function loadFonts(): Record<string, { weights: number[]; kind: string }> {
+  return JSON.parse(fs.readFileSync(path.join(LIBRARY_DIR, "fonts.json"), "utf8"));
+}
+
+export function saveDirection(d: Direction): string {
+  const file = path.join(LIBRARY_DIR, "directions", `${d.id}.json`);
+  fs.writeFileSync(file, JSON.stringify(d, null, 2) + "\n");
+  return file;
 }
 
 export function googleFontsUrl(d: Direction): string {

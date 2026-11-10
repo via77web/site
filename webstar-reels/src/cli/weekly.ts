@@ -17,6 +17,7 @@ import { serveDir } from "../lib/serve.js";
 import { loadBriefs, loadSites, nextPending, saveBriefs, saveSites, MAX_ATTEMPTS } from "../lib/queue.js";
 import { ensureBriefs } from "../briefs.js";
 import { makeSite } from "../make/index.js";
+import { findReferences } from "../refs/resolve.js";
 import { hasPlanned, noonOf, planSiteBatch, slotsOn, upcomingDates } from "../plan.js";
 import { produceBatch } from "../reels.js";
 import { FORMAT_CYCLE, produceStillReel } from "../stills/produce.js";
@@ -76,7 +77,10 @@ async function siteDay(brand: Brand, date: string, dayIndex: number): Promise<vo
     }
     if (!brief) throw new Error("no site in the queue and no brief to make one from");
     log(`[${brand.id}] ${date}: "${brief}"${campaign ? ` (${campaign.name})` : ""}`);
-    const made = await makeSite(brand, brief, { mock, placeholders: false, noDeploy: dryRun || mock, campaign });
+    // Use saved references when there are some (the project's own, else the brand's moodboard). The weekly run never waits for them.
+    const found = mock ? undefined : await findReferences(brand, brief).catch(() => undefined);
+    const refs = found?.count ? { project: found.project, dir: found.dir } : undefined;
+    const made = await makeSite(brand, brief, { mock, placeholders: false, noDeploy: dryRun || mock, campaign, refs });
     const server = await serveDir(made.dir);
     try {
       batch = await produceBatch(

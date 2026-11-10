@@ -85,10 +85,28 @@ async function ask(
 }
 
 /** Pick a direction and write the whole site from a one-line brief. */
-export async function writeSpec(brand: Brand, brief: string, campaign: Campaign | undefined): Promise<SpecResult> {
+export async function writeSpec(
+  brand: Brand,
+  brief: string,
+  campaign: Campaign | undefined,
+  /** A direction derived from the client's references, with its mood brief. Replaces the library choice. */
+  fromReferences?: { direction: Direction; mood: string },
+): Promise<SpecResult> {
   const layout = layoutFor(brand);
-  const directions = directionsFor(brand.id);
-  return ask(brand, layout, directions, campaign, `Brief: ${brief}`);
+  if (!fromReferences) return ask(brand, layout, directionsFor(brand.id), campaign, `Brief: ${brief}`);
+  return ask(
+    brand,
+    layout,
+    [fromReferences.direction],
+    campaign,
+    `Brief: ${brief}
+
+The client saved visual references for this project. They have been distilled into the direction "${fromReferences.direction.id}" (use it) and this mood brief. Let it shape the voice, pacing and imagery of the copy:
+<mood>
+${fromReferences.mood}
+</mood>
+You have not seen the references themselves, and the site must stand on its own: every word, name and image idea is original.`,
+  );
 }
 
 /** Fix a spec after the audit. Image ids are kept so existing images are reused. */

@@ -1,9 +1,11 @@
 /** npm run check [-- --live]: is this Mac ready to run the jobs? --live also makes one tiny Claude Code call. */
 import { spawnSync } from "node:child_process";
+import fs from "node:fs";
 import { z } from "zod";
 import { brandEnvName, listBrandIds, loadBrand } from "../lib/brand.js";
 import { env } from "../lib/env.js";
 import { generate, llmBackend } from "../lib/llm.js";
+import { referencesRoot } from "../refs/sync.js";
 import { hasLibrary, loadLibrary } from "../stills/library.js";
 
 const live = process.argv.includes("--live");
@@ -44,6 +46,20 @@ for (const k of ["GEMINI_API_KEY", "VERCEL_TOKEN"]) env(k) ? ok(k) : note(`${k} 
 env("FAL_KEY") ? ok("FAL_KEY (AI visualisation reels)") : note("FAL_KEY empty: no AI visualisation reels; those days use real footage");
 env("RESEND_API_KEY") && env("NOTIFY_EMAIL") ? ok("email notifications") : note("no email notifications (optional)");
 env("NTFY_TOPIC") ? ok("phone notifications via ntfy") : note("no phone notifications (optional NTFY_TOPIC)");
+
+console.log("References");
+{
+  const root = referencesRoot();
+  let real = "";
+  try {
+    real = fs.realpathSync(root);
+  } catch {
+    /* missing */
+  }
+  if (!real) note("references/ doesn't exist yet (scripts/setup-mac.sh links it to iCloud Drive)");
+  else if (real.includes("com~apple~CloudDocs")) ok("references/ syncs with iCloud Drive");
+  else note("references/ is a local folder, not synced with iCloud Drive");
+}
 
 console.log("Brands");
 for (const id of listBrandIds()) {

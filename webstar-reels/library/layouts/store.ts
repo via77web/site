@@ -105,8 +105,8 @@ ${fontLinks(d)}
   <div class="bg"><img src="${src(spec.hero.imageId)}" alt="${alt(spec.hero.imageId)}" fetchpriority="high"></div>
   <div class="shade" aria-hidden="true"></div>
   <div class="in"><div class="wrap">
-    <h1 class="disp" aria-label="${esc(spec.hero.lines.join(" "))}">${spec.hero.lines
-      .map((l, i) => `<span class="ln" aria-hidden="true"><span style="--i:${i}">${esc(l)}</span></span>`)
+    <h1 class="disp" aria-label="${esc(spec.hero.lines.join(" ").replace(/\*/g, ""))}">${spec.hero.lines
+      .map((l, i) => `<span class="ln" aria-hidden="true"><span style="--i:${i}">${esc(l.replace(/\*/g, ""))}</span></span>`)
       .join("")}</h1>
     <div class="side"><p>${esc(spec.hero.sub)}</p><a class="btn light" href="#shop">${esc(spec.hero.cta)} <span class="ar" aria-hidden="true">→</span></a></div>
   </div></div>

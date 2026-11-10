@@ -62,14 +62,27 @@ async function checkPage(page: Page, label: string, report: AuditReport, mobile:
         return r.left < window.innerWidth && r.right > window.innerWidth + 1;
       })
       .map((el) => (el.getAttribute("aria-label") || el.textContent || el.tagName).trim().slice(0, 30));
+    // A header item that wraps below the bar (a broken nav layout).
+    const bar = document.querySelector("header");
+    const fallen = bar
+      ? [...bar.querySelectorAll("a, button")]
+          .filter((el) => {
+            const r = el.getBoundingClientRect();
+            const b = bar.getBoundingClientRect();
+            return r.height > 0 && getComputedStyle(el).visibility !== "hidden" && r.bottom > b.bottom + 6;
+          })
+          .map((el) => (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 30))
+      : [];
     const missingAlt = [...document.querySelectorAll("img:not([alt])")].map((i) => i.getAttribute("src"));
     const text = document.body.innerText;
     const bodySize = parseFloat(getComputedStyle(document.body).fontSize);
-    return { overflow, clipped: [...new Set(clipped)], small: [...new Set(small)].slice(0, 6), missingAlt, text, bodySize };
+    return { overflow, fallen: [...new Set(fallen)], clipped: [...new Set(clipped)], small: [...new Set(small)].slice(0, 6), missingAlt, text, bodySize };
   }, mobile);
 
   if (layout.overflow > 1) report.blocking.push(`[${label}] The page scrolls sideways by ${layout.overflow}px`);
   if (layout.clipped.length) report.blocking.push(`[${label}] Controls cut off at the right edge: ${layout.clipped.join(", ")}`);
+  if (layout.fallen.length) report.blocking.push(`[${label}] Header items fall outside the header bar: ${layout.fallen.join(", ")}`);
+  if (/\*\S[^*\n]{0,60}\*/.test(layout.text)) report.blocking.push(`[${label}] Literal *asterisks* are showing in the text`);
   if (layout.missingAlt.length) report.blocking.push(`[${label}] Images with no alt attribute: ${layout.missingAlt.join(", ")}`);
   if (layout.small.length) report.warnings.push(`[${label}] Tap targets under 40px: ${layout.small.join(", ")}`);
   if (mobile && layout.bodySize < 16) report.warnings.push(`[${label}] Body text is ${layout.bodySize}px; use at least 16px`);

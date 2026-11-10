@@ -29,6 +29,16 @@ export interface GenerateOptions<T> {
   readDir?: string;
 }
 
+/** Claude's subscription usage limit was reached. Retrying straight away can't help. */
+export class UsageLimitError extends Error {
+  constructor(detail: string) {
+    super(`Claude usage limit reached (${detail.trim()}). Run this again after the limit resets.`);
+    this.name = "UsageLimitError";
+  }
+}
+
+const LIMIT = /hit your .{0,40}limit|usage limit|rate limit reached|limit reached/i;
+
 export const llmBackend = () => (env("LLM") ?? "claude-code") as "claude-code" | "api";
 
 const CLAUDE_TIMEOUT_MS = 20 * 60_000;
@@ -78,6 +88,7 @@ async function viaClaudeCode(system: string, prompt: string, jsonSchema: object,
     child.on("close", (code) => {
       clearTimeout(timer);
       if (code === 0 || stdout.trim().startsWith("{")) resolve(stdout);
+      else if (LIMIT.test(stderr + stdout)) reject(new UsageLimitError((stderr || stdout).trim().slice(-120)));
       else reject(new Error(`claude -p exited with ${code}: ${(stderr || stdout).trim().slice(-600)}`));
     });
     child.stdin.end(prompt);
@@ -88,6 +99,9 @@ async function viaClaudeCode(system: string, prompt: string, jsonSchema: object,
     result = JSON.parse(out);
   } catch {
     throw new Error(`claude -p returned something that isn't JSON: ${out.slice(0, 300)}`);
+  }
+  if (result.structured_output === undefined && LIMIT.test(String(result.result ?? ""))) {
+    throw new UsageLimitError(String(result.result).slice(0, 120));
   }
   if (result.is_error || (result.subtype && result.subtype !== "success")) {
     throw new Error(`claude -p failed (${result.subtype ?? "error"}): ${String(result.result ?? "").slice(0, 400)}`);

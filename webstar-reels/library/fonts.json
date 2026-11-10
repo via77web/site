@@ -1,0 +1,229 @@
+{
+  "Inter": {
+    "weights": [
+      400,
+      500,
+      600,
+      700
+    ],
+    "kind": "neutral sans"
+  },
+  "Inter Tight": {
+    "weights": [
+      300,
+      400,
+      500,
+      600
+    ],
+    "kind": "tight neutral sans"
+  },
+  "Manrope": {
+    "weights": [
+      400,
+      500,
+      600,
+      800
+    ],
+    "kind": "geometric sans"
+  },
+  "DM Sans": {
+    "weights": [
+      400,
+      500,
+      700
+    ],
+    "kind": "friendly geometric sans"
+  },
+  "Plus Jakarta Sans": {
+    "weights": [
+      400,
+      500,
+      700,
+      800
+    ],
+    "kind": "modern rounded sans"
+  },
+  "Space Grotesk": {
+    "weights": [
+      400,
+      500,
+      700
+    ],
+    "kind": "quirky grotesk"
+  },
+  "Bricolage Grotesque": {
+    "weights": [
+      400,
+      600,
+      800
+    ],
+    "kind": "chunky expressive grotesk"
+  },
+  "Archivo": {
+    "weights": [
+      400,
+      500,
+      600,
+      800
+    ],
+    "kind": "sturdy grotesk"
+  },
+  "Archivo Black": {
+    "weights": [
+      400
+    ],
+    "kind": "heavy display grotesk"
+  },
+  "Anton": {
+    "weights": [
+      400
+    ],
+    "kind": "condensed impact display"
+  },
+  "Bebas Neue": {
+    "weights": [
+      400
+    ],
+    "kind": "tall condensed caps display"
+  },
+  "Oswald": {
+    "weights": [
+      400,
+      500,
+      700
+    ],
+    "kind": "condensed sans"
+  },
+  "Syne": {
+    "weights": [
+      500,
+      700,
+      800
+    ],
+    "kind": "wide art-directed sans"
+  },
+  "Unbounded": {
+    "weights": [
+      400,
+      600,
+      800
+    ],
+    "kind": "wide rounded display"
+  },
+  "Sora": {
+    "weights": [
+      400,
+      600,
+      800
+    ],
+    "kind": "techy geometric sans"
+  },
+  "Outfit": {
+    "weights": [
+      400,
+      500,
+      700
+    ],
+    "kind": "clean geometric sans"
+  },
+  "Work Sans": {
+    "weights": [
+      400,
+      500,
+      700
+    ],
+    "kind": "workhorse sans"
+  },
+  "Instrument Sans": {
+    "weights": [
+      400,
+      500,
+      700
+    ],
+    "kind": "refined sans"
+  },
+  "Instrument Serif": {
+    "weights": [
+      400
+    ],
+    "kind": "elegant display serif"
+  },
+  "Fraunces": {
+    "weights": [
+      400,
+      500,
+      700
+    ],
+    "kind": "soft old-style serif"
+  },
+  "Playfair Display": {
+    "weights": [
+      400,
+      500,
+      700
+    ],
+    "kind": "high-contrast serif"
+  },
+  "Cormorant Garamond": {
+    "weights": [
+      400,
+      500,
+      600
+    ],
+    "kind": "fine editorial serif"
+  },
+  "DM Serif Display": {
+    "weights": [
+      400
+    ],
+    "kind": "bold display serif"
+  },
+  "Libre Baskerville": {
+    "weights": [
+      400,
+      700
+    ],
+    "kind": "classic book serif"
+  },
+  "Newsreader": {
+    "weights": [
+      400,
+      500,
+      600
+    ],
+    "kind": "newspaper serif"
+  },
+  "Young Serif": {
+    "weights": [
+      400
+    ],
+    "kind": "warm chunky serif"
+  },
+  "Gloock": {
+    "weights": [
+      400
+    ],
+    "kind": "dramatic display serif"
+  },
+  "IBM Plex Mono": {
+    "weights": [
+      400,
+      500
+    ],
+    "kind": "technical mono"
+  },
+  "JetBrains Mono": {
+    "weights": [
+      400,
+      500
+    ],
+    "kind": "code mono"
+  },
+  "Caveat": {
+    "weights": [
+      400,
+      700
+    ],
+    "kind": "handwritten script"
+  }
+}
