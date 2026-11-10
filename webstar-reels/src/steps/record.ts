@@ -6,8 +6,12 @@ import type { PageInfo } from "../types.js";
 export interface RecordOptions {
   /** Total length of the recording in seconds. */
   duration: number;
+  /** Seconds to rest on the hero before scrolling (the hook text sits over this part). */
+  heroHold: number;
+  /** Seconds to pause on each key section. */
+  sectionHold: number;
   /** Seconds to rest on the footer at the end (the end card covers this part). */
-  footerHold?: number;
+  footerHold: number;
   fps?: number;
 }
 
@@ -20,8 +24,6 @@ export interface SiteSession {
 // 360x640 CSS px at 3x = exactly 1080x1920, so the reel is pixel-sharp.
 const VIEWPORT = { width: 360, height: 640 };
 const SCALE = 3;
-const HERO_HOLD = 1.6; // the hook text sits over the hero
-const SECTION_HOLD = 0.55;
 const MAX_KEY_SECTIONS = 4;
 
 const USER_AGENT =
@@ -37,9 +39,13 @@ interface Segment {
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 /** Hold on the hero, glide to each key section, pause, and finish on the footer. */
-function buildTimeline(stops: number[], duration: number, footerHold: number): Segment[] {
+function buildTimeline(
+  stops: number[],
+  duration: number,
+  hold: { hero: number; section: number; footer: number },
+): Segment[] {
   const holds = stops.map((_, i) =>
-    i === 0 ? HERO_HOLD : i === stops.length - 1 ? footerHold : SECTION_HOLD,
+    i === 0 ? hold.hero : i === stops.length - 1 ? hold.footer : hold.section,
   );
   const travel = Math.max(duration - holds.reduce((a, b) => a + b, 0), duration * 0.5);
   const distance = stops[stops.length - 1] - stops[0] || 1;
@@ -158,9 +164,13 @@ export async function openSite(url: string): Promise<SiteSession> {
 
     const record = async (
       outFile: string,
-      { duration, footerHold = 0.7, fps = 30 }: RecordOptions,
+      { duration, heroHold, sectionHold, footerHold, fps = 30 }: RecordOptions,
     ): Promise<void> => {
-      const timeline = buildTimeline(stops, duration, footerHold);
+      const timeline = buildTimeline(stops, duration, {
+        hero: heroHold,
+        section: sectionHold,
+        footer: footerHold,
+      });
 
       const ffmpeg = spawn(
         "ffmpeg",

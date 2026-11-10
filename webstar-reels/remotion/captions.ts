@@ -32,3 +32,39 @@ export function groupWords(words: WordTiming[], captions: string[]): CaptionGrou
     end: Math.min(chunks[i + 1]?.[0].start ?? Infinity, chunk[chunk.length - 1].end + 0.6),
   }));
 }
+
+const normalise = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "");
+
+/**
+ * Remove the spoken call to action from the end of the captions, for brands whose
+ * spoken version (a spelled-out URL, say) should be heard but not shown.
+ */
+export function dropTrailingPhrase(
+  words: WordTiming[],
+  captions: string[],
+  phrase: string,
+): { words: WordTiming[]; captions: string[] } {
+  const target = normalise(phrase);
+  let tail = "";
+  let count = 0;
+  while (count < words.length && tail.length < target.length) {
+    count++;
+    tail = normalise(words[words.length - count].word) + tail;
+  }
+  if (!target || tail !== target) return { words, captions };
+
+  // Trim the same number of words off the caption phrases so they still line up.
+  const trimmed = [...captions];
+  let remaining = count;
+  while (remaining > 0 && trimmed.length) {
+    const parts = trimmed[trimmed.length - 1].trim().split(/\s+/);
+    if (parts.length <= remaining) {
+      remaining -= parts.length;
+      trimmed.pop();
+    } else {
+      trimmed[trimmed.length - 1] = parts.slice(0, parts.length - remaining).join(" ");
+      remaining = 0;
+    }
+  }
+  return { words: words.slice(0, words.length - count), captions: trimmed };
+}

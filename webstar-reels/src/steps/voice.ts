@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { brandEnv, type Brand } from "../lib/brand.js";
 import { env } from "../lib/env.js";
 import { mediaDuration, run } from "../lib/exec.js";
 import type { WordTiming } from "../types.js";
@@ -30,8 +31,9 @@ export function alignmentToWords(a: Alignment): WordTiming[] {
 export async function synthesizeVoice(
   text: string,
   outFile: string,
+  brand: Brand,
 ): Promise<{ words: WordTiming[]; duration: number }> {
-  const voiceId = env("ELEVENLABS_VOICE_ID")!;
+  const voiceId = brandEnv("ELEVENLABS_VOICE_ID", brand)!;
   const res = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}/with-timestamps?output_format=mp3_44100_128`,
     {
@@ -40,7 +42,12 @@ export async function synthesizeVoice(
       body: JSON.stringify({
         text,
         model_id: env("ELEVENLABS_MODEL_ID") ?? "eleven_multilingual_v2",
-        voice_settings: { stability: 0.45, similarity_boost: 0.8, style: 0.3 },
+        voice_settings: {
+          stability: brand.voice.stability,
+          similarity_boost: brand.voice.similarityBoost,
+          style: brand.voice.style,
+          speed: brand.voice.speed,
+        },
       }),
     },
   );
@@ -64,9 +71,10 @@ export async function synthesizeVoice(
 export async function mockVoice(
   text: string,
   outFile: string,
+  brand: Brand,
 ): Promise<{ words: WordTiming[]; duration: number }> {
   const tokens = text.trim().split(/\s+/);
-  const perWord = 0.37;
+  const perWord = 0.37 / brand.voice.speed;
   const words = tokens.map((word, i) => ({ word, start: i * perWord, end: (i + 1) * perWord - 0.04 }));
   const duration = tokens.length * perWord + 0.3;
   await run("ffmpeg", [

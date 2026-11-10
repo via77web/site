@@ -8,12 +8,16 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: Render the reel but do not post
+        description: Render the reels but do not post
         type: boolean
         default: false
+      brand:
+        description: Only run this brand (blank = every brand in brands/)
+        type: string
+        default: ""
 
 permissions:
-  contents: write # commit sites.json, upload the reel to a release
+  contents: write # commit the queues, upload reels to releases
 
 concurrency:
   group: daily-reel
@@ -22,7 +26,7 @@ concurrency:
 jobs:
   reel:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -38,35 +42,42 @@ jobs:
           npx playwright install --with-deps chromium
           npx remotion browser ensure
 
-      - name: Make and schedule today's reel
-        run: npm run reel -- ${{ inputs.dry_run && '--dry-run' || '' }}
+      # One reel per brand in brands/. Brands run independently: if one fails the others
+      # still post, and the job is marked failed at the end so you get the notification.
+      - name: Make and schedule today's reels
+        run: npm run reel -- ${{ inputs.dry_run && '--dry-run' || '' }} ${ONLY_BRAND:+--brand "$ONLY_BRAND"}
         env:
+          ONLY_BRAND: ${{ inputs.brand }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
-          ELEVENLABS_VOICE_ID: ${{ secrets.ELEVENLABS_VOICE_ID }}
           BUFFER_ACCESS_TOKEN: ${{ secrets.BUFFER_ACCESS_TOKEN }}
-          BUFFER_PROFILE_IDS: ${{ secrets.BUFFER_PROFILE_IDS }}
+          # Per brand. Adding a brand means adding its two secrets here.
+          ELEVENLABS_VOICE_ID_WEBSTAR: ${{ secrets.ELEVENLABS_VOICE_ID_WEBSTAR }}
+          BUFFER_PROFILE_IDS_WEBSTAR: ${{ secrets.BUFFER_PROFILE_IDS_WEBSTAR }}
+          ELEVENLABS_VOICE_ID_VIA77: ${{ secrets.ELEVENLABS_VOICE_ID_VIA77 }}
+          BUFFER_PROFILE_IDS_VIA77: ${{ secrets.BUFFER_PROFILE_IDS_VIA77 }}
+          BUFFER_ACCESS_TOKEN_VIA77: ${{ secrets.BUFFER_ACCESS_TOKEN_VIA77 }}
           GH_TOKEN: ${{ github.token }}
 
-      - name: Keep the reel as a build artifact
+      - name: Keep the reels as a build artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: reel
+          name: reels
           path: |
-            out/*/day-*.mp4
-            out/*/script.json
-            out/*/caption.txt
+            out/*/*/*-day-*.mp4
+            out/*/*/script.json
+            out/*/*/caption.txt
           if-no-files-found: ignore
           retention-days: 14
 
       - name: Save queue status
         if: always()
         run: |
-          if ! git diff --quiet sites.json; then
+          if ! git diff --quiet -- brands; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add sites.json
-            git commit -m "Update reel queue"
+            git add brands
+            git commit -m "Update reel queues"
             git push
           fi

@@ -1,0 +1,28 @@
+{
+  "id": "via77",
+  "name": "VIA77",
+  "about": "VIA77 is a commerce studio in Australia that designs and engineers online stores. Each reel shows a screen recording of one of its stores, scrolling on a phone. The stores in the queue are VIA77 commerce concepts, built to demonstrate the work; they are not client businesses.",
+  "audience": "Founders and marketing leads of established brands who are weighing a serious investment in their online store.",
+  "tone": "premium, calm, considered",
+  "rules": [
+    "Unhurried and precise. Fewer words, longer pauses. Let the design carry the reel.",
+    "No hype, no slang, no exclamation marks, no emoji.",
+    "Describe the store as a VIA77 concept or as VIA77's work. Never present it as a client project or imply client results."
+  ],
+  "allowPrices": false,
+  "cta": "Start a project — via77.com.au",
+  "spokenCta": "Start a project at via seventy-seven dot com dot au.",
+  "captionSpokenCta": false,
+  "hashtags": ["ecommerce", "commercedesign", "shopify", "brandexperience"],
+  "voice": { "maxWords": 32, "stability": 0.7, "similarityBoost": 0.8, "style": 0, "speed": 0.92 },
+  "scroll": { "seconds": 18, "heroHold": 2.4, "sectionHold": 1.0 },
+  "post": { "time": "18:00", "timezone": "Australia/Melbourne" },
+  "style": {
+    "theme": "minimal",
+    "hookSeconds": 2.4,
+    "endCardSeconds": 3,
+    "zoom": 0.025,
+    "musicVolume": 0.1,
+    "colors": { "background": "#F6F5F1", "text": "#20221F", "accent": "#88412C", "scrim": "#232B25" }
+  }
+}

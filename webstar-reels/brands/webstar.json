@@ -1,0 +1,25 @@
+{
+  "id": "webstar",
+  "name": "WEBSTAR",
+  "about": "WEBSTAR is a web design studio that sells websites in clear, fixed tiers. Each reel shows a screen recording of one website it built, scrolling on a phone.",
+  "audience": "Small business owners who want a site like the one on screen and want to know what they are getting.",
+  "tone": "fun, transparent, punchy",
+  "rules": [
+    "Short, energetic sentences. Plain words, a bit of personality, no corporate language."
+  ],
+  "allowPrices": true,
+  "cta": "Pick a tier — link in bio",
+  "spokenCta": "Pick a tier. Link in bio.",
+  "hashtags": ["webdesign", "websitedesign", "smallbusiness"],
+  "voice": { "maxWords": 30, "stability": 0.4, "similarityBoost": 0.8, "style": 0.35, "speed": 1.05 },
+  "scroll": { "seconds": 12, "heroHold": 1.5, "sectionHold": 0.45 },
+  "post": { "time": "18:00", "timezone": "Australia/Melbourne" },
+  "style": {
+    "theme": "bold",
+    "hookSeconds": 1.5,
+    "endCardSeconds": 2.5,
+    "zoom": 0.045,
+    "musicVolume": 0.12,
+    "colors": { "background": "#0B0B10", "text": "#FFFFFF", "accent": "#FFE14D", "scrim": "#08080C" }
+  }
+}

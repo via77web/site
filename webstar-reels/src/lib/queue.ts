@@ -1,20 +1,20 @@
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { brandDir, type Brand } from "./brand.js";
 import type { Site } from "../types.js";
-
-export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const SITES_FILE = path.join(ROOT, "sites.json");
-const HOOKS_FILE = path.join(ROOT, "hooks.json");
 
 export const MAX_ATTEMPTS = 3;
 
-export function loadSites(): Site[] {
-  return JSON.parse(fs.readFileSync(SITES_FILE, "utf8")) as Site[];
+const sitesFile = (brand: Brand) => path.join(brandDir(brand), "sites.json");
+const hooksFile = (brand: Brand) => path.join(brandDir(brand), "hooks.json");
+
+export function loadSites(brand: Brand): Site[] {
+  if (!fs.existsSync(sitesFile(brand))) throw new Error(`brands/${brand.id}/sites.json is missing`);
+  return JSON.parse(fs.readFileSync(sitesFile(brand), "utf8")) as Site[];
 }
 
-export function saveSites(sites: Site[]): void {
-  fs.writeFileSync(SITES_FILE, JSON.stringify(sites, null, 2) + "\n");
+export function saveSites(brand: Brand, sites: Site[]): void {
+  fs.writeFileSync(sitesFile(brand), JSON.stringify(sites, null, 2) + "\n");
 }
 
 export function nextPending(sites: Site[]): Site | undefined {
@@ -27,9 +27,10 @@ export function dayNumber(sites: Site[]): number {
 }
 
 /** One hook per day, in order, wrapping after the last. */
-export function hookForDay(day: number, site: Pick<Site, "name" | "niche">): string {
-  const hooks = JSON.parse(fs.readFileSync(HOOKS_FILE, "utf8")) as string[];
-  if (!hooks.length) throw new Error("hooks.json is empty");
+export function hookForDay(brand: Brand, day: number, site: Pick<Site, "name" | "niche">): string {
+  if (!fs.existsSync(hooksFile(brand))) throw new Error(`brands/${brand.id}/hooks.json is missing`);
+  const hooks = JSON.parse(fs.readFileSync(hooksFile(brand), "utf8")) as string[];
+  if (!hooks.length) throw new Error(`brands/${brand.id}/hooks.json is empty`);
   const shortNiche = site.niche.split(",")[0].trim();
   return hooks[(day - 1) % hooks.length]
     .replaceAll("{niche}", shortNiche)

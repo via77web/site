@@ -1,3 +1,5 @@
+import type { BrandStyle } from "./lib/brand.js";
+
 export type SiteStatus = "pending" | "posted" | "failed";
 
 export interface Site {
@@ -39,13 +41,16 @@ export interface PageInfo {
 /** Input props of the Remotion composition. Asset paths are relative to public/. */
 export type ReelProps = {
   recordingSrc: string;
-  recordingDuration: number;
   voiceSrc: string;
-  voiceDuration: number;
   musicSrc: string | null;
   logoSrc: string | null;
+  brandName: string;
+  style: BrandStyle;
+  totalSeconds: number;
   hook: string;
   captions: string[];
   words: WordTiming[];
-  cta: string;
+  /** End card headline and the action line under it. */
+  ctaLine: string;
+  ctaAction: string;
 };
