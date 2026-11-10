@@ -1,7 +1,7 @@
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { chromium, type CDPSession, type Page } from "playwright";
 import { env } from "../lib/env.js";
-import type { PageInfo, VariantId } from "../types.js";
+import type { PageInfo, SiteVariant } from "../types.js";
 
 // 360x640 CSS px captured at 3x = exactly 1080x1920, so the reel is pixel-sharp.
 const VIEW = { width: 360, height: 640 };
@@ -57,8 +57,8 @@ export interface SiteSession {
   pageInfo: PageInfo;
   plan: SitePlan;
   /** Variants this page can support. "interaction" is dropped when nothing tappable was found. */
-  variants: VariantId[];
-  record(clips: Partial<Record<VariantId, ClipOptions>>): Promise<void>;
+  variants: SiteVariant[];
+  record(clips: Partial<Record<SiteVariant, ClipOptions>>): Promise<void>;
   close(): Promise<void>;
 }
 
@@ -589,7 +589,7 @@ export async function openSite(url: string, beforeUrl?: string): Promise<SiteSes
     }));
     const found = await planPage(page);
     const plan: SitePlan = { ...found, before: beforeUrl ? "custom" : "unstyled" };
-    const variants: VariantId[] = ["full", "detail", "before-after"];
+    const variants: SiteVariant[] = ["full", "detail", "before-after"];
     if (plan.interactions.length) variants.push("interaction");
 
     const record: SiteSession["record"] = async (clips) => {

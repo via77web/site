@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { applyDecision, parseDecision } from "../src/approve.ts";
 import { activeCampaign, loadCalendar, localDate, slotsFor, zonedTime } from "../src/lib/calendar.ts";
 import { assignSlots } from "../src/schedule.ts";
+import { picksFor, slotsOn } from "../src/plan.ts";
 import { postText } from "../src/reels.ts";
 import { directionContrastProblems, loadDirections } from "../library/index.ts";
 import { specProblems } from "../library/spec.ts";
@@ -22,10 +23,11 @@ test("example specs are valid", () => {
   assert.deepEqual(specProblems(store as any, "store"), []);
 });
 
-test("slots: WEBSTAR at 12pm and 6pm, VIA77 at 7pm, Melbourne time across daylight saving", () => {
+test("slots: VERRANO 12pm, WEBSTAR 6pm, VIA77 7pm, Melbourne time across daylight saving", () => {
   const from = new Date("2026-11-10T00:00:00Z"); // 11am AEDT
-  const web = slotsFor(cal, "webstar", from, 1).map((d) => d.toISOString());
-  assert.deepEqual(web.slice(0, 3), ["2026-11-10T01:00:00.000Z", "2026-11-10T07:00:00.000Z", "2026-11-11T01:00:00.000Z"]);
+  assert.deepEqual(slotsFor(cal, "webstar", from, 1).map((d) => d.toISOString()), ["2026-11-10T07:00:00.000Z", "2026-11-11T07:00:00.000Z"]);
+  assert.deepEqual(slotsOn("verrano", "2026-11-12").map((d) => d.toISOString()), ["2026-11-12T01:00:00.000Z"]);
+  assert.deepEqual(slotsOn("via77", "2026-11-12").map((d) => d.toISOString()), ["2026-11-12T08:00:00.000Z"]);
   const winter = slotsFor(cal, "via77", new Date("2026-06-10T00:00:00Z"), 0).map((d) => d.toISOString());
   assert.deepEqual(winter, ["2026-06-10T09:00:00.000Z"]); // 7pm AEST = UTC+10
 });
@@ -40,7 +42,8 @@ test("campaigns: Black Friday in late November, New Year wraps past 1 January, n
 });
 
 test("scheduling: a site never posts twice in a day or twice in a row", () => {
-  const slots = slotsFor(cal, "webstar", new Date("2026-11-10T00:00:00Z"), 5);
+  // Two slots a day, as when a brand lists 12:00 and 18:00 in calendar.json.
+  const slots = [10, 11, 12, 13, 14, 15].flatMap((d) => ["12:00", "18:00"].map((t) => zonedTime(2026, 11, d, t, TZ)));
   const v = ["full", "detail", "before-after", "interaction"] as const;
   const candidates = [...v.map((variant) => ({ batch: "A", variant })), ...v.map((variant) => ({ batch: "B", variant }))];
   const placed = assignSlots(slots, [], candidates, TZ);
@@ -55,7 +58,7 @@ test("scheduling: a site never posts twice in a day or twice in a row", () => {
 });
 
 test("scheduling: one site alone still gets all its reels out, one per day", () => {
-  const slots = slotsFor(cal, "webstar", new Date("2026-11-10T00:00:00Z"), 7);
+  const slots = [10, 11, 12, 13, 14, 15, 16].flatMap((d) => ["12:00", "18:00"].map((t) => zonedTime(2026, 11, d, t, TZ)));
   const v = ["full", "detail", "before-after", "interaction"] as const;
   const placed = assignSlots(slots, [], v.map((variant) => ({ batch: "A", variant })), TZ);
   assert.equal(placed.length, 4);
@@ -74,6 +77,7 @@ test("approval commands", () => {
   assert.deepEqual(parseDecision("Looks good!\n/approve full, detail"), { action: "approve", variants: ["full", "detail"] });
   assert.deepEqual(parseDecision("/reject"), { action: "reject", variants: [] });
   assert.equal(parseDecision("/approve fulll"), null);
+  assert.deepEqual(parseDecision("/approve transformation"), { action: "approve", variants: ["transformation"] });
   assert.equal(parseDecision("nice work"), null);
 
   const batch = {

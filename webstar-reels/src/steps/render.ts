@@ -52,7 +52,7 @@ export async function renderVariants(brand: Brand, jobs: RenderJob[], concept: b
       beforeSrc: job.beforeFile ? `run/${job.variant}/before.mp4` : null,
       voiceSrc: `run/${job.variant}/voice.mp3`,
       musicSrc: brandAsset(brand, ["music.mp3"]),
-      logoSrc: brandAsset(brand, ["logo.svg", "logo.png"]),
+      logoSrc: brandAsset(brand, ["logo.svg", "logo.png", "logo.webp", "logo.jpg"]),
       brandName: brand.name,
       style: brand.style,
       totalSeconds: job.totalSeconds,
@@ -85,4 +85,59 @@ export async function renderVariants(brand: Brand, jobs: RenderJob[], concept: b
       },
     });
   }
+}
+
+export interface StillsJob {
+  props: Omit<import("../types.js").StillsProps, "voiceSrc" | "musicSrc" | "logoSrc" | "brandName" | "style" | "ctaLine" | "ctaAction">;
+  /** Absolute paths of the photos or clips, in the same order as props.shots (then pair before, after). */
+  files: string[];
+  voiceFile: string;
+  outFile: string;
+}
+
+/** Render one photo-library reel with the "Stills" composition. */
+export async function renderStills(brand: Brand, job: StillsJob): Promise<void> {
+  const dir = path.join(RUN_DIR, "stills");
+  fs.rmSync(RUN_DIR, { recursive: true, force: true });
+  fs.mkdirSync(dir, { recursive: true });
+  // Stage every photo under public/ and point the props at the staged copies.
+  const staged = job.files.map((f, i) => {
+    const name = `${i}${path.extname(f)}`;
+    fs.copyFileSync(f, path.join(dir, name));
+    return `run/stills/${name}`;
+  });
+  fs.copyFileSync(job.voiceFile, path.join(dir, "voice.mp3"));
+  let n = 0;
+  const restage = <T extends { src: string }>(s: T): T => ({ ...s, src: staged[n++] });
+  const shots = job.props.shots.map(restage);
+  const pair = job.props.pair ? { before: restage(job.props.pair.before), after: restage(job.props.pair.after) } : null;
+
+  const [ctaLine, ctaAction = ""] = brand.cta.split(/\s+[—–]\s+/);
+  const inputProps: import("../types.js").StillsProps = {
+    ...job.props,
+    shots,
+    pair,
+    voiceSrc: "run/stills/voice.mp3",
+    musicSrc: brandAsset(brand, ["music.mp3"]),
+    logoSrc: brandAsset(brand, ["logo.svg", "logo.png", "logo.webp", "logo.jpg"]),
+    brandName: brand.name,
+    style: brand.style,
+    ctaLine,
+    ctaAction,
+  };
+  const serveUrl = await bundle({ entryPoint: path.join(ROOT, "remotion/index.ts"), publicDir: PUBLIC_DIR });
+  const browserExecutable = env("CHROMIUM_PATH") ?? null;
+  const composition = await selectComposition({ serveUrl, id: "Stills", inputProps, browserExecutable, logLevel: "error" });
+  await renderMedia({
+    serveUrl,
+    composition,
+    inputProps,
+    browserExecutable,
+    logLevel: "error",
+    codec: "h264",
+    crf: 18,
+    pixelFormat: "yuv420p",
+    audioCodec: "aac",
+    outputLocation: job.outFile,
+  });
 }

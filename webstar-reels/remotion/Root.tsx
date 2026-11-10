@@ -1,8 +1,9 @@
 import React from "react";
 import { Composition } from "remotion";
 import webstar from "../brands/webstar.json";
-import type { ReelProps } from "../src/types";
+import type { ReelProps, StillsProps } from "../src/types";
 import { Reel } from "./Reel";
+import { Stills } from "./Stills";
 import { FPS, HEIGHT, WIDTH } from "./timing";
 
 // Placeholder props for `npm run studio`. Run `npm run reel:mock` once so public/run/ has assets,
@@ -29,7 +30,27 @@ const previewProps: ReelProps = {
   ctaAction: "link in bio",
 };
 
+const stillsPreview: StillsProps = {
+  format: "showcase",
+  shots: [],
+  pair: null,
+  material: null,
+  rows: null,
+  voiceSrc: previewProps.voiceSrc,
+  musicSrc: null,
+  logoSrc: null,
+  brandName: "VERRANO",
+  style: webstar.style as ReelProps["style"],
+  totalSeconds: 15,
+  hook: "Same cabinets. Completely different room.",
+  captions: [],
+  words: [],
+  ctaLine: "Get a quote",
+  ctaAction: "verrano.com.au",
+};
+
 export const Root: React.FC = () => (
+  <>
   <Composition
     id="Reel"
     component={Reel}
@@ -42,4 +63,15 @@ export const Root: React.FC = () => (
       durationInFrames: Math.round(props.totalSeconds * FPS),
     })}
   />
+  <Composition
+    id="Stills"
+    component={Stills}
+    width={WIDTH}
+    height={HEIGHT}
+    fps={FPS}
+    durationInFrames={FPS * 15}
+    defaultProps={stillsPreview}
+    calculateMetadata={({ props }) => ({ durationInFrames: Math.round(props.totalSeconds * FPS) })}
+  />
+  </>
 );

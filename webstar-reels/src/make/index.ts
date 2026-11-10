@@ -5,6 +5,7 @@ import { ROOT, brandEnv, type Brand } from "../lib/brand.js";
 import type { Campaign } from "../lib/calendar.js";
 import { env } from "../lib/env.js";
 import { slugify } from "../lib/queue.js";
+import { step } from "../lib/log.js";
 import { auditSite, type AuditReport } from "./audit.js";
 import { buildSite } from "./build.js";
 import { deployPreview } from "./deploy.js";
@@ -52,7 +53,7 @@ export async function makeSite(brand: Brand, brief: string, opts: MakeOptions): 
   const log = (m: string) => console.log(`[${brand.id}] ${m}`);
 
   log("make 1/5 Choosing a direction and writing the site");
-  let result = opts.mock ? mockSpec(brand) : await writeSpec(brand, brief, opts.campaign);
+  let result = opts.mock ? mockSpec(brand) : await step(`site spec "${brief}"`, () => writeSpec(brand, brief, opts.campaign));
   log(`   ${siteName(result.spec)} · ${result.direction.name}`);
 
   const dir = path.join(ROOT, "out", "sites", brand.id, `${new Date().toISOString().slice(0, 10)}-${slugify(siteName(result.spec))}`);
@@ -70,12 +71,13 @@ export async function makeSite(brand: Brand, brief: string, opts: MakeOptions): 
 
   let images = await build();
   log("make 4/5 Auditing");
-  let audit = await auditSite(dir);
+  let audit = await step("audit", () => auditSite(dir));
   if (audit.blocking.length && !opts.mock) {
     log(`   ${audit.blocking.length} blocking issue(s); asking Claude to fix them`);
-    result = await reviseSpec(brand, result, brief, audit.blocking, opts.campaign);
+    const before = result;
+    result = await step("fix audit issues", () => reviseSpec(brand, before, brief, audit.blocking, opts.campaign));
     images = await build();
-    audit = await auditSite(dir);
+    audit = await step("re-audit", () => auditSite(dir));
   }
   if (images.placeholders.length) {
     audit.warnings.push(`Placeholder images (no generated photo): ${images.placeholders.join(", ")}`);
@@ -86,7 +88,7 @@ export async function makeSite(brand: Brand, brief: string, opts: MakeOptions): 
   let previewUrl: string | undefined;
   if (!opts.noDeploy && env("VERCEL_TOKEN")) {
     log("make 5/5 Deploying a Vercel preview");
-    previewUrl = await deployPreview(dir, brandEnv("VERCEL_PROJECT", brand) ?? `${brand.id}-concepts`);
+    previewUrl = await step("Vercel preview", () => deployPreview(dir, brandEnv("VERCEL_PROJECT", brand) ?? `${brand.id}-concepts`));
     log(`   ${previewUrl}`);
   } else {
     log(`make 5/5 No preview deployed (${opts.noDeploy ? "dry run" : "VERCEL_TOKEN not set"}); site is in ${path.relative(ROOT, dir)}`);

@@ -1,4 +1,4 @@
-import { VARIANTS, VARIANT_LABEL, type Batch, type VariantId } from "./types.js";
+import { ALL_VARIANTS, VARIANT_LABEL, type Batch, type VariantId } from "./types.js";
 
 export interface Decision {
   action: "approve" | "reject";
@@ -15,7 +15,7 @@ export function parseDecision(text: string): Decision | null {
   const m = text.match(/^\s*\/(approve|reject)\b([^\n]*)/im);
   if (!m) return null;
   const words = m[2].toLowerCase().split(/[\s,]+/).filter(Boolean).filter((w) => w !== "all");
-  if (words.some((w) => !(VARIANTS as readonly string[]).includes(w))) return null;
+  if (words.some((w) => !(ALL_VARIANTS as readonly string[]).includes(w))) return null;
   return { action: m[1].toLowerCase() as Decision["action"], variants: [...new Set(words)] as VariantId[] };
 }
 

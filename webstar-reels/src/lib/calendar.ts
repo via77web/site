@@ -15,10 +15,8 @@ const CalendarSchema = z.object({
       slots: z.array(time).min(1),
       /** Days of the week to post on (0 = Sunday). Default: every day. */
       days: z.array(z.number().int().min(0).max(6)).default([0, 1, 2, 3, 4, 5, 6]),
-      /** When the queue runs dry, make a new concept site from a campaign or backlog brief. */
-      autoMake: z.boolean().default(false),
-      /** Make new content when the next N days of slots can't be filled from what is approved or awaiting review. */
-      lookaheadDays: z.number().int().min(1).default(4),
+      /** Site brands: when the queue runs dry, the weekly job makes concept sites from campaign or backlog briefs. */
+      autoMake: z.boolean().default(true),
     }),
   ),
   campaigns: z.array(

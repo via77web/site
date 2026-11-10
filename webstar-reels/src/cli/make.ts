@@ -1,13 +1,15 @@
 /**
  * npm run make "<one-line brief>" --brand=webstar|via77
  *
- * Brief -> concept site (direction, copy, images, build, audit, Vercel preview) -> four reels
- * -> approval request. Nothing posts until you approve.
+ * Brief -> concept site (direction, copy, images, build, audit, Vercel preview) -> four reels,
+ * left "ready". Approve them on the review page (npm run review) or let the daily job offer them.
  */
 import { parseArgs } from "node:util";
 import { listBrandIds, loadBrand } from "../lib/brand.js";
 import { activeCampaign, loadCalendar } from "../lib/calendar.js";
 import { requireEnv } from "../lib/env.js";
+import { llmBackend } from "../lib/llm.js";
+import { startLog } from "../lib/log.js";
 import { serveDir } from "../lib/serve.js";
 import { makeSite } from "../make/index.js";
 import { produceBatch } from "../reels.js";
@@ -32,8 +34,9 @@ if (!brief || !brandId) {
   process.exit(2);
 }
 const brand = loadBrand(brandId);
+startLog("make");
 const dryRun = flags["dry-run"] || flags.mock;
-if (!flags.mock) requireEnv(["ANTHROPIC_API_KEY"]);
+if (!flags.mock && llmBackend() === "api") requireEnv(["ANTHROPIC_API_KEY"]);
 if (!flags.mock && !flags["no-reels"]) requireEnv(["ELEVENLABS_API_KEY", `ELEVENLABS_VOICE_ID_${brand.id.toUpperCase()}`]);
 
 const campaign = flags["no-campaign"] ? undefined : activeCampaign(loadCalendar(), brand.id);
@@ -67,3 +70,4 @@ try {
 } finally {
   await server.close();
 }
+console.log("Reels are ready. Approve them now with `npm run review`, or the daily job will offer them when a day needs one.");

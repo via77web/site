@@ -12,11 +12,8 @@ import {
 } from "remotion";
 import type { ReelProps } from "../src/types";
 import { EASE } from "../library/tokens/motion";
-import { bold } from "./bold";
-import { minimal } from "./minimal";
-import { FONT_HEAVY, FONT_SANS, clamp, rgba, type Theme } from "./shared";
-
-const THEMES: Record<ReelProps["style"]["theme"], Theme> = { bold, minimal };
+import { FONT_HEAVY, FONT_SANS, clamp, rgba } from "./shared";
+import { THEMES } from "./themes";
 
 /** The screen recording with a slow push-in and pull-out so the frame never sits still. */
 const Footage: React.FC<{
@@ -51,11 +48,13 @@ const snap = Easing.bezier(...EASE.snap);
  * before-after: the "before" footage plays first; then a wipe line sweeps across and reveals
  * the designed site underneath, both recordings scrolling in step.
  */
-const BeforeAfterLayer: React.FC<{
+export const BeforeAfterLayer: React.FC<{
   beforeSrc: string;
   wipeStart: number;
   style: ReelProps["style"];
-}> = ({ beforeSrc, wipeStart, style }) => {
+  /** Render the "before" layer yourself (e.g. a still photo); defaults to a video. */
+  before?: React.ReactNode;
+}> = ({ beforeSrc, wipeStart, style, before }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const p = interpolate(frame, [wipeStart, wipeStart + fps * 0.9], [0, 1], { ...clamp, easing: snap });
@@ -85,7 +84,7 @@ const BeforeAfterLayer: React.FC<{
     <>
       {/* The before footage covers the after footage, and is cut away from the left by the wipe. */}
       <AbsoluteFill style={{ clipPath: `inset(0 0 0 ${p * 100}%)` }}>
-        <OffthreadVideo src={staticFile(beforeSrc)} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        {before ?? <OffthreadVideo src={staticFile(beforeSrc)} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
       </AbsoluteFill>
       {p > 0 && p < 1 ? (
         <div

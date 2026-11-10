@@ -1,42 +1,31 @@
 /**
- * npm run approve -- <batch-id> all
- * npm run approve -- <batch-id> full detail
- * npm run approve -- <batch-id> reject [variants]
- * npm run approve -- --issue 12          (reads the command from $COMMENT_BODY; used by GitHub Actions)
+ * npm run approve -- <batch-id> all | <variant...> | reject [variant...]
+ * Approving schedules the reel to Buffer at its next calendar slot straight away.
  */
-import { parseArgs } from "node:util";
 import { listBrandIds, loadBrand } from "../lib/brand.js";
 import { findBatch, saveBatch } from "../lib/batches.js";
-import { applyDecision, parseDecision } from "../approve.js";
-import { closeReview } from "../steps/notify.js";
+import { startLog } from "../lib/log.js";
+import { parseDecision } from "../approve.js";
 import { scheduleApproved } from "../schedule.js";
 
-const { values: flags, positionals } = parseArgs({
-  allowPositionals: true,
-  options: { issue: { type: "string" }, "no-schedule": { type: "boolean", default: false } },
-});
-
-const brands = listBrandIds().map(loadBrand);
-const issue = flags.issue ? Number(flags.issue) : undefined;
-const batch = findBatch(brands, issue ? { issue } : { id: positionals[0] });
+startLog("approve");
+const [id, ...words] = process.argv.slice(2);
+const batch = id ? findBatch(listBrandIds().map(loadBrand), { id }) : undefined;
 if (!batch) {
-  console.error(issue ? `No batch is waiting on issue #${issue}.` : `No batch called "${positionals[0]}".`);
-  process.exit(issue ? 0 : 1);
+  console.error(id ? `No batch called "${id}".` : "Usage: npm run approve -- <batch-id> all | <variants...> | reject");
+  process.exit(1);
 }
-
-const words = issue ? (process.env.COMMENT_BODY ?? "") : positionals.slice(1).join(" ");
-const command = issue ? words : `/${/^(reject)\b/i.test(words) ? "" : "approve "}${words}`;
-const decision = parseDecision(command);
+const text = words.join(" ");
+const decision = parseDecision(`/${/^reject\b/i.test(text) ? "" : "approve "}${text}`);
 if (!decision) {
-  console.error(`Could not read a decision from "${words.trim().slice(0, 80)}". Use: all, a list of variants (full, detail, before-after, interaction), or reject.`);
-  process.exit(issue ? 0 : 1);
+  console.error(`Could not read "${text}". Use all, variant names, or reject.`);
+  process.exit(1);
 }
-
-const summary = applyDecision(batch, decision);
+// Works on reels that are ready (not yet offered) or awaiting a decision. Unlike the review
+// issue flow, naming some variants here doesn't reject the others.
+const open = batch.variants.filter((v) => v.status === "ready" || v.status === "awaiting");
+const named = new Set(decision.variants.length ? decision.variants : open.map((v) => v.id));
+for (const v of open) if (named.has(v.id)) v.status = decision.action === "approve" ? "approved" : "rejected";
 saveBatch(batch);
-console.log(`${batch.id}: ${summary}`);
-
-const brand = loadBrand(batch.brand);
-const scheduled = flags["no-schedule"] ? 0 : await scheduleApproved(brand);
-const reply = `${summary}${scheduled ? `\n\nScheduled ${scheduled} reel(s) into the next calendar slots.` : ""}`;
-if (batch.variants.every((v) => v.status !== "awaiting")) await closeReview(batch, reply);
+console.log(`${batch.id}: ${decision.action === "approve" ? "approved" : "rejected"} ${[...named].join(", ")}`);
+await scheduleApproved(loadBrand(batch.brand));

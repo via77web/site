@@ -3,7 +3,8 @@ import { env } from "../lib/env.js";
 import { run } from "../lib/exec.js";
 
 export function githubRepo(): string | undefined {
-  return env("GITHUB_REPOSITORY") && (env("GH_TOKEN") ?? env("GITHUB_TOKEN")) ? env("GITHUB_REPOSITORY") : undefined;
+  // The gh CLI uses its own login (gh auth login), so only the repo name is needed.
+  return env("GITHUB_REPOSITORY");
 }
 
 /**
@@ -11,13 +12,13 @@ export function githubRepo(): string | undefined {
  * is uploaded to a GitHub Release named after its batch (one release, four files). Release
  * files are only publicly downloadable on a public repository.
  *
- * Works in GitHub Actions, or locally with GITHUB_REPOSITORY=owner/repo and GH_TOKEN set.
+ * Needs GITHUB_REPOSITORY=owner/repo and the gh CLI logged in (gh auth login).
  */
 export async function publishVideos(files: string[], tag: string, notes: string): Promise<string[]> {
   const repo = githubRepo();
   if (!repo) {
     throw new Error(
-      "No place to host the videos. Run in GitHub Actions, or set GITHUB_REPOSITORY=owner/repo and GH_TOKEN to upload them to a GitHub Release.",
+      "No place to host the videos. Set GITHUB_REPOSITORY=owner/repo in .env and log in with `gh auth login`; reels are uploaded to a GitHub Release when approved.",
     );
   }
   const exists = await run("gh", ["release", "view", tag, "--repo", repo]).then(() => true, () => false);

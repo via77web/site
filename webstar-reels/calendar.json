@@ -2,14 +2,21 @@
   "timezone": "Australia/Melbourne",
   "brands": {
     "webstar": {
-      "slots": ["12:00", "18:00"],
-      "autoMake": true,
-      "lookaheadDays": 4
+      "slots": [
+        "18:00"
+      ],
+      "autoMake": true
     },
     "via77": {
-      "slots": ["19:00"],
-      "autoMake": true,
-      "lookaheadDays": 4
+      "slots": [
+        "19:00"
+      ],
+      "autoMake": true
+    },
+    "verrano": {
+      "slots": [
+        "12:00"
+      ]
     }
   },
   "campaigns": [
@@ -19,7 +26,10 @@
       "from": "06-01",
       "to": "06-30",
       "angle": "Australian businesses review spending and plan the new financial year. Frame a new site or store as an investment made before 30 June, without tax or financial advice.",
-      "hashtags": ["eofy", "smallbusinessaustralia"],
+      "hashtags": [
+        "eofy",
+        "smallbusinessaustralia"
+      ],
       "hooks": {
         "webstar": [
           "EOFY is the moment to fix your website",
@@ -51,7 +61,10 @@
       "from": "11-16",
       "to": "11-30",
       "angle": "Shoppers are primed to buy. Show sites and stores built to convert in the busiest week of the year: fast, clear, ready for traffic.",
-      "hashtags": ["blackfriday", "cybermonday"],
+      "hashtags": [
+        "blackfriday",
+        "cybermonday"
+      ],
       "hooks": {
         "webstar": [
           "Is your website ready for Black Friday?",
@@ -83,7 +96,10 @@
       "from": "12-01",
       "to": "12-24",
       "angle": "Gifting season. Show sites and stores that make choosing and buying a gift easy, with warmth and without cliché.",
-      "hashtags": ["christmasgifts", "shoplocal"],
+      "hashtags": [
+        "christmasgifts",
+        "shoplocal"
+      ],
       "hooks": {
         "webstar": [
           "This site makes gift shopping easy",
@@ -115,7 +131,10 @@
       "from": "12-26",
       "to": "01-15",
       "angle": "Fresh starts and resolutions. Businesses plan the year ahead; a new site is the first thing to get right.",
-      "hashtags": ["newyear", "freshstart"],
+      "hashtags": [
+        "newyear",
+        "freshstart"
+      ],
       "hooks": {
         "webstar": [
           "New year, new website. Here's what that looks like",

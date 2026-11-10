@@ -1,10 +1,8 @@
-import Anthropic from "@anthropic-ai/sdk";
-import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { directionsFor, loadAntiPatterns, type Direction } from "../../library/index.js";
 import { OnePageSpecSchema, StoreSpecSchema, specProblems, type OnePageSpec, type StoreSpec } from "../../library/spec.js";
 import type { Brand } from "../lib/brand.js";
 import type { Campaign } from "../lib/calendar.js";
-import { env } from "../lib/env.js";
+import { generate } from "../lib/llm.js";
 
 export type Layout = "onepage" | "store";
 export type AnySpec = OnePageSpec | StoreSpec;
@@ -72,46 +70,25 @@ async function ask(
   layout: Layout,
   directions: Direction[],
   campaign: Campaign | undefined,
-  messages: Anthropic.Beta.BetaMessageParam[],
+  prompt: string,
 ): Promise<SpecResult> {
-  const client = new Anthropic();
-  const model = env("CLAUDE_MODEL") ?? "claude-opus-5-5";
   const schema = layout === "store" ? StoreSpecSchema : OnePageSpecSchema;
-  let issues: string[] = [];
-
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    const stream = client.beta.messages.stream({
-      model,
-      max_tokens: 64000,
-      system: systemPrompt(brand, layout, directions, campaign),
-      messages,
-      output_config: { effort: "high", format: betaZodOutputFormat(schema) },
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
-    });
-    const response = await stream.finalMessage();
-    if (response.stop_reason === "refusal") {
-      throw new Error(`Claude declined to write the site: ${response.stop_details?.explanation ?? "no reason given"}`);
-    }
-    const spec = response.parsed_output as AnySpec | null;
-    if (!spec) throw new Error(`Claude returned no parseable site spec (stop_reason: ${response.stop_reason})`);
-    issues = problems(spec, layout, directions);
-    if (!issues.length) {
-      return { spec, direction: directions.find((d) => d.id === spec.directionId)!, layout };
-    }
-    messages.push(
-      { role: "assistant", content: response.content },
-      { role: "user", content: `${issues.join("\n")}\nFix these and return the complete spec again.` },
-    );
-  }
-  throw new Error(`Claude could not produce a valid site spec after 3 tries: ${issues.join(" ")}`);
+  const spec = (await generate({
+    label: `site spec (${brand.id})`,
+    schema: schema as typeof OnePageSpecSchema,
+    system: systemPrompt(brand, layout, directions, campaign),
+    prompt,
+    effort: "high",
+    check: (s) => problems(s, layout, directions),
+  })) as AnySpec;
+  return { spec, direction: directions.find((d) => d.id === spec.directionId)!, layout };
 }
 
 /** Pick a direction and write the whole site from a one-line brief. */
 export async function writeSpec(brand: Brand, brief: string, campaign: Campaign | undefined): Promise<SpecResult> {
   const layout = layoutFor(brand);
   const directions = directionsFor(brand.id);
-  return ask(brand, layout, directions, campaign, [{ role: "user", content: `Brief: ${brief}` }]);
+  return ask(brand, layout, directions, campaign, `Brief: ${brief}`);
 }
 
 /** Fix a spec after the audit. Image ids are kept so existing images are reused. */
@@ -123,10 +100,12 @@ export async function reviseSpec(
   campaign: Campaign | undefined,
 ): Promise<SpecResult> {
   const directions = directionsFor(brand.id).filter((d) => d.id === previous.direction.id);
-  return ask(brand, previous.layout, directions, campaign, [
-    {
-      role: "user",
-      content: `Brief: ${brief}
+  return ask(
+    brand,
+    previous.layout,
+    directions,
+    campaign,
+    `Brief: ${brief}
 
 Here is the site you wrote:
 ${JSON.stringify(previous.spec)}
@@ -135,6 +114,5 @@ The design and accessibility audit of the built page found these problems:
 ${issues.map((i) => `- ${i}`).join("\n")}
 
 Return the complete spec with these fixed. Keep the same direction, business and image ids; change only what the problems need.`,
-    },
-  ]);
+  );
 }

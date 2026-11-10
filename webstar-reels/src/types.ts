@@ -19,13 +19,25 @@ export interface Site {
 
 /** The four reels made from every site. */
 export const VARIANTS = ["full", "detail", "before-after", "interaction"] as const;
-export type VariantId = (typeof VARIANTS)[number];
+export type SiteVariant = (typeof VARIANTS)[number];
+
+/** Reel formats for brands whose content is a photo library (Verrano), not websites. */
+export const STILL_FORMATS = ["transformation", "showcase", "finish", "explainer", "site-scroll"] as const;
+export type StillFormat = (typeof STILL_FORMATS)[number];
+
+export type VariantId = SiteVariant | StillFormat;
+export const ALL_VARIANTS: readonly VariantId[] = [...VARIANTS, ...STILL_FORMATS];
 
 export const VARIANT_LABEL: Record<VariantId, string> = {
   full: "Full scroll",
   detail: "Detail zooms",
   "before-after": "Before / after",
   interaction: "Interaction demo",
+  transformation: "Transformation",
+  showcase: "Project showcase",
+  finish: "Finish spotlight",
+  explainer: "Wrap vs replace",
+  "site-scroll": "Site scroll",
 };
 
 export interface VariantScript {
@@ -51,12 +63,13 @@ export interface PageInfo {
 }
 
 /**
- * awaiting: rendered, waiting for your decision.
+ * ready: rendered and waiting for its day (the weekly job plans one per brand per day).
+ * awaiting: proposed for today, waiting for your decision.
  * approved: will be scheduled into the next free calendar slot.
  * scheduled: sent to Buffer for `scheduledFor`.
  * rejected: will never post.
  */
-export type VariantStatus = "awaiting" | "approved" | "rejected" | "scheduled";
+export type VariantStatus = "ready" | "awaiting" | "approved" | "rejected" | "scheduled";
 
 export interface BatchVariant {
   id: VariantId;
@@ -70,6 +83,12 @@ export interface BatchVariant {
   /** Public URL of the MP4. Buffer downloads from here. */
   videoUrl?: string;
   scheduledFor?: string;
+  /** Local date (YYYY-MM-DD) the weekly plan gives this reel. */
+  plannedFor?: string;
+  /** Local date it was put up for approval. */
+  proposedOn?: string;
+  /** Library images used (photo-library brands), so later reels can avoid repeating them. */
+  assets?: string[];
   /** Buffer post id per channel id. Lets a retry skip channels that already succeeded. */
   posts?: Record<string, string>;
   error?: string;
@@ -80,7 +99,7 @@ export interface Batch {
   id: string;
   brand: string;
   createdAt: string;
-  source: "queue" | "make";
+  source: "queue" | "make" | "library";
   site: {
     name: string;
     url: string;
@@ -118,4 +137,39 @@ export type ReelProps = {
   ctaAction: string;
   /** Show a small "Concept" tag on screen. */
   concept: boolean;
+};
+
+/** A still photo (or an animated clip of one) in a library reel. Paths are relative to public/. */
+export interface Shot {
+  src: string;
+  width: number;
+  height: number;
+  motion: "pan-left" | "pan-right" | "zoom-in" | "zoom-out";
+  /** Where to aim, as fractions of the image (0-1). */
+  focusX?: number;
+  focusY?: number;
+  /** Small on-screen label, e.g. the space or finish. */
+  label?: string;
+  /** True when src is an animated clip rather than a photo. */
+  video?: boolean;
+}
+
+/** Input props of the Remotion "Stills" composition (photo-library reels). */
+export type StillsProps = {
+  format: Exclude<StillFormat, "site-scroll">;
+  shots: Shot[];
+  pair: { before: Shot; after: Shot } | null;
+  material: { name: string; note: string } | null;
+  rows: { label: string; wrap: string; replace: string }[] | null;
+  voiceSrc: string;
+  musicSrc: string | null;
+  logoSrc: string | null;
+  brandName: string;
+  style: BrandStyle;
+  totalSeconds: number;
+  hook: string;
+  captions: string[];
+  words: WordTiming[];
+  ctaLine: string;
+  ctaAction: string;
 };

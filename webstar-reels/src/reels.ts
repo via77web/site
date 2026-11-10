@@ -6,13 +6,12 @@ import { ROOT, type Brand } from "./lib/brand.js";
 import { loadBatches, saveBatch } from "./lib/batches.js";
 import { loadCalendar, localDate, type Campaign } from "./lib/calendar.js";
 import { nextHooks, slugify } from "./lib/queue.js";
-import { requestApproval } from "./steps/notify.js";
-import { githubRepo, publishVideos } from "./steps/publish.js";
+import { step } from "./lib/log.js";
 import { beforeFile, openSite, type ClipOptions } from "./steps/record.js";
 import { renderVariants, type RenderJob } from "./steps/render.js";
 import { mockScripts, writeScripts } from "./steps/script.js";
 import { mockVoice, synthesizeVoice } from "./steps/voice.js";
-import { VARIANT_LABEL, type Batch, type VariantId, type VariantScript, type WordTiming } from "./types.js";
+import { VARIANT_LABEL, type Batch, type SiteVariant, type VariantScript, type WordTiming } from "./types.js";
 
 export interface BatchInput {
   /** Where the recorder loads the site from (may be a local server for generated sites). */
@@ -30,7 +29,7 @@ export interface BatchInput {
 }
 
 export interface BatchOptions {
-  /** Render everything, but save nothing, upload nothing and ask for nothing. */
+  /** Render everything, but save nothing. */
   dryRun: boolean;
   /** Canned scripts and a silent voice: no API calls. */
   mock: boolean;
@@ -55,7 +54,8 @@ function batchId(brand: Brand, name: string): string {
 
 /**
  * One site in, four reels out (full, detail, before-after, interaction), from a single
- * recording session. Saved as a batch awaiting approval; nothing is scheduled here.
+ * recording session. Saved as a batch of "ready" reels; the daily job puts each up for
+ * approval on its day. Nothing is uploaded or scheduled here.
  */
 export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchOptions): Promise<Batch> {
   const log = (m: string) => console.log(`[${brand.id}] ${m}`);
@@ -68,7 +68,7 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
 
   log(`Reels for ${input.name} (${input.publicUrl ?? input.url})${opts.dryRun ? " [dry run]" : ""}${opts.mock ? " [mock]" : ""}`);
   log("reels 1/5 Opening site and planning shots");
-  const session = await openSite(input.url, input.beforeUrl);
+  const session = await step(`open ${input.name}`, () => openSite(input.url, input.beforeUrl));
   const variants = session.variants;
   if (!variants.includes("interaction")) log("   nothing tappable found, so no interaction reel");
 
@@ -81,26 +81,30 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
     const site = { name: input.name, niche: input.niche, url: input.publicUrl ?? input.url, concept: input.concept, brief: input.brief };
     scripts = opts.mock
       ? mockScripts(brand, site, variants, hooks)
-      : await writeScripts(brand, site, variants, hooks, session.pageInfo, session.plan, opts.campaign);
+      : await step(`scripts for ${input.name}`, () =>
+          writeScripts(brand, site, variants, hooks, session.pageInfo, session.plan, opts.campaign),
+        );
     fs.writeFileSync(file("scripts.json"), JSON.stringify(scripts, null, 2));
 
     log("reels 3/5 Voiceovers");
     for (const s of scripts) {
       const out = file(`${s.variant}-voice.mp3`);
-      voices[s.variant] = opts.mock ? await mockVoice(s.voiceover, out, brand) : await synthesizeVoice(s.voiceover, out, brand);
+      voices[s.variant] = opts.mock
+        ? await mockVoice(s.voiceover, out, brand)
+        : await step(`voice ${s.variant}`, () => synthesizeVoice(s.voiceover, out, brand));
       totals[s.variant] = reelSeconds(voices[s.variant].duration, scroll.seconds, style.endCardSeconds);
     }
 
     // Record last, each at its reel's exact length, so footage fits the voice with no speed change.
     log("reels 4/5 Recording");
-    const clip = (v: VariantId): ClipOptions => ({
+    const clip = (v: SiteVariant): ClipOptions => ({
       file: file(`${v}-recording.mp4`),
       duration: totals[v],
       heroHold: Math.max(scroll.heroHold, style.hookSeconds),
       sectionHold: scroll.sectionHold,
       footerHold: style.endCardSeconds,
     });
-    await session.record(Object.fromEntries(variants.map((v) => [v, clip(v)])));
+    await step(`record ${input.name}`, () => session.record(Object.fromEntries(variants.map((v) => [v, clip(v)]))));
   } finally {
     await session.close();
   }
@@ -121,7 +125,7 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
       outFile: file(`${id}-${s.variant}.mp4`),
     };
   });
-  await renderVariants(brand, jobs, input.concept);
+  await step(`render ${input.name}`, () => renderVariants(brand, jobs, input.concept));
 
   const batch: Batch = {
     id,
@@ -141,7 +145,7 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
     audit: input.audit,
     variants: scripts.map((s, i) => ({
       id: s.variant,
-      status: "awaiting",
+      status: "ready",
       script: s,
       postText: postText(s, input.concept, opts.campaign),
       seconds: totals[s.variant],
@@ -156,14 +160,7 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
     return batch;
   }
 
-  if (githubRepo()) {
-    log("   uploading reels for review");
-    const urls = await publishVideos(jobs.map((j) => j.outFile), id, `Reels for ${input.name}, awaiting approval.`);
-    batch.variants.forEach((v, i) => (v.videoUrl = urls[i]));
-  }
   saveBatch(batch);
-  batch.issue = await requestApproval(batch);
-  saveBatch(batch);
-  log(`Waiting for approval: batch ${id}${batch.issue ? `, issue #${batch.issue}` : ""}`);
+  log(`${batch.variants.length} reels ready: batch ${id}`);
   return batch;
 }

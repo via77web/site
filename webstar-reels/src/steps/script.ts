@@ -1,11 +1,9 @@
-import Anthropic from "@anthropic-ai/sdk";
-import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
 import type { Brand } from "../lib/brand.js";
 import type { Campaign } from "../lib/calendar.js";
-import { env } from "../lib/env.js";
+import { generate } from "../lib/llm.js";
 import type { SitePlan } from "./record.js";
-import { VARIANTS, type PageInfo, type VariantId, type VariantScript } from "../types.js";
+import { VARIANTS, type PageInfo, type SiteVariant, type VariantId, type VariantScript } from "../types.js";
 
 export interface ScriptSite {
   name: string;
@@ -28,7 +26,7 @@ const ScriptSchema = z.object({
 const ScriptsSchema = z.object({ scripts: z.array(ScriptSchema) });
 
 /** What each reel shows, so its script talks about the footage on screen. */
-function footage(variant: VariantId, plan: SitePlan): string {
+function footage(variant: SiteVariant, plan: SitePlan): string {
   switch (variant) {
     case "full":
       return "A complete scroll of the site on a phone, from the hero to the footer, pausing on key sections.";
@@ -112,15 +110,12 @@ export function scriptProblems(script: Omit<VariantScript, "variant"> & { varian
 export async function writeScripts(
   brand: Brand,
   site: ScriptSite,
-  variants: VariantId[],
+  variants: SiteVariant[],
   hooks: string[],
   pageInfo: PageInfo,
   plan: SitePlan,
   campaign: Campaign | undefined,
 ): Promise<VariantScript[]> {
-  const client = new Anthropic();
-  const model = env("CLAUDE_MODEL") ?? "claude-opus-5-5";
-
   const brief = `Write ${variants.length} reel scripts for this site, one per variant below.
 
 Site name: ${site.name}
@@ -137,48 +132,25 @@ Description: ${pageInfo.description}
 Headings: ${pageInfo.headings.join(" | ")}
 </page>`;
 
-  const messages: Anthropic.Beta.BetaMessageParam[] = [{ role: "user", content: brief }];
-  let problems: string[] = [];
-
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    const stream = client.beta.messages.stream({
-      model,
-      max_tokens: 32000,
-      system: systemPrompt(brand, site, campaign),
-      messages,
-      output_config: { format: betaZodOutputFormat(ScriptsSchema) },
-      // If the model declines the request, the API retries it on a fallback model in the same call.
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
-    });
-    const response = await stream.finalMessage();
-
-    if (response.stop_reason === "refusal") {
-      throw new Error(`Claude declined to write the scripts: ${response.stop_details?.explanation ?? "no reason given"}`);
-    }
-    const parsed = response.parsed_output;
-    if (!parsed) throw new Error(`Claude returned no parseable scripts (stop_reason: ${response.stop_reason})`);
-
-    const scripts = variants.map((v) => parsed.scripts.find((s) => s.variant === v));
-    problems = variants.filter((_, i) => !scripts[i]).map((v) => `The script for variant "${v}" is missing.`);
-    const cleaned = scripts.filter(Boolean).map((s) => ({
-      ...s!,
-      hashtags: s!.hashtags.map((h) => h.replace(/^#+/, "").replace(/\s+/g, "")).filter(Boolean),
-    }));
-    problems.push(...cleaned.flatMap((s) => scriptProblems(s, brand)));
-    if (!problems.length) return cleaned;
-
-    messages.push(
-      { role: "assistant", content: response.content },
-      { role: "user", content: `${problems.join("\n")}\nFix these and return all ${variants.length} scripts again.` },
-    );
-  }
-  throw new Error(`Claude could not produce usable scripts after 3 tries: ${problems.join(" ")}`);
+  const clean = (list: z.infer<typeof ScriptSchema>[]) =>
+    list.map((s) => ({ ...s, hashtags: s.hashtags.map((h) => h.replace(/^#+/, "").replace(/\s+/g, "")).filter(Boolean) }));
+  const result = await generate({
+    label: `scripts for ${site.name}`,
+    schema: ScriptsSchema,
+    system: systemPrompt(brand, site, campaign),
+    prompt: brief,
+    effort: "medium",
+    check: (r) => {
+      const missing = variants.filter((v) => !r.scripts.some((s) => s.variant === v)).map((v) => `The script for variant "${v}" is missing.`);
+      return [...missing, ...clean(r.scripts).flatMap((s) => scriptProblems(s, brand))];
+    },
+  });
+  return variants.map((v) => clean(result.scripts).find((s) => s.variant === v)!) as VariantScript[];
 }
 
 /** Canned scripts for --mock runs: no API call, no cost. */
 export function mockScripts(brand: Brand, site: ScriptSite, variants: VariantId[], hooks: string[]): VariantScript[] {
-  const bodies: Record<VariantId, string> = {
+  const bodies: Partial<Record<VariantId, string>> = {
     full: "Every section earns its place, top to bottom.",
     detail: "Look closer. The detail is where trust is built.",
     "before-after": "Same words. Now watch what design does to them.",
@@ -190,7 +162,7 @@ export function mockScripts(brand: Brand, site: ScriptSite, variants: VariantId[
     return {
       variant,
       hook,
-      voiceover: `${opener} ${bodies[variant]} ${brand.spokenCta}`,
+      voiceover: `${opener} ${bodies[variant] ?? "Watch it come together, start to finish."} ${brand.spokenCta}`,
       captions: [],
       postCaption: `${site.name}: ${site.niche.split(",")[0]}, by ${brand.name}.`,
       hashtags: brand.hashtags,

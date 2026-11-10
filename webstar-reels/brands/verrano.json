@@ -1,0 +1,30 @@
+{
+  "id": "verrano",
+  "name": "VERRANO",
+  "content": "library",
+  "website": "https://verrano.com.au/",
+  "about": "Verrano is an Australian surface-wrapping company. It refinishes existing cabinets, joinery, doors, tea rooms, meeting rooms and other commercial and residential surfaces with architectural films such as Cover Styl' and 3M, instead of ripping them out and replacing them. Each reel shows Verrano's own project photos or website.",
+  "audience": "Office managers, facility and property managers, builders, shopfitters, designers and homeowners deciding whether to wrap or replace tired surfaces.",
+  "tone": "practical, satisfying, trade-proud",
+  "rules": [
+    "Plain, confident trade language. Show the craft and the result; let the before and after do the selling.",
+    "Use only facts found in Verrano's own website copy, given with each request. Never invent prices, timeframes, warranties, percentages, project names or client names.",
+    "Name finishes and materials exactly as Verrano does (for example Cover Styl' and 3M). Don't claim a photo shows a specific finish unless the library says so.",
+    "Australian English. No hype words, no exclamation marks, no emoji."
+  ],
+  "allowPrices": false,
+  "cta": "Get a quote — verrano.com.au",
+  "spokenCta": "Get a quote at verrano dot com dot au.",
+  "captionSpokenCta": false,
+  "hashtags": ["verrano", "surfacewrapping", "architecturalfilm", "officefitout", "cabinetwrap"],
+  "voice": { "maxWords": 32, "stability": 0.55, "similarityBoost": 0.8, "style": 0.2, "speed": 1 },
+  "scroll": { "seconds": 14, "heroHold": 1.8, "sectionHold": 0.7 },
+  "style": {
+    "theme": "bold",
+    "hookSeconds": 1.8,
+    "endCardSeconds": 2.6,
+    "zoom": 0.035,
+    "musicVolume": 0.11,
+    "colors": { "background": "#15171A", "text": "#F4F2EE", "accent": "#E8793A", "scrim": "#0E0F11" }
+  }
+}

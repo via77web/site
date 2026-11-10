@@ -1,5 +1,7 @@
+*.log
+.env
+.mac-env
+logs/
 node_modules/
 out/
 public/run/
-.env
-*.log

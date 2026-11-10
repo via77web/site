@@ -1,96 +1,99 @@
 # webstar-reels
 
-A content engine for WEBSTAR and VIA77: **prompt → site → reels → approval → post**.
+A content engine for **WEBSTAR**, **VIA77** and **VERRANO** that runs on your Mac.
 
-- Give it a one-line brief and it designs and builds a concept site (or a demo store for VIA77) on your design system, generates its imagery, audits it, and deploys a Vercel preview.
-- Every site, generated or from a queue, becomes **four reels** from one recording session: a full scroll, detail zooms, a before/after wipe and an interaction demo. Each reel has its own hook, voiceover and caption.
-- You get a review issue (and optionally an email) with the preview link and all four reels. **Nothing posts until you approve.**
-- Approved reels go into each brand's calendar slots across Instagram Reels, TikTok and YouTube Shorts, never the same site twice in a day.
-- Seasonal campaigns (EOFY, Black Friday, Christmas, New Year) switch in their own hooks and briefs on their dates.
+- **Sunday 6am**: makes the coming week. WEBSTAR and VIA77 get a concept site a day (designed, written, imaged, built, audited, previewed), each recorded from four angles. VERRANO gets a reel a day from its own project photos and website.
+- **Every day 6am**: picks today's reel for each brand, notifies you, and waits on a local approval page. Each reel you approve is scheduled to Instagram Reels, TikTok and YouTube Shorts at the brand's calendar slot. **Nothing posts without a yes.**
+- **Claude runs on your subscription.** Scripts, captions, site copy and briefs are written by Claude Code in headless mode (`claude -p`), not the API.
+- Every run is logged to `logs/`, failed steps are retried once, and errors notify you.
 
-## How it fits together
+## The week
 
-```
-brief ──► make: direction + copy (Claude) ─► images (Nano Banana 2) ─► build (library/) ─► audit ─► Vercel preview
-                                                                                                        │
-sites.json queue ───────────────────────────────────────────────────────────────────────────────────────┤
-                                                                                                        ▼
-                         reels: one recording session ─► 4 scripts (Claude) ─► 4 voiceovers (ElevenLabs) ─► 4 edits (Remotion)
-                                                                                                        │
-                                                    review issue + email ◄──────────────────────────────┘
-                                                            │  /approve all · /approve full detail · /reject
-                                                            ▼
-                                       calendar slots ─► Buffer ─► Instagram Reels · TikTok · YouTube Shorts
-```
-
-## The four reels
-
-| Variant | Footage | Script angle |
+| When | Job | What happens |
 | --- | --- | --- |
-| `full` | Hero to footer, pausing on key sections | The whole site |
-| `detail` | Slow push-in zooms on two or three spots: the headline, a product, a motion moment | Craft and detail |
-| `before-after` | The page with its design switched off, then a wipe reveals the real design; both scroll in step | What design does. If a site in `sites.json` has a `beforeUrl`, its real earlier version is used instead. The script is told never to call the unstyled page someone's "old website". |
-| `interaction` | A visible finger taps through add-to-bag, filters, tabs, FAQs and drawers, and the site responds | How it feels to use. Skipped if the page has nothing tappable. |
+| Sunday 6:00 | `weekly` | For each of the next 7 days that has no reel yet: WEBSTAR and VIA77 make a site (the queue in `brands/<id>/sites.json` first, then the running campaign's briefs, then the brief backlog, topped up by Claude when it runs dry), record all four angles and pre-render them. One angle is planned for that day and the other three are kept as spares. VERRANO renders one reel per day, cycling through its five formats. |
+| Daily 6:00 | `daily` | Schedules anything approved earlier. Puts today's planned reels up for approval (one per brand per calendar slot, falling back to a spare if a day is missing), sends a notification, and serves the approval page at `http://localhost:4777`. Waits until 30 minutes before the day's first slot. Undecided reels don't post; they go back into the pool. |
 
-Concept sites carry a "Concept" tag on screen, and every post caption starts with "Concept ·" (enforced in code, not left to the script).
+The Mac wakes at 5:55 every day (`pmset`), and each job keeps it awake while it runs (`caffeinate`). If the Mac was asleep at 6:00, launchd runs the job as soon as it wakes. If it was switched off, that run is missed; `pmset` powers on desktop Macs, and you can always run `./scripts/run-job.sh daily` by hand.
 
-## Commands
+### Posting slots
 
-| Command | What it does |
+`calendar.json`, Melbourne time:
+
+| Brand | Slot |
 | --- | --- |
-| `npm run make "<brief>" --brand=webstar` | Brief → site → preview → four reels → review request |
-| `npm run make "<brief>" --brand=via77 -- --dry-run` | Build, audit and render, but don't deploy, save or send |
-| `npm run make "<brief>" --brand=via77 -- --mock` | Same with the example spec, placeholder images, canned scripts and a silent voice: no API keys, no cost |
-| `npm run make "<brief>" --brand=webstar -- --no-reels` | Stop after the site (preview and audit only) |
-| `npm run daily` | What the daily Action runs: schedule approved reels, then make the next batch if the calendar needs it |
-| `npm run approve -- <batch-id> all` | Approve every reel in a batch. Or name variants (`full detail`), or `reject` |
-| `npm run schedule` | Put approved reels into their slots now |
-| `npm run reel:mock` | Mock reels for each brand's next queued site |
-| `npm test` | Unit tests: calendar, campaigns, slotting rules, approval parsing, contrast of every direction |
-| `npm run buffer:channels` | List your Buffer channel IDs |
-| `npm run studio` | Remotion editor for the reel design (run a mock first) |
+| VERRANO | 12:00 |
+| WEBSTAR | 18:00 |
+| VIA77 | 19:00 |
 
-`--brand=via77` works as written: npm keeps that flag for itself, so `make` reads it back from npm.
+Add more times to a brand's `slots` to post more than once a day; the daily job then offers that many reels. A site never posts twice in a day. Seasonal campaigns (EOFY, Black Friday, Christmas, New Year) switch in their own hooks, briefs and hashtags on their dates.
 
-## Approval
+## Approving
 
-When a batch is ready, a GitHub issue labelled `reel-review` opens with the preview link, the audit result, each reel's video link, hook, caption and YouTube title. GitHub notifies you about new issues in your repo; set `RESEND_API_KEY` and `NOTIFY_EMAIL` to also get an email.
+The notification opens the approval page (with `terminal-notifier` installed; otherwise open `http://localhost:4777` yourself). For each reel you can watch it, read the hook, caption and YouTube title, open the site preview, and:
 
-Reply on the issue:
+- **Approve**: uploaded and scheduled to Buffer at the brand's next slot, straight away.
+- **Swap for another**: reject this one and offer a spare reel instead.
+- **Reject**: it never posts.
 
-| Comment | Result |
+Other ways in:
+
+- `npm run review`: open the page any time, e.g. for reels you made with `npm run make`, which appear under "Other ready reels".
+- `npm run approve -- <batch-id> all` (or name variants, or `reject`).
+- Email and phone copies of the notification: set `RESEND_API_KEY` + `NOTIFY_EMAIL`, or `NTFY_TOPIC` with the [ntfy](https://ntfy.sh) app. The approval page itself only opens on the Mac.
+
+## Reels
+
+### WEBSTAR and VIA77: four angles per site
+
+| Angle | Footage |
 | --- | --- |
-| `/approve all` | All four approved |
-| `/approve full detail` | Those approved, the rest rejected |
-| `/reject` | All rejected |
-| `/reject before-after` | That one rejected, the rest still waiting |
+| `full` | Hero to footer, pausing on key sections |
+| `detail` | Slow push-ins on the headline, a product and a motion moment |
+| `before-after` | The page with its design switched off, then a wipe reveals the real design (or a real earlier version, if the queue entry has `beforeUrl`) |
+| `interaction` | A finger taps through add-to-bag, filters, tabs and FAQs |
 
-The Approve workflow records your decision, schedules approved reels into the next free slots, replies on the issue and closes it. Only people with a role on the repo (owner, member, collaborator) can approve. Without GitHub, use `npm run approve`.
+Concept sites carry an on-screen "Concept" tag, and every caption starts "Concept ·".
 
-## Calendar and campaigns
+### VERRANO: five formats from its own photos and website
 
-`calendar.json` holds the posting slots and campaigns:
+| Format | Footage |
+| --- | --- |
+| `transformation` | A before photo, then a wipe to the after. Used where the library has a before/after pair; otherwise it becomes a showcase. |
+| `showcase` | Slow pans and zooms across 3–4 photos of one space (cabinets, tea rooms, meeting rooms), each labelled |
+| `finish` | Deep zooms into photos of one material, with its name on a swatch-style card (e.g. Cover Styl', 3M DI-NOC) |
+| `explainer` | "Wrap vs replace": an animated comparison of cost, time, downtime and waste over a dimmed project photo |
+| `site-scroll` | A phone recording of a verrano.com.au page, a different page each time |
 
-- **Slots**: WEBSTAR at 12pm and 6pm, VIA77 at 7pm, Melbourne time, every day (`days` can limit it).
-- **Spacing**: a site gets at most one post a day across its four reels, and where another site is available the same site is never posted twice in a row. A slot stays empty rather than break the one-a-day rule.
-- **Making more**: each day, if the next `lookaheadDays` of slots can't be filled from what's approved or awaiting review (reviews older than three days stop counting), the daily run makes one new batch for that brand: the next `pending` site in `brands/<id>/sites.json`, else (with `autoMake`) an unused brief from the running campaign, else the next one in `brands/<id>/briefs.json`.
-- **Campaigns**: each has a date range (`from`/`to` as MM-DD; New Year wraps past 1 January), an angle given to Claude for sites and scripts, hashtags added to every caption, and hooks and briefs per brand. While a campaign runs, its hooks are used before the brand's own. Included: EOFY (June), Black Friday (16–30 Nov), Christmas (1–24 Dec), New Year (26 Dec–15 Jan).
+Photos used recently are avoided, so the feed doesn't repeat. Verrano scripts may only state facts found in the crawled site copy: any figure that doesn't appear there is sent back to Claude to remove. So the explainer stays qualitative ("Lower", "Faster") unless Verrano's site states a number.
 
-## Generated sites
+**Animated stills (optional):** set `ANIMATE_STILL_CMD` to your fal/Wan script, e.g. `python3 ~/scripts/wan.py --image {input} --out {output} --prompt {prompt}`. Showcase photos are then turned into short clips first, falling back to the still if a clip fails.
 
-`make` and the daily auto-make use the design library in [`library/`](library/README.md):
+## Verrano's library
 
-1. **Direction and copy**: Claude picks one of the brand's design directions and writes the whole site as a typed spec: business name, copy, products and prices for stores, and a photography brief for each image. Banned phrases and invented reviews, stats or real brand names are refused; the spec is checked and sent back if it breaks a rule.
-2. **Images**: each image prompt follows your Nano Banana brand photographer structure (subject, scene, lighting, then the direction's style) and is generated with Nano Banana 2 (`gemini-3.1-flash-image`) through the Gemini API. Without `GEMINI_API_KEY`, or if an image fails, a placeholder in the direction's colours is used and the review lists it.
-3. **Build**: WEBSTAR gets a one-page site (`library/layouts/onepage.ts`); VIA77 gets a demo store on the store-kit engine (`library/layouts/store.ts`). Both use only the motion-system tokens and say clearly that they are concepts.
-4. **Audit**: axe-core accessibility checks at phone and desktop size, controls cut off at the screen edge, sideways scroll, missing alt text, the concept label, banned phrases, console errors and easings outside the motion system. If anything blocks, Claude gets one round to fix the spec; anything still failing is flagged at the top of the review.
-5. **Preview**: deployed to Vercel as a preview in a per-brand project (`<brand>-concepts`). Reels are recorded from the local build, so Vercel's preview protection doesn't get in the way. Logged into Vercel, you can open the preview; to share it more widely, change the project's Deployment Protection.
+```bash
+npm run library:crawl -- --brand verrano    # crawl verrano.com.au into brands/verrano/library
+npm run library:tag -- --brand verrano      # optional: Claude looks at every photo
+```
 
-## Setup
+The crawl reads the sitemap and follows links (up to 80 pages). For every page it saves the title, headings and copy. For every image it saves the largest version (full-size originals instead of WordPress thumbnails, lightbox links, `srcset`, background images) with its alt text, caption, nearest heading and page. It then works out:
+
+- **Spaces** (cabinets, tea room, meeting room, reception, doors, lifts, bathroom, desks, retail, walls) from the words around each image.
+- **Materials and finishes**: Cover Styl', 3M / DI-NOC and other film brands mentioned, plus named finishes on finish or range pages.
+- **Before/after pairs**: a "before" and an "after" in the same slider or figure.
+- **Services copy and facts**: sentences with figures or comparisons. These are the only facts reels may state.
+- **Logo**: saved to `public/brands/verrano/` for the end card.
+- **Brand colours** found on buttons, for checking `brands/verrano.json`.
+
+Duplicate images are dropped. **Images under 900px on the short side or 1200px on the long side are skipped and logged** (in `logs/` and in `library.json` under `skipped`); change the thresholds with `--min-short` / `--min-long`.
+
+The tag step has Claude Code open each photo with its Read tool (on your subscription) and add a description, spaces, a before/after role and a quality grade. Photos graded "poor" are never used. It's worth running once: the crawler can only guess from surrounding text.
+
+Everything is in `brands/verrano/library/library.json`. Edit it by hand to fix a pair, a material name or a space, and future reels pick it up.
+
+## Setup on the Mac
 
 ### 1. Put this in its own repository
-
-GitHub only runs workflows from `.github/workflows/` at the root of a repository, so this folder needs to be its own repo:
 
 ```bash
 cp -r webstar-reels ~/webstar-reels && cd ~/webstar-reels
@@ -98,67 +101,93 @@ git init && git add -A && git commit -m "Initial commit"
 gh repo create webstar-reels --public --source . --push
 ```
 
-It needs to be **public**: Buffer downloads each video from a URL, and reels are hosted as GitHub Release files, which are only publicly downloadable on a public repo.
+It must be **public**: Buffer downloads approved reels from GitHub Release files, which are only public on a public repo. Nothing runs on GitHub; it's only used for hosting the videos.
 
-### 2. Accounts and keys
-
-Connect each brand's Instagram (Business or Creator), TikTok and YouTube channel in Buffer. Then set these as repository secrets (**Settings → Secrets and variables → Actions**) and, for local runs, in `.env`:
-
-| Secret | For |
-| --- | --- |
-| `ANTHROPIC_API_KEY` | Sites and scripts |
-| `ELEVENLABS_API_KEY` | Voiceovers |
-| `BUFFER_ACCESS_TOKEN` | Scheduling |
-| `GEMINI_API_KEY` | Images for generated sites |
-| `VERCEL_TOKEN` (and `VERCEL_TEAM_ID` for a team) | Preview deployments |
-| `ELEVENLABS_VOICE_ID_WEBSTAR`, `ELEVENLABS_VOICE_ID_VIA77` | Each brand's voice |
-| `BUFFER_PROFILE_IDS_WEBSTAR`, `BUFFER_PROFILE_IDS_VIA77` | Each brand's Instagram, TikTok and YouTube channels, e.g. `instagram:abc,tiktok:def,youtube:ghi` |
-| `RESEND_API_KEY`, `NOTIFY_EMAIL`, `NOTIFY_FROM` | Optional review emails |
-| `BUFFER_ACCESS_TOKEN_VIA77` | Optional, if VIA77's channels are in a separate Buffer account |
-
-### 3. Try it locally
-
-Needs Node 20+ and `ffmpeg`.
+### 2. Tools
 
 ```bash
-npm install
-npx playwright install chromium
-npx remotion browser ensure
-cp .env.example .env
-
-npm test
-npm run make "A mobile dog groomer in Melbourne's south-east" --brand=webstar -- --mock
+brew install node ffmpeg gh terminal-notifier
+gh auth login
+npm install -g @anthropic-ai/claude-code
+claude          # then /login with your Claude account, and /exit
 ```
 
-The site lands in `out/sites/<brand>/` and the reels in `out/<brand>/<batch>/`.
+### 3. Keys
 
-### 4. Turn it on
+```bash
+cp .env.example .env
+```
 
-The three workflows run themselves once the secrets are set:
+Fill in ElevenLabs, Buffer, `GITHUB_REPOSITORY`, and each brand's voice and Buffer channel IDs (`npm run buffer:channels` lists them; connect each brand's Instagram, TikTok and YouTube in Buffer first). Add `GEMINI_API_KEY` for generated-site images and `VERCEL_TOKEN` for preview links. Leave `ANTHROPIC_API_KEY` empty to run Claude on your subscription.
 
-- **Daily** (`daily.yml`): every day at 9am AEDT.
-- **Make** (`make.yml`): **Actions → Make → Run workflow** with a brief and a brand.
-- **Approve** (`approve.yml`): runs when you comment on a review issue.
+### 4. Run the setup script
 
-Try **Daily** with **dry_run** ticked first; the reels are attached to the run as an artifact.
+```bash
+./scripts/setup-mac.sh
+```
+
+It:
+
+1. checks the tools and installs dependencies and browsers
+2. runs `npm run check -- --live` (keys, gh login, one tiny Claude Code call to confirm the subscription works)
+3. installs two launchd jobs, `com.webstar-reels.weekly` (Sunday 6:00) and `com.webstar-reels.daily` (every day 6:00), in `~/Library/LaunchAgents`
+4. sets the wake schedule with `sudo pmset repeat wakeorpoweron MTWRFSU 05:55:00` (asks for your password; replaces any existing repeating `pmset` schedule)
+5. offers to crawl verrano.com.au and tag the photos
+6. offers to make the first week now rather than waiting for Sunday
+
+Run it again after moving the folder or updating Node. `./scripts/uninstall-mac.sh` removes the jobs and the wake schedule.
+
+### Keep in mind
+
+- **Keep the Mac plugged in** and logged in (launchd agents run in your user session). A MacBook with its lid closed and no external display may not wake on schedule. Under **System Settings → Battery → Options**, turn on "Prevent automatic sleeping on power adapter when the display is off" for the long Sunday run.
+- **Subscription limits**: a week is about 14 site specs, 14 four-reel script sets, 7 Verrano scripts and a handful of briefs. On Pro this may hit a usage limit. If a step fails it waits 20 seconds and retries once, then logs, notifies and moves on to the next day's reel; rerun with `./scripts/run-job.sh weekly` later and it fills only the missing days. If it happens often, a Max plan or spreading the run out helps.
+- **Run time**: Sunday takes roughly 1–3 hours depending on the Mac (each site is built, audited, recorded four ways and rendered four times).
+
+## Logs and errors
+
+- `logs/<date>-<job>.log`: every step with timings, retries and errors.
+- `logs/<date>-<job>.out`: full console output.
+- `logs/launchd-<job>.log`: anything launchd itself reports.
+
+Each external step (Claude, images, Vercel, recording, ElevenLabs, rendering, upload, Buffer) is retried once after 20 seconds. If it fails again, the error is logged, that day's reel is skipped, and the job carries on. At the end of a run with errors you get a notification that opens the log. If a job crashes outright, `scripts/run-job.sh` notifies you instead.
+
+## Commands
+
+| Command | What it does |
+| --- | --- |
+| `./scripts/run-job.sh weekly` / `daily` | Run a job now, exactly as launchd does |
+| `npm run weekly -- --brand verrano --days 3` | Make the next 3 days for one brand (`--start YYYY-MM-DD`, `--mock`, `--dry-run`) |
+| `npm run daily -- --no-wait` | Offer today's reels without waiting (approve later with `npm run review`) |
+| `npm run review` | Open the approval page |
+| `npm run make "<brief>" --brand=webstar` | One concept site and its four reels now (left ready; approve on the review page) |
+| `npm run approve -- <batch-id> all` | Approve from the terminal |
+| `npm run schedule` | Schedule approved reels into their slots now |
+| `npm run library:crawl -- --brand verrano` | Refresh Verrano's photo library |
+| `npm run library:tag -- --brand verrano` | Have Claude look at and tag the photos |
+| `npm run check` | Is this Mac ready? (`-- --live` also tests Claude Code) |
+| `npm test` | Calendar, campaigns, slotting, daily picks, approval parsing, Verrano format fallbacks, design contrast |
+
+Add `--mock` to `weekly` or `make` for a free run: example site, placeholder images, canned scripts and a silent voice.
+
+## Generated sites
+
+Unchanged from before: Claude picks one of the brand's design directions from [`library/`](library/README.md), writes the site, images come from Nano Banana 2, and the site is built on the motion-system tokens (WEBSTAR one-page sites; VIA77 demo stores on store-kit). It is then audited (axe-core, clipped controls, sideways scroll, alt text, concept label, banned phrases, motion easings), fixed once by Claude if needed, and deployed as a Vercel preview. Reels are recorded from the local build.
 
 ## State
 
-Everything the engine remembers is committed to the repo by the workflows:
+All state is files in this folder, so back it up or commit it as you like:
 
-- `brands/<id>/sites.json`: queue of existing sites (`pending` → `rendered`, or `failed` after 3 attempts).
-- `brands/<id>/briefs.json`: backlog of one-line briefs for concept sites.
-- `brands/<id>/batches/<id>.json`: each batch: site, preview link, audit, and per reel its script, caption, video URL, status (`awaiting`, `approved`, `rejected`, `scheduled`), slot and Buffer post IDs.
-
-Rendered files live in `out/` (not committed) and as workflow artifacts for 14 days; the reels themselves stay in GitHub Releases.
-
-## Brands
-
-Brand voice, theme, scroll speed, CTA and rules are in `brands/<id>.json`, as before; see the comments in `src/lib/brand.ts`. Each brand's hooks are in `brands/<id>/hooks.json`, used in order, one per reel. To add a brand: add its config, `sites.json`, `hooks.json`, `briefs.json`, music in `public/brands/<id>/`, slots in `calendar.json`, at least one direction in `library/directions/` listing it, and its secrets in the three workflows.
+- `brands/<id>.json`: brand voice, look, CTA and rules
+- `brands/<id>/sites.json`: queue of existing sites
+- `brands/<id>/briefs.json`: backlog of briefs for concept sites
+- `brands/<id>/hooks.json`: hooks, used in order
+- `brands/<id>/batches/*.json`: every reel: script, caption, status (`ready`, `awaiting`, `approved`, `scheduled`, `rejected`), planned day, slot, Buffer post IDs, photos used
+- `brands/verrano/library/`: crawled photos and `library.json`
+- `out/`: rendered videos and built sites (not committed)
 
 ## Good to know
 
-- **Cost per batch**: one Claude call for four scripts, four ElevenLabs voiceovers, and for generated sites one or two Claude calls for the site plus 5–9 images.
-- **Buffer's API** isn't public documentation this project could check while being built. The Instagram Reel and YouTube Shorts fields in `src/steps/post.ts` follow Buffer's GraphQL API as best understood; run one approval on a test batch and confirm the posts appear correctly in Buffer before relying on it.
-- GitHub pauses scheduled workflows in repos with no activity for 60 days; the daily state commits keep it active.
+- **Buffer's API fields** for Instagram Reels and YouTube Shorts (in `src/steps/post.ts`) haven't been checked against a live account. Approve one test reel and confirm it appears correctly in Buffer before relying on it.
+- **Verrano's look** in `brands/verrano.json` (charcoal with a copper accent) is a placeholder: the crawl lists the colours it found on the site under `brandColors`. Update the config to match.
+- **Verrano's music** is a copy of WEBSTAR's generated placeholder track; replace `public/brands/verrano/music.mp3` with a track you have the rights to.
 - Remotion is free for individuals and companies of up to three people; larger companies need a [Remotion licence](https://www.remotion.dev/license).
