@@ -1,0 +1,139 @@
+{
+  "directionId": "sunny-bold",
+  "directionReason": "A neighbourhood bakery should feel warm and generous, and the hot orange reads like a fresh crust.",
+  "businessName": "Crumb & Co.",
+  "category": "sourdough bakery",
+  "tagline": "Sourdough, baked before sunrise",
+  "metaTitle": "Crumb & Co. · Sourdough bakery in Fitzroy",
+  "metaDescription": "A concept site for Crumb & Co., a neighbourhood sourdough bakery in Fitzroy with a weekend pre-order.",
+  "location": "Fitzroy, Melbourne",
+  "hero": {
+    "eyebrow": "Brunswick Street, from 6am",
+    "headline": "Bread worth getting up for",
+    "sub": "Naturally leavened loaves, laminated pastries and a weekend pre-order, so the good stuff is waiting for you.",
+    "cta": "Pre-order for Saturday",
+    "imageId": "hero-loaves"
+  },
+  "statement": "We bake *one batch a day*, from flour milled in Victoria, and stop when it runs out.",
+  "services": {
+    "title": "What comes out of the oven",
+    "intro": "A short menu, made properly every morning.",
+    "items": [
+      {
+        "title": "Sourdough",
+        "body": "Country white, seeded rye and a dark spelt, fermented for 36 hours and baked hard for a crackling crust."
+      },
+      {
+        "title": "Pastry",
+        "body": "Croissants, cardamom knots and a rotating danish, laminated by hand the afternoon before."
+      },
+      {
+        "title": "Weekend pre-order",
+        "body": "Order by Thursday night and your bag is packed and waiting at the counter on Saturday morning."
+      }
+    ]
+  },
+  "showcase": {
+    "title": "Thirty-six hours, start to crust",
+    "body": "Slow fermentation is where the flavour comes from, and why our loaves keep for days.",
+    "imageId": "hands-dough",
+    "points": [
+      "Victorian stone-milled flour",
+      "No added yeast",
+      "Baked in a deck oven every morning"
+    ]
+  },
+  "steps": {
+    "title": "How the pre-order works",
+    "items": [
+      {
+        "title": "Choose",
+        "body": "Pick your loaves and pastries online by Thursday at 9pm."
+      },
+      {
+        "title": "We bake",
+        "body": "Your order goes into Saturday's first bake."
+      },
+      {
+        "title": "Collect",
+        "body": "Skip the queue and pick up your bag from 7am."
+      }
+    ]
+  },
+  "gallery": {
+    "title": "From the counter",
+    "imageIds": [
+      "counter",
+      "croissants",
+      "rye-slice"
+    ]
+  },
+  "faq": {
+    "title": "Good to know",
+    "items": [
+      {
+        "q": "When does the pre-order close?",
+        "a": "Thursday at 9pm for Saturday pick-up. After that, come in early and try your luck."
+      },
+      {
+        "q": "Do you have gluten-free bread?",
+        "a": "Not yet. Our kitchen handles flour all day, so we would rather not promise what we can't guarantee."
+      },
+      {
+        "q": "Can I order for an event?",
+        "a": "Yes, with a week's notice. Ask at the counter and we will work out quantities with you."
+      },
+      {
+        "q": "Where do I collect?",
+        "a": "At the counter on Brunswick Street. Pre-orders have their own shelf, so there's no queue."
+      }
+    ]
+  },
+  "cta": {
+    "headline": "Saturday's bake is filling up",
+    "body": "Pre-orders close Thursday night. Reserve your loaf and it'll be waiting.",
+    "button": "Pre-order now"
+  },
+  "images": [
+    {
+      "id": "hero-loaves",
+      "alt": "Three dark-crusted sourdough loaves cooling on a wooden rack",
+      "aspect": "4:5",
+      "subject": "Three freshly baked sourdough loaves with deep, blistered crusts and flour-dusted scoring.",
+      "scene": "Cooling on a worn timber rack in a small bakery, linen cloth beneath, a blurred deck oven behind.",
+      "lighting": "Early-morning window light from the left, warm and low, with steam catching the light."
+    },
+    {
+      "id": "hands-dough",
+      "alt": "A baker's hands shaping a round of dough on a floured bench",
+      "aspect": "4:5",
+      "subject": "A baker's floured hands folding a round of sourdough dough.",
+      "scene": "Close crop on a timber bench scattered with flour, bench scraper to one side.",
+      "lighting": "Soft overhead light with a warm rim from a window, shallow depth of field."
+    },
+    {
+      "id": "counter",
+      "alt": "The bakery counter with loaves stacked on shelves behind it",
+      "aspect": "16:9",
+      "subject": "A small bakery counter with loaves stacked on open shelves behind.",
+      "scene": "Terrazzo counter top, brown paper bags folded at the end, no signage.",
+      "lighting": "Bright morning daylight through the shopfront window."
+    },
+    {
+      "id": "croissants",
+      "alt": "A tray of golden croissants",
+      "aspect": "1:1",
+      "subject": "A tray of golden, flaky croissants with visible layers.",
+      "scene": "Black steel baking tray on a cooling rack, a few flakes scattered.",
+      "lighting": "Warm side light that shows every laminated layer."
+    },
+    {
+      "id": "rye-slice",
+      "alt": "A slice of seeded rye with butter",
+      "aspect": "1:1",
+      "subject": "A thick slice of seeded rye spread with cultured butter.",
+      "scene": "On a ceramic plate on a linen napkin, crumbs around it.",
+      "lighting": "Soft natural light from above, slightly warm."
+    }
+  ]
+}

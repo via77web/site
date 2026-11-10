@@ -6,11 +6,15 @@ import { Reel } from "./Reel";
 import { FPS, HEIGHT, WIDTH } from "./timing";
 
 // Placeholder props for `npm run studio`. Run `npm run reel:mock` once so public/run/ has assets,
+// set `variant` (and beforeSrc: "run/before-after/before.mp4" for before-after),
 // and swap the import above to preview another brand.
 const hook = "This skincare website sells before you scroll";
 const previewProps: ReelProps = {
-  recordingSrc: "run/recording.mp4",
-  voiceSrc: "run/voice.mp3",
+  variant: "full",
+  beforeSrc: null,
+  concept: true,
+  recordingSrc: "run/full/recording.mp4",
+  voiceSrc: "run/full/voice.mp3",
   musicSrc: `brands/${webstar.id}/music.mp3`,
   logoSrc: null,
   brandName: webstar.name,

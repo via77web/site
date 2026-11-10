@@ -1,0 +1,19 @@
+{
+  "id": "forest-calm",
+  "name": "Forest Calm",
+  "brands": ["via77"],
+  "layout": "store",
+  "mood": "Quiet and grounded. Deep forest green, bone type, a soft serif display, sand as the accent.",
+  "bestFor": "Outdoor goods, tea and coffee, wellness, homewares, natural materials.",
+  "colors": { "bg": "#232B25", "bg2": "#2C352E", "ink": "#EEECE4", "muted": "#AEB3A7", "accent": "#D9C9A8", "accentInk": "#232B25" },
+  "fonts": {
+    "display": { "family": "Fraunces", "weights": "400;500", "stack": "Fraunces,Georgia,serif" },
+    "body": { "family": "Inter", "weights": "300;400;500", "stack": "Inter,system-ui,sans-serif" }
+  },
+  "display": { "case": "none", "weight": 400, "tracking": "-0.01em" },
+  "radius": 10,
+  "motionScale": 1.4,
+  "primaryEase": "build",
+  "signatureMoves": ["S4 word scrub on the statement"],
+  "imageStyle": "Natural light outdoors and in calm interiors, moss, timber and stone, overcast softness, slow and unposed."
+}

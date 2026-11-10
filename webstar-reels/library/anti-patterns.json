@@ -1,0 +1,22 @@
+{
+  "note": "Checked by the audit on every generated site. Phrases are matched case-insensitively against visible text; Claude is also told to avoid them.",
+  "bannedPhrases": [
+    "lorem ipsum", "elevate your", "unlock", "seamless", "world-class", "cutting-edge", "game-changer",
+    "next level", "take it to the next", "revolutionary", "best-in-class", "synergy", "in today's fast-paced",
+    "look no further", "we've got you covered", "one-stop shop", "delve", "tapestry", "testament to"
+  ],
+  "rules": [
+    "No invented testimonials, reviews, star ratings, client logos, awards or statistics. A concept has no customers yet.",
+    "No stock-photo clichés: handshakes, people pointing at laptops, smiling call-centre headsets, lightbulbs.",
+    "No purple-to-blue gradients, glassmorphism cards stacked on gradients, or emoji as icons.",
+    "One display face and one body face. Never more than two families.",
+    "One accent colour, used for actions and a few highlights, not for whole sections.",
+    "At most three signature motion moves per page, and never two pinned scenes in a row.",
+    "Only the four motion system easings. No bounce except press feedback.",
+    "Headlines say something specific about the business. No generic 'Welcome to X'.",
+    "Every image needs meaningful alt text; decorative images use empty alt.",
+    "Body text at least 16px on mobile; tap targets at least 44px.",
+    "The page must say it is a concept, near the top and in the footer."
+  ],
+  "maxFontFamilies": 2
+}

@@ -10,16 +10,34 @@
   "allowPrices": true,
   "cta": "Pick a tier — link in bio",
   "spokenCta": "Pick a tier. Link in bio.",
-  "hashtags": ["webdesign", "websitedesign", "smallbusiness"],
-  "voice": { "maxWords": 30, "stability": 0.4, "similarityBoost": 0.8, "style": 0.35, "speed": 1.05 },
-  "scroll": { "seconds": 12, "heroHold": 1.5, "sectionHold": 0.45 },
-  "post": { "time": "18:00", "timezone": "Australia/Melbourne" },
+  "hashtags": [
+    "webdesign",
+    "websitedesign",
+    "smallbusiness"
+  ],
+  "voice": {
+    "maxWords": 30,
+    "stability": 0.4,
+    "similarityBoost": 0.8,
+    "style": 0.35,
+    "speed": 1.05
+  },
+  "scroll": {
+    "seconds": 12,
+    "heroHold": 1.5,
+    "sectionHold": 0.45
+  },
   "style": {
     "theme": "bold",
     "hookSeconds": 1.5,
     "endCardSeconds": 2.5,
     "zoom": 0.045,
     "musicVolume": 0.12,
-    "colors": { "background": "#0B0B10", "text": "#FFFFFF", "accent": "#FFE14D", "scrim": "#08080C" }
+    "colors": {
+      "background": "#0B0B10",
+      "text": "#FFFFFF",
+      "accent": "#FFE14D",
+      "scrim": "#08080C"
+    }
   }
 }

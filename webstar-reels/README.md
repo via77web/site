@@ -1,52 +1,96 @@
 # webstar-reels
 
-Turns one website a day, per brand, into a vertical reel (1080×1920) and schedules it to that brand's Instagram Reels and TikTok for 6pm Melbourne time. You supply API keys; the rest runs from a daily GitHub Action.
+A content engine for WEBSTAR and VIA77: **prompt → site → reels → approval → post**.
 
-## Brands
+- Give it a one-line brief and it designs and builds a concept site (or a demo store for VIA77) on your design system, generates its imagery, audits it, and deploys a Vercel preview.
+- Every site, generated or from a queue, becomes **four reels** from one recording session: a full scroll, detail zooms, a before/after wipe and an interaction demo. Each reel has its own hook, voiceover and caption.
+- You get a review issue (and optionally an email) with the preview link and all four reels. **Nothing posts until you approve.**
+- Approved reels go into each brand's calendar slots across Instagram Reels, TikTok and YouTube Shorts, never the same site twice in a day.
+- Seasonal campaigns (EOFY, Black Friday, Christmas, New Year) switch in their own hooks and briefs on their dates.
 
-Each brand is one config file plus its own queue, hooks and assets:
+## How it fits together
 
 ```
-brands/
-  webstar.json          look, tone, voice, scroll speed, CTA
-  webstar/sites.json    queue of sites
-  webstar/hooks.json    hooks, one per day, in order
-  via77.json
-  via77/sites.json
-  via77/hooks.json
-public/brands/
-  webstar/music.mp3     (optional logo.svg or logo.png)
-  via77/music.mp3
-  via77/logo.svg
+brief ──► make: direction + copy (Claude) ─► images (Nano Banana 2) ─► build (library/) ─► audit ─► Vercel preview
+                                                                                                        │
+sites.json queue ───────────────────────────────────────────────────────────────────────────────────────┤
+                                                                                                        ▼
+                         reels: one recording session ─► 4 scripts (Claude) ─► 4 voiceovers (ElevenLabs) ─► 4 edits (Remotion)
+                                                                                                        │
+                                                    review issue + email ◄──────────────────────────────┘
+                                                            │  /approve all · /approve full detail · /reject
+                                                            ▼
+                                       calendar slots ─► Buffer ─► Instagram Reels · TikTok · YouTube Shorts
 ```
 
-| | WEBSTAR | VIA77 |
+## The four reels
+
+| Variant | Footage | Script angle |
 | --- | --- | --- |
-| Tone | fun, transparent, punchy | premium, calm, considered |
-| Scroll | fast, about 12s | slow and cinematic, about 18s |
-| Reel length | about 14.5s | about 21s |
-| Text | big bold uppercase, yellow highlight | small sans, sentence case, VIA77 palette |
-| Music | upbeat | soft ambient |
-| Voice | energetic, slightly fast, up to 30 words | calm, slightly slow, up to 32 words |
-| Prices | allowed | never mentioned in script, captions or post |
-| End card | "Pick a tier", "Link in bio" button | VIA77 logo, "Start a project", "via77.com.au" |
+| `full` | Hero to footer, pausing on key sections | The whole site |
+| `detail` | Slow push-in zooms on two or three spots: the headline, a product, a motion moment | Craft and detail |
+| `before-after` | The page with its design switched off, then a wipe reveals the real design; both scroll in step | What design does. If a site in `sites.json` has a `beforeUrl`, its real earlier version is used instead. The script is told never to call the unstyled page someone's "old website". |
+| `interaction` | A visible finger taps through add-to-bag, filters, tabs, FAQs and drawers, and the site responds | How it feels to use. Skipped if the page has nothing tappable. |
 
-## What happens each day, for each brand
+Concept sites carry a "Concept" tag on screen, and every post caption starts with "Concept ·" (enforced in code, not left to the script).
 
-1. **Queue**: picks the first site in the brand's `sites.json` with `"status": "pending"`.
-2. **Record**: Playwright opens the site at a phone viewport and captures a smooth hero-to-footer scroll, pausing on key sections (`src/steps/record.ts`).
-3. **Script**: Claude writes `{hook, voiceover, captions[], cta}` plus a post caption and hashtags, in the brand's tone and within its rules. The hook comes from the brand's `hooks.json` (`src/steps/script.ts`).
-4. **Voice**: ElevenLabs turns the voiceover into an MP3 with word timestamps, using the brand's voice (`src/steps/voice.ts`).
-5. **Edit**: Remotion adds the hook text, word-by-word captions, a slow zoom, quiet music and the brand's end card, in the brand's theme (`remotion/`).
-6. **Post**: uploads the MP4 and schedules it through Buffer to the brand's channels (`src/steps/post.ts`), then marks the site `posted`.
+## Commands
 
-Brands run one after another and independently. If one brand fails, the others still post, and the run is marked failed at the end.
+| Command | What it does |
+| --- | --- |
+| `npm run make "<brief>" --brand=webstar` | Brief → site → preview → four reels → review request |
+| `npm run make "<brief>" --brand=via77 -- --dry-run` | Build, audit and render, but don't deploy, save or send |
+| `npm run make "<brief>" --brand=via77 -- --mock` | Same with the example spec, placeholder images, canned scripts and a silent voice: no API keys, no cost |
+| `npm run make "<brief>" --brand=webstar -- --no-reels` | Stop after the site (preview and audit only) |
+| `npm run daily` | What the daily Action runs: schedule approved reels, then make the next batch if the calendar needs it |
+| `npm run approve -- <batch-id> all` | Approve every reel in a batch. Or name variants (`full detail`), or `reject` |
+| `npm run schedule` | Put approved reels into their slots now |
+| `npm run reel:mock` | Mock reels for each brand's next queued site |
+| `npm test` | Unit tests: calendar, campaigns, slotting rules, approval parsing, contrast of every direction |
+| `npm run buffer:channels` | List your Buffer channel IDs |
+| `npm run studio` | Remotion editor for the reel design (run a mock first) |
+
+`--brand=via77` works as written: npm keeps that flag for itself, so `make` reads it back from npm.
+
+## Approval
+
+When a batch is ready, a GitHub issue labelled `reel-review` opens with the preview link, the audit result, each reel's video link, hook, caption and YouTube title. GitHub notifies you about new issues in your repo; set `RESEND_API_KEY` and `NOTIFY_EMAIL` to also get an email.
+
+Reply on the issue:
+
+| Comment | Result |
+| --- | --- |
+| `/approve all` | All four approved |
+| `/approve full detail` | Those approved, the rest rejected |
+| `/reject` | All rejected |
+| `/reject before-after` | That one rejected, the rest still waiting |
+
+The Approve workflow records your decision, schedules approved reels into the next free slots, replies on the issue and closes it. Only people with a role on the repo (owner, member, collaborator) can approve. Without GitHub, use `npm run approve`.
+
+## Calendar and campaigns
+
+`calendar.json` holds the posting slots and campaigns:
+
+- **Slots**: WEBSTAR at 12pm and 6pm, VIA77 at 7pm, Melbourne time, every day (`days` can limit it).
+- **Spacing**: a site gets at most one post a day across its four reels, and where another site is available the same site is never posted twice in a row. A slot stays empty rather than break the one-a-day rule.
+- **Making more**: each day, if the next `lookaheadDays` of slots can't be filled from what's approved or awaiting review (reviews older than three days stop counting), the daily run makes one new batch for that brand: the next `pending` site in `brands/<id>/sites.json`, else (with `autoMake`) an unused brief from the running campaign, else the next one in `brands/<id>/briefs.json`.
+- **Campaigns**: each has a date range (`from`/`to` as MM-DD; New Year wraps past 1 January), an angle given to Claude for sites and scripts, hashtags added to every caption, and hooks and briefs per brand. While a campaign runs, its hooks are used before the brand's own. Included: EOFY (June), Black Friday (16–30 Nov), Christmas (1–24 Dec), New Year (26 Dec–15 Jan).
+
+## Generated sites
+
+`make` and the daily auto-make use the design library in [`library/`](library/README.md):
+
+1. **Direction and copy**: Claude picks one of the brand's design directions and writes the whole site as a typed spec: business name, copy, products and prices for stores, and a photography brief for each image. Banned phrases and invented reviews, stats or real brand names are refused; the spec is checked and sent back if it breaks a rule.
+2. **Images**: each image prompt follows your Nano Banana brand photographer structure (subject, scene, lighting, then the direction's style) and is generated with Nano Banana 2 (`gemini-3.1-flash-image`) through the Gemini API. Without `GEMINI_API_KEY`, or if an image fails, a placeholder in the direction's colours is used and the review lists it.
+3. **Build**: WEBSTAR gets a one-page site (`library/layouts/onepage.ts`); VIA77 gets a demo store on the store-kit engine (`library/layouts/store.ts`). Both use only the motion-system tokens and say clearly that they are concepts.
+4. **Audit**: axe-core accessibility checks at phone and desktop size, controls cut off at the screen edge, sideways scroll, missing alt text, the concept label, banned phrases, console errors and easings outside the motion system. If anything blocks, Claude gets one round to fix the spec; anything still failing is flagged at the top of the review.
+5. **Preview**: deployed to Vercel as a preview in a per-brand project (`<brand>-concepts`). Reels are recorded from the local build, so Vercel's preview protection doesn't get in the way. Logged into Vercel, you can open the preview; to share it more widely, change the project's Deployment Protection.
 
 ## Setup
 
 ### 1. Put this in its own repository
 
-This project was built inside the `webstar-reels/` folder of another repo. GitHub only runs workflows from `.github/workflows/` at the root of a repository, so the daily schedule will not run until this folder is the root of its own repo:
+GitHub only runs workflows from `.github/workflows/` at the root of a repository, so this folder needs to be its own repo:
 
 ```bash
 cp -r webstar-reels ~/webstar-reels && cd ~/webstar-reels
@@ -54,101 +98,67 @@ git init && git add -A && git commit -m "Initial commit"
 gh repo create webstar-reels --public --source . --push
 ```
 
-The repo needs to be **public**, or you need to host the videos yourself (`VIDEO_PUBLIC_URL_<BRAND>`): Buffer downloads the video from a URL, and the Action hosts it as a GitHub Release file, which is only publicly downloadable on a public repo.
+It needs to be **public**: Buffer downloads each video from a URL, and reels are hosted as GitHub Release files, which are only publicly downloadable on a public repo.
 
-### 2. Get the keys
+### 2. Accounts and keys
 
-Shared by every brand:
+Connect each brand's Instagram (Business or Creator), TikTok and YouTube channel in Buffer. Then set these as repository secrets (**Settings → Secrets and variables → Actions**) and, for local runs, in `.env`:
 
-| Variable | Where to get it |
+| Secret | For |
 | --- | --- |
-| `ANTHROPIC_API_KEY` | console.anthropic.com → API keys |
-| `ELEVENLABS_API_KEY` | elevenlabs.io → profile → API keys |
-| `BUFFER_ACCESS_TOKEN` | publish.buffer.com → Settings → API |
+| `ANTHROPIC_API_KEY` | Sites and scripts |
+| `ELEVENLABS_API_KEY` | Voiceovers |
+| `BUFFER_ACCESS_TOKEN` | Scheduling |
+| `GEMINI_API_KEY` | Images for generated sites |
+| `VERCEL_TOKEN` (and `VERCEL_TEAM_ID` for a team) | Preview deployments |
+| `ELEVENLABS_VOICE_ID_WEBSTAR`, `ELEVENLABS_VOICE_ID_VIA77` | Each brand's voice |
+| `BUFFER_PROFILE_IDS_WEBSTAR`, `BUFFER_PROFILE_IDS_VIA77` | Each brand's Instagram, TikTok and YouTube channels, e.g. `instagram:abc,tiktok:def,youtube:ghi` |
+| `RESEND_API_KEY`, `NOTIFY_EMAIL`, `NOTIFY_FROM` | Optional review emails |
+| `BUFFER_ACCESS_TOKEN_VIA77` | Optional, if VIA77's channels are in a separate Buffer account |
 
-Per brand (the suffix is the brand id in capitals):
+### 3. Try it locally
 
-| Variable | What it is |
-| --- | --- |
-| `ELEVENLABS_VOICE_ID_WEBSTAR`, `ELEVENLABS_VOICE_ID_VIA77` | The ElevenLabs voice for each brand. Pick a calm, low voice for VIA77; the config already slows it down and steadies it. |
-| `BUFFER_PROFILE_IDS_WEBSTAR`, `BUFFER_PROFILE_IDS_VIA77` | Comma-separated Buffer channel IDs for that brand's Instagram and TikTok. Run `npm run buffer:channels` and copy the lines you want, e.g. `instagram:abc123,tiktok:def456` |
-
-Connect each brand's Instagram (Business or Creator account) and TikTok in Buffer first. A brand only ever posts to its own `BUFFER_PROFILE_IDS_<BRAND>`; there is no shared fallback. If VIA77's channels are in a separate Buffer account, also set `BUFFER_ACCESS_TOKEN_VIA77`.
-
-### 3. Run it locally
-
-Needs Node 20+ and `ffmpeg` on your PATH.
+Needs Node 20+ and `ffmpeg`.
 
 ```bash
 npm install
 npx playwright install chromium
 npx remotion browser ensure
-cp .env.example .env        # then fill in the keys
+cp .env.example .env
 
-npm run reel:dry            # one reel per brand, no posting
+npm test
+npm run make "A mobile dog groomer in Melbourne's south-east" --brand=webstar -- --mock
 ```
 
-Reels land in `out/<brand>/<brand>-day-001-<site>/`, next to the script, word timings and caption.
+The site lands in `out/sites/<brand>/` and the reels in `out/<brand>/<batch>/`.
 
-### 4. Turn on the daily run
+### 4. Turn it on
 
-In the GitHub repo, go to **Settings → Secrets and variables → Actions** and add every variable above as a repository secret. The workflow in `.github/workflows/daily-reel.yml` then runs every day at 9am AEDT and makes one reel per brand. To test it first, open **Actions → Daily reel → Run workflow** and tick **dry_run** (optionally naming one brand); the reels are attached to the run as an artifact.
+The three workflows run themselves once the secrets are set:
 
-## Commands
+- **Daily** (`daily.yml`): every day at 9am AEDT.
+- **Make** (`make.yml`): **Actions → Make → Run workflow** with a brief and a brand.
+- **Approve** (`approve.yml`): runs when you comment on a review issue.
 
-| Command | What it does |
-| --- | --- |
-| `npm run reel` | For every brand: process its next pending site and schedule the post |
-| `npm run reel -- --brand via77` | The same, for one brand (comma-separate for several) |
-| `npm run reel -- --dry-run` | Render the videos, do not post, do not change any queue |
-| `npm run reel:mock` | Dry run with a canned script and silent voice: no API keys, no cost. For checking the look |
-| `npm run reel -- --dry-run --brand via77 --url <url> --name <name> --niche <niche>` | One-off dry run for any URL in a brand's look |
-| `npm run studio` | Open the Remotion editor to tweak the design (run `reel:mock` once first) |
-| `npm run buffer:channels` | List your Buffer channel IDs |
+Try **Daily** with **dry_run** ticked first; the reels are attached to the run as an artifact.
 
-## Queues and hooks
+## State
 
-Add sites to a brand's `sites.json`:
+Everything the engine remembers is committed to the repo by the workflows:
 
-```json
-{ "url": "https://example.com", "name": "Example", "niche": "coffee roaster", "status": "pending" }
-```
+- `brands/<id>/sites.json`: queue of existing sites (`pending` → `rendered`, or `failed` after 3 attempts).
+- `brands/<id>/briefs.json`: backlog of one-line briefs for concept sites.
+- `brands/<id>/batches/<id>.json`: each batch: site, preview link, audit, and per reel its script, caption, video URL, status (`awaiting`, `approved`, `rejected`, `scheduled`), slot and Buffer post IDs.
 
-After a successful run the entry becomes `posted` with the day number, schedule time and Buffer post IDs. If a run fails, the entry stays `pending` and is retried the next day; after 3 failed attempts it is marked `failed` with the error so the queue keeps moving. Missing API keys do not count as an attempt. When a brand has nothing pending it is skipped quietly.
+Rendered files live in `out/` (not committed) and as workflow artifacts for 14 days; the reels themselves stay in GitHub Releases.
 
-Each brand's `hooks.json` is used in order by that brand's day number and wraps after the last one. `{niche}` and `{name}` are filled in from the site entry.
+## Brands
 
-## Editing a brand
-
-Everything about a brand's reels is in `brands/<id>.json`:
-
-| Field | Effect |
-| --- | --- |
-| `about`, `audience`, `tone`, `rules` | Given to Claude as the brief for every script |
-| `allowPrices` | `false` forbids prices, costs and discounts in the script, captions, post caption and hashtags. A script that breaks this is sent back to Claude. A figure inside the hook itself is left alone, since you wrote the hook |
-| `cta` | End card text. ` — ` splits it into the headline and the line under it |
-| `spokenCta` | How the voice says the call to action (spell out web addresses) |
-| `captionSpokenCta` | `false` keeps the spoken call to action out of the captions, for when it is a spelled-out URL |
-| `voice` | Word limit and ElevenLabs settings: `stability`, `similarityBoost`, `style`, `speed` (0.7 to 1.2) |
-| `scroll` | `seconds` for the hero-to-footer scroll, and how long to rest on the hero and on each section |
-| `post` | Time and timezone to schedule for |
-| `style.theme` | `bold` or `minimal` |
-| `style.colors` | `background` and `text` (end card), `accent` (highlights), `scrim` (tint over the footage behind text) |
-| `style.hookSeconds`, `endCardSeconds`, `zoom`, `musicVolume` | Timing and intensity |
-
-The reel is as long as the scroll plus the end card. If a voiceover runs longer than the scroll, the scroll stretches to fit it.
-
-Replace `public/brands/<id>/music.mp3` with any track you have the rights to (the shipped ones are generated placeholders), and add `logo.svg` or `logo.png` beside it to use a logo on the end card. Theme layouts are in `remotion/bold.tsx` and `remotion/minimal.tsx`.
-
-### Adding a brand
-
-1. Copy `brands/via77.json` to `brands/<id>.json` and edit it.
-2. Add `brands/<id>/sites.json` and `brands/<id>/hooks.json`.
-3. Add `public/brands/<id>/music.mp3` (and a logo if you have one).
-4. Add `ELEVENLABS_VOICE_ID_<ID>` and `BUFFER_PROFILE_IDS_<ID>` to `.env`, to the repo's secrets, and to the `env:` block in `.github/workflows/daily-reel.yml`.
+Brand voice, theme, scroll speed, CTA and rules are in `brands/<id>.json`, as before; see the comments in `src/lib/brand.ts`. Each brand's hooks are in `brands/<id>/hooks.json`, used in order, one per reel. To add a brand: add its config, `sites.json`, `hooks.json`, `briefs.json`, music in `public/brands/<id>/`, slots in `calendar.json`, at least one direction in `library/directions/` listing it, and its secrets in the three workflows.
 
 ## Good to know
 
-- GitHub schedules run in UTC, so the job starts at 9am during daylight saving (AEDT) and 8am in winter (AEST). The 6pm post time is calculated in Melbourne time and is always right.
-- GitHub pauses scheduled workflows in repos with no activity for 60 days. The daily queue commit keeps it active while there are sites to process.
+- **Cost per batch**: one Claude call for four scripts, four ElevenLabs voiceovers, and for generated sites one or two Claude calls for the site plus 5–9 images.
+- **Buffer's API** isn't public documentation this project could check while being built. The Instagram Reel and YouTube Shorts fields in `src/steps/post.ts` follow Buffer's GraphQL API as best understood; run one approval on a test batch and confirm the posts appear correctly in Buffer before relying on it.
+- GitHub pauses scheduled workflows in repos with no activity for 60 days; the daily state commits keep it active.
 - Remotion is free for individuals and companies of up to three people; larger companies need a [Remotion licence](https://www.remotion.dev/license).

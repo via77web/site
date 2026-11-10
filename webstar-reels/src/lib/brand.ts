@@ -59,7 +59,6 @@ const BrandSchema = z.object({
     heroHold: z.number().min(0),
     sectionHold: z.number().min(0),
   }),
-  post: z.object({ time: z.string().regex(/^\d{1,2}:\d{2}$/), timezone: z.string() }),
   style: StyleSchema,
 });
 

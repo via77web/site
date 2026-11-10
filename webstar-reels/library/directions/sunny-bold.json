@@ -1,0 +1,19 @@
+{
+  "id": "sunny-bold",
+  "name": "Sunny Bold",
+  "brands": ["webstar"],
+  "layout": "onepage",
+  "mood": "Warm, confident and friendly. Big chunky headlines, generous rounded shapes, one hot orange for every action.",
+  "bestFor": "Cafes, bakeries, trades, gyms, local services that want to feel welcoming and energetic.",
+  "colors": { "bg": "#FFF8EC", "bg2": "#FBEBD3", "ink": "#1A1714", "muted": "#5C5248", "accent": "#FF5A1F", "accentInk": "#1A1714" },
+  "fonts": {
+    "display": { "family": "Bricolage Grotesque", "weights": "600;800", "stack": "\"Bricolage Grotesque\",system-ui,sans-serif" },
+    "body": { "family": "Inter", "weights": "400;500", "stack": "Inter,system-ui,sans-serif" }
+  },
+  "display": { "case": "none", "weight": 800, "tracking": "-0.03em" },
+  "radius": 22,
+  "motionScale": 0.85,
+  "primaryEase": "snap",
+  "signatureMoves": ["S4 word scrub on the statement", "M01 button fill wipe with press", "M07 magnetic primary CTA"],
+  "imageStyle": "Sensory storytelling: warm natural light, close crops on texture and hands at work, slightly saturated, shallow depth of field, real-world imperfection."
+}

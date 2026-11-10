@@ -1,0 +1,19 @@
+{
+  "id": "night-market",
+  "name": "Night Market",
+  "brands": ["webstar"],
+  "layout": "onepage",
+  "mood": "After-dark and punchy. Near-black canvas, crisp grotesk type, one electric lime accent, tight grid.",
+  "bestFor": "Bars, barbers, streetwear, DJs, late-night food, anything with a scene.",
+  "colors": { "bg": "#121212", "bg2": "#1C1C1C", "ink": "#F5F1E8", "muted": "#B4AFA5", "accent": "#C6FF3D", "accentInk": "#121212" },
+  "fonts": {
+    "display": { "family": "Space Grotesk", "weights": "500;700", "stack": "\"Space Grotesk\",system-ui,sans-serif" },
+    "body": { "family": "Inter", "weights": "400;500", "stack": "Inter,system-ui,sans-serif" }
+  },
+  "display": { "case": "uppercase", "weight": 700, "tracking": "-0.02em" },
+  "radius": 4,
+  "motionScale": 0.85,
+  "primaryEase": "snap",
+  "signatureMoves": ["S2 ink-fill headline", "M01 button fill wipe with press", "S9 background grid parallax"],
+  "imageStyle": "Direct flash: hard on-camera flash at night, deep shadows, saturated colour, candid energy, film grain."
+}

@@ -4,19 +4,21 @@ import { bundle } from "@remotion/bundler";
 import { renderMedia, selectComposition } from "@remotion/renderer";
 import { ROOT, type Brand } from "../lib/brand.js";
 import { env } from "../lib/env.js";
-import type { ReelProps, WordTiming } from "../types.js";
+import type { ReelProps, VariantId, WordTiming } from "../types.js";
 
 const PUBLIC_DIR = path.join(ROOT, "public");
 const RUN_DIR = path.join(PUBLIC_DIR, "run");
 
-export interface RenderInput {
-  brand: Brand;
+export interface RenderJob {
+  variant: VariantId;
   recordingFile: string;
+  beforeFile?: string;
   voiceFile: string;
   totalSeconds: number;
   hook: string;
   captions: string[];
   words: WordTiming[];
+  outFile: string;
 }
 
 /** First of `names` that exists in public/brands/<id>/, as a path relative to public/. */
@@ -25,55 +27,62 @@ function brandAsset(brand: Brand, names: string[]): string | null {
   return found ? `brands/${brand.id}/${found}` : null;
 }
 
-/** Render the Remotion "Reel" composition to a 1080x1920 H.264 MP4. */
-export async function renderReel(input: RenderInput, outFile: string): Promise<void> {
-  const { brand } = input;
-  // Remotion serves assets from public/, so stage this run's footage and voice there.
-  fs.mkdirSync(RUN_DIR, { recursive: true });
-  fs.copyFileSync(input.recordingFile, path.join(RUN_DIR, "recording.mp4"));
-  fs.copyFileSync(input.voiceFile, path.join(RUN_DIR, "voice.mp3"));
+/**
+ * Render every variant of one site. Remotion copies public/ when it bundles, so all
+ * footage is staged first and the project is bundled once for the whole set.
+ */
+export async function renderVariants(brand: Brand, jobs: RenderJob[], concept: boolean): Promise<void> {
+  fs.rmSync(RUN_DIR, { recursive: true, force: true });
+  for (const job of jobs) {
+    const dir = path.join(RUN_DIR, job.variant);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.copyFileSync(job.recordingFile, path.join(dir, "recording.mp4"));
+    fs.copyFileSync(job.voiceFile, path.join(dir, "voice.mp3"));
+    if (job.beforeFile) fs.copyFileSync(job.beforeFile, path.join(dir, "before.mp4"));
+  }
 
-  const [ctaLine, ctaAction = ""] = brand.cta.split(/\s+[—–]\s+/);
-  const inputProps: ReelProps = {
-    recordingSrc: "run/recording.mp4",
-    voiceSrc: "run/voice.mp3",
-    musicSrc: brandAsset(brand, ["music.mp3"]),
-    logoSrc: brandAsset(brand, ["logo.svg", "logo.png"]),
-    brandName: brand.name,
-    style: brand.style,
-    totalSeconds: input.totalSeconds,
-    hook: input.hook,
-    captions: input.captions,
-    words: input.words,
-    ctaLine,
-    ctaAction,
-  };
-
-  const serveUrl = await bundle({
-    entryPoint: path.join(ROOT, "remotion/index.ts"),
-    publicDir: PUBLIC_DIR,
-  });
+  const serveUrl = await bundle({ entryPoint: path.join(ROOT, "remotion/index.ts"), publicDir: PUBLIC_DIR });
   const browserExecutable = env("CHROMIUM_PATH") ?? null;
-  const composition = await selectComposition({ serveUrl, id: "Reel", inputProps, browserExecutable, logLevel: "error" });
+  const [ctaLine, ctaAction = ""] = brand.cta.split(/\s+[—–]\s+/);
 
-  let lastLogged = -1;
-  await renderMedia({
-    serveUrl,
-    composition,
-    inputProps,
-    browserExecutable,
-    logLevel: "error",
-    codec: "h264",
-    crf: 18,
-    pixelFormat: "yuv420p",
-    audioCodec: "aac",
-    outputLocation: outFile,
-    onProgress: ({ progress }) => {
-      const pct = Math.floor(progress * 4) * 25;
-      if (pct > lastLogged) {
-        lastLogged = pct;
-        console.log(`   render ${pct}%`);
-      }
-    },
-  });
+  for (const job of jobs) {
+    const inputProps: ReelProps = {
+      variant: job.variant,
+      recordingSrc: `run/${job.variant}/recording.mp4`,
+      beforeSrc: job.beforeFile ? `run/${job.variant}/before.mp4` : null,
+      voiceSrc: `run/${job.variant}/voice.mp3`,
+      musicSrc: brandAsset(brand, ["music.mp3"]),
+      logoSrc: brandAsset(brand, ["logo.svg", "logo.png"]),
+      brandName: brand.name,
+      style: brand.style,
+      totalSeconds: job.totalSeconds,
+      hook: job.hook,
+      captions: job.captions,
+      words: job.words,
+      ctaLine,
+      ctaAction,
+      concept,
+    };
+    const composition = await selectComposition({ serveUrl, id: "Reel", inputProps, browserExecutable, logLevel: "error" });
+    let lastLogged = -1;
+    await renderMedia({
+      serveUrl,
+      composition,
+      inputProps,
+      browserExecutable,
+      logLevel: "error",
+      codec: "h264",
+      crf: 18,
+      pixelFormat: "yuv420p",
+      audioCodec: "aac",
+      outputLocation: job.outFile,
+      onProgress: ({ progress }) => {
+        const pct = Math.floor(progress * 2) * 50;
+        if (pct > lastLogged) {
+          lastLogged = pct;
+          console.log(`   ${job.variant} ${pct}%`);
+        }
+      },
+    });
+  }
 }

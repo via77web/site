@@ -1,0 +1,49 @@
+{
+  "directionId": "paper-editorial",
+  "directionReason": "Hand-thrown ceramics sit best on warm paper and quiet serif type, like a catalogue printed on good stock.",
+  "storeName": "MERIDIAN CLAY",
+  "tagline": "Tableware thrown by hand in small runs",
+  "category": "ceramics and tableware",
+  "metaTitle": "MERIDIAN CLAY · Hand-thrown tableware",
+  "metaDescription": "MERIDIAN CLAY is a commerce concept: hand-thrown stoneware plates, bowls and cups made in small runs.",
+  "shipThreshold": 180,
+  "shipFee": 14,
+  "hero": { "lines": ["Made slowly,", "used every day"], "sub": "Stoneware plates, bowls and cups, thrown by hand in runs of fifty and glazed to age well.", "cta": "Shop the collection", "imageId": "hero-table" },
+  "statement": "Every piece is *thrown, trimmed and glazed by hand*, so no two are quite the same, and all of them go in the dishwasher.",
+  "collection": {
+    "title": "The everyday set",
+    "intro": "Four forms, two glazes, made to mix.",
+    "categories": [ { "id": "plates", "label": "Plates" }, { "id": "bowls", "label": "Bowls" }, { "id": "cups", "label": "Cups" } ]
+  },
+  "products": [
+    { "id": "dinner-plate", "name": "Dinner Plate", "type": "Stoneware / 27 cm", "cat": "plates", "price": 58, "desc": "A wide, shallow plate with a raised rim that keeps sauces where they belong.", "imageId": "plate", "optionLabel": "Glaze", "options": [ { "v": "Oat", "price": 0 }, { "v": "Iron", "price": 0 } ], "details": [ { "k": "Size", "v": "27 cm diameter" }, { "k": "Material", "v": "Stoneware, food-safe glaze" }, { "k": "Care", "v": "Dishwasher and microwave safe" } ] },
+    { "id": "pasta-bowl", "name": "Pasta Bowl", "type": "Stoneware / 22 cm", "cat": "bowls", "price": 52, "desc": "Low and generous, for pasta, salads and anything with a broth.", "imageId": "bowl", "optionLabel": "Glaze", "options": [ { "v": "Oat", "price": 0 }, { "v": "Iron", "price": 0 } ], "details": [ { "k": "Size", "v": "22 cm wide, 5 cm deep" }, { "k": "Material", "v": "Stoneware, food-safe glaze" }, { "k": "Care", "v": "Dishwasher safe" } ] },
+    { "id": "side-plate", "name": "Side Plate", "type": "Stoneware / 19 cm", "cat": "plates", "price": 38, "desc": "For bread, small plates and the last piece of cake.", "imageId": "side-plate", "optionLabel": "Glaze", "options": [ { "v": "Oat", "price": 0 }, { "v": "Iron", "price": 0 } ], "details": [ { "k": "Size", "v": "19 cm diameter" }, { "k": "Material", "v": "Stoneware" }, { "k": "Care", "v": "Dishwasher safe" } ] },
+    { "id": "morning-cup", "name": "Morning Cup", "type": "Stoneware / 260 ml", "cat": "cups", "price": 34, "desc": "A handle-less cup that sits warm in two hands.", "imageId": "cup", "optionLabel": "Size", "options": [ { "v": "260 ml", "price": 0 }, { "v": "380 ml", "price": 40 } ], "details": [ { "k": "Capacity", "v": "260 ml or 380 ml" }, { "k": "Material", "v": "Stoneware" }, { "k": "Care", "v": "Dishwasher safe" } ] }
+  ],
+  "story": {
+    "label": "The making",
+    "steps": [
+      { "title": "Thrown on the wheel", "body": "Each form is thrown from the same weighed ball of clay, so a set feels like a set.", "imageId": "wheel" },
+      { "title": "Glazed by dipping", "body": "Two glazes, mixed in the studio, applied by hand so they pool and break at the rim.", "imageId": "glaze" },
+      { "title": "Fired twice", "body": "A slow bisque, then a high stoneware firing that makes every piece strong enough for daily use.", "imageId": "kiln" }
+    ]
+  },
+  "journal": { "title": "Set for the table", "imageIds": ["hero-table", "wheel", "glaze", "kiln"] },
+  "values": [
+    { "title": "Small runs", "body": "Fifty of each form at a time, so nothing sits in a warehouse." },
+    { "title": "Made to use", "body": "Every piece is dishwasher safe and built for daily meals." },
+    { "title": "Honest glazes", "body": "Food-safe, lead-free and tested in the studio." }
+  ],
+  "newsletter": { "title": "News from the studio.", "body": "New glazes, studio sales and the next firing." },
+  "images": [
+    { "id": "hero-table", "alt": "A table set with oat-glazed plates and bowls beside a linen napkin", "aspect": "16:9", "subject": "A table set with hand-thrown stoneware plates and bowls in a warm oat glaze.", "scene": "Linen tablecloth, a jug of olive branches, bread torn on a board, overhead three-quarter angle.", "lighting": "Late-afternoon window light, long soft shadows, warm and calm." },
+    { "id": "plate", "alt": "An oat-glazed stoneware dinner plate", "aspect": "4:5", "subject": "A single hand-thrown stoneware dinner plate in oat glaze with a dark speckled rim.", "scene": "On warm grey paper, centred with generous space around it.", "lighting": "Soft diffused daylight from the left." },
+    { "id": "bowl", "alt": "An iron-glazed pasta bowl", "aspect": "4:5", "subject": "A low, wide pasta bowl in a dark iron glaze that breaks to brown at the rim.", "scene": "On pale limestone, slight angle showing its depth.", "lighting": "Soft side light with a gentle highlight on the glaze." },
+    { "id": "side-plate", "alt": "Two stacked side plates", "aspect": "4:5", "subject": "Two hand-thrown side plates stacked, one oat and one iron glaze.", "scene": "On linen, a few crumbs nearby.", "lighting": "Diffused morning light." },
+    { "id": "cup", "alt": "A handle-less stoneware cup held in two hands", "aspect": "4:5", "subject": "A handle-less stoneware cup with steam rising, held in two hands.", "scene": "Close crop, knit sleeve, blurred kitchen behind.", "lighting": "Warm window light, shallow depth of field." },
+    { "id": "wheel", "alt": "Hands throwing a bowl on a potter's wheel", "aspect": "4:5", "subject": "A potter's wet hands drawing up the wall of a bowl on a wheel.", "scene": "Studio with shelves of drying pots softly blurred behind.", "lighting": "Cool daylight with a warm lamp from the side." },
+    { "id": "glaze", "alt": "A bowl being dipped into a bucket of glaze", "aspect": "4:5", "subject": "A bisque-fired bowl held by tongs, half dipped into creamy glaze.", "scene": "Glaze bucket on a stained studio bench.", "lighting": "Soft overhead light." },
+    { "id": "kiln", "alt": "Stacked pots on kiln shelves", "aspect": "4:5", "subject": "Pots stacked on kiln shelves before firing.", "scene": "The open door of an electric kiln, shelves and posts visible.", "lighting": "Low warm light, deep shadows inside the kiln." }
+  ]
+}

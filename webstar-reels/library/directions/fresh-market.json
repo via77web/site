@@ -1,0 +1,19 @@
+{
+  "id": "fresh-market",
+  "name": "Fresh Market",
+  "brands": ["webstar"],
+  "layout": "onepage",
+  "mood": "Clean and calm with an editorial serif headline. Pale sage background, deep green actions, lots of air.",
+  "bestFor": "Clinics, florists, wellness, grocers, consultants, anyone selling trust.",
+  "colors": { "bg": "#F4F7F1", "bg2": "#E6EDE1", "ink": "#13261B", "muted": "#4B5A50", "accent": "#1F7A4D", "accentInk": "#FFFFFF" },
+  "fonts": {
+    "display": { "family": "Instrument Serif", "weights": "400", "stack": "\"Instrument Serif\",Georgia,serif" },
+    "body": { "family": "Inter Tight", "weights": "400;500", "stack": "\"Inter Tight\",system-ui,sans-serif" }
+  },
+  "display": { "case": "none", "weight": 400, "tracking": "-0.01em" },
+  "radius": 14,
+  "motionScale": 1,
+  "primaryEase": "build",
+  "signatureMoves": ["S4 word scrub on the statement", "S6 plotted stack on the FAQ"],
+  "imageStyle": "Soft natural daylight, airy and honest, muted greens and creams, documentary feel, no heavy retouching."
+}

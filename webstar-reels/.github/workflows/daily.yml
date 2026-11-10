@@ -1,0 +1,96 @@
+name: Daily
+
+on:
+  schedule:
+    # GitHub cron is UTC. 22:00 UTC = 9:00am AEDT (UTC+11, October to April); 8:00am in AEST.
+    # Posting times come from calendar.json and are always in Melbourne time.
+    - cron: "0 22 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Render, but save nothing and send nothing
+        type: boolean
+        default: false
+      brand:
+        description: Only this brand (blank = every brand)
+        type: string
+        default: ""
+      produce:
+        description: Make a new batch even if the calendar is already covered
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # commit state, upload reels to releases
+  issues: write # open review issues
+
+concurrency:
+  group: reels-state
+  cancel-in-progress: false
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+          npm ci
+          npx playwright install --with-deps chromium
+          npx remotion browser ensure
+
+      # Per brand: schedule approved reels into calendar slots, then make the next batch if
+      # the coming days need content. New batches open a review issue and wait for you.
+      - name: Schedule and make
+        run: npm run daily -- ${{ inputs.dry_run && '--dry-run' || '' }} ${{ inputs.produce && '--produce' || '' }} ${ONLY_BRAND:+--brand "$ONLY_BRAND"}
+        env:
+          ONLY_BRAND: ${{ inputs.brand }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
+          BUFFER_ACCESS_TOKEN: ${{ secrets.BUFFER_ACCESS_TOKEN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
+          NOTIFY_FROM: ${{ secrets.NOTIFY_FROM }}
+          # Per brand. Adding a brand means adding its secrets here and in make.yml and approve.yml.
+          ELEVENLABS_VOICE_ID_WEBSTAR: ${{ secrets.ELEVENLABS_VOICE_ID_WEBSTAR }}
+          BUFFER_PROFILE_IDS_WEBSTAR: ${{ secrets.BUFFER_PROFILE_IDS_WEBSTAR }}
+          ELEVENLABS_VOICE_ID_VIA77: ${{ secrets.ELEVENLABS_VOICE_ID_VIA77 }}
+          BUFFER_PROFILE_IDS_VIA77: ${{ secrets.BUFFER_PROFILE_IDS_VIA77 }}
+          BUFFER_ACCESS_TOKEN_VIA77: ${{ secrets.BUFFER_ACCESS_TOKEN_VIA77 }}
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Keep reels and sites as a build artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily
+          path: |
+            out/*/*/*.mp4
+            out/*/*/batch.json
+            out/sites/
+            !out/*/*/*-recording*.mp4
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Save state
+        if: always() && !inputs.dry_run
+        run: |
+          if [ -n "$(git status --porcelain -- brands)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add brands
+            git commit -m "Update reel state"
+            git pull --rebase
+            git push
+          fi

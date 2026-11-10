@@ -1,0 +1,145 @@
+{
+  "timezone": "Australia/Melbourne",
+  "brands": {
+    "webstar": {
+      "slots": ["12:00", "18:00"],
+      "autoMake": true,
+      "lookaheadDays": 4
+    },
+    "via77": {
+      "slots": ["19:00"],
+      "autoMake": true,
+      "lookaheadDays": 4
+    }
+  },
+  "campaigns": [
+    {
+      "id": "eofy",
+      "name": "End of financial year",
+      "from": "06-01",
+      "to": "06-30",
+      "angle": "Australian businesses review spending and plan the new financial year. Frame a new site or store as an investment made before 30 June, without tax or financial advice.",
+      "hashtags": ["eofy", "smallbusinessaustralia"],
+      "hooks": {
+        "webstar": [
+          "EOFY is the moment to fix your website",
+          "Your new financial year deserves a new website",
+          "Before 30 June, look at this",
+          "Planning next year? Start with your website"
+        ],
+        "via77": [
+          "A new financial year. A considered store.",
+          "Plan the year around the store, not the other way round.",
+          "The best time to rebuild is before the year begins.",
+          "Commerce, ready for the new financial year."
+        ]
+      },
+      "briefs": {
+        "webstar": [
+          "An accountant and bookkeeper for sole traders in Geelong",
+          "A small office fit-out company in Brisbane"
+        ],
+        "via77": [
+          "A premium desk and home-office furniture store",
+          "A considered stationery and leather goods store"
+        ]
+      }
+    },
+    {
+      "id": "black-friday",
+      "name": "Black Friday",
+      "from": "11-16",
+      "to": "11-30",
+      "angle": "Shoppers are primed to buy. Show sites and stores built to convert in the busiest week of the year: fast, clear, ready for traffic.",
+      "hashtags": ["blackfriday", "cybermonday"],
+      "hooks": {
+        "webstar": [
+          "Is your website ready for Black Friday?",
+          "Black Friday traffic, meet a site that converts",
+          "This site is built for the busiest week of the year",
+          "Don't send Black Friday shoppers to a slow site"
+        ],
+        "via77": [
+          "Ready for the busiest week of the year.",
+          "Black Friday, without the shouting.",
+          "A store that stays calm when the traffic doesn't.",
+          "Premium brands don't panic in November."
+        ]
+      },
+      "briefs": {
+        "webstar": [
+          "A sneaker resale shop in Melbourne",
+          "A bike shop and repair workshop in Adelaide"
+        ],
+        "via77": [
+          "A premium audio and headphones store",
+          "A designer kitchenware store"
+        ]
+      }
+    },
+    {
+      "id": "christmas",
+      "name": "Christmas",
+      "from": "12-01",
+      "to": "12-24",
+      "angle": "Gifting season. Show sites and stores that make choosing and buying a gift easy, with warmth and without cliché.",
+      "hashtags": ["christmasgifts", "shoplocal"],
+      "hooks": {
+        "webstar": [
+          "This site makes gift shopping easy",
+          "Christmas rush? Your website should handle it",
+          "The gift shop website your customers deserve",
+          "Make your website the easiest stop this Christmas"
+        ],
+        "via77": [
+          "Gifting, considered.",
+          "A store that makes choosing a gift feel calm.",
+          "The season of giving, designed.",
+          "Fewer choices. Better gifts."
+        ]
+      },
+      "briefs": {
+        "webstar": [
+          "A handmade candle and gift shop in Hobart",
+          "A Christmas tree farm with home delivery in the Dandenongs"
+        ],
+        "via77": [
+          "A luxury gift hamper store",
+          "A fine jewellery store for considered gifts"
+        ]
+      }
+    },
+    {
+      "id": "new-year",
+      "name": "New Year",
+      "from": "12-26",
+      "to": "01-15",
+      "angle": "Fresh starts and resolutions. Businesses plan the year ahead; a new site is the first thing to get right.",
+      "hashtags": ["newyear", "freshstart"],
+      "hooks": {
+        "webstar": [
+          "New year, new website. Here's what that looks like",
+          "Your 2027 resolution: a website that works",
+          "Start the year with a site you're proud of",
+          "Fresh start? Begin with your website"
+        ],
+        "via77": [
+          "A new year. A clearer store.",
+          "Begin the year with intent.",
+          "Resolutions fade. Good commerce compounds.",
+          "The year starts with the first screen."
+        ]
+      },
+      "briefs": {
+        "webstar": [
+          "A personal trainer and small-group gym in Perth",
+          "A meal-prep delivery service in Sydney"
+        ],
+        "via77": [
+          "A premium activewear store",
+          "A wellness and sleep products store"
+        ]
+      }
+    }
+  ]
+}

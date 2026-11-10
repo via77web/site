@@ -1,0 +1,19 @@
+{
+  "id": "paper-editorial",
+  "name": "Paper Editorial",
+  "brands": ["via77"],
+  "layout": "store",
+  "mood": "A printed magazine. Warm paper, ink-black type, a refined serif display, clay as the single accent.",
+  "bestFor": "Skincare, fashion, ceramics, books, stationery, food brands with a story.",
+  "colors": { "bg": "#F6F5F1", "bg2": "#ECEAE3", "ink": "#20221F", "muted": "#5E6159", "accent": "#88412C", "accentInk": "#F6F5F1" },
+  "fonts": {
+    "display": { "family": "Cormorant Garamond", "weights": "400;500", "stack": "\"Cormorant Garamond\",Georgia,serif" },
+    "body": { "family": "Inter Tight", "weights": "300;400;500", "stack": "\"Inter Tight\",system-ui,sans-serif" }
+  },
+  "display": { "case": "none", "weight": 400, "tracking": "0" },
+  "radius": 0,
+  "motionScale": 1.2,
+  "primaryEase": "build",
+  "signatureMoves": ["S4 word scrub on the statement", "S8 footer outline wordmark fill"],
+  "imageStyle": "Editorial still life: soft window light, paper and stone surfaces, muted earthy palette, generous negative space, magazine composition."
+}

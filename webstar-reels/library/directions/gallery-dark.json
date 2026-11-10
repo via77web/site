@@ -1,0 +1,19 @@
+{
+  "id": "gallery-dark",
+  "name": "Gallery Dark",
+  "brands": ["via77"],
+  "layout": "store",
+  "mood": "A dim gallery. Warm near-black, cream type, wide uppercase grotesk headings, products lit like objects on plinths.",
+  "bestFor": "Furniture, lighting, objects, menswear, fragrance, anything sculptural or material-led.",
+  "colors": { "bg": "#17120E", "bg2": "#221A15", "ink": "#F1E8DD", "muted": "#B2A393", "accent": "#EFE6DA", "accentInk": "#17120E" },
+  "fonts": {
+    "display": { "family": "Archivo", "weights": "500;600", "stack": "\"Archivo\",system-ui,sans-serif" },
+    "body": { "family": "Inter Tight", "weights": "300;400;500", "stack": "\"Inter Tight\",system-ui,sans-serif" }
+  },
+  "display": { "case": "uppercase", "weight": 600, "tracking": "0.005em" },
+  "radius": 18,
+  "motionScale": 1.3,
+  "primaryEase": "build",
+  "signatureMoves": ["S4 word scrub on the statement", "S8 footer outline wordmark fill"],
+  "imageStyle": "Sensory storytelling in low warm light: raking sunlight across material, deep shadow, products isolated like gallery objects, rich texture."
+}
