@@ -53,6 +53,13 @@ const BrandSchema = z.object({
   /** Set false when the spoken call to action reads badly on screen (a spelled-out URL); the end card shows it instead. */
   captionSpokenCta: z.boolean().default(true),
   hashtags: z.array(z.string()).default([]),
+  /** Where tracked links send people: the brand's site or link-in-bio page. */
+  link: z.string().url(),
+  /** Comment-to-DM: the word people comment, and the caption line that asks for it. ManyChat replies with the link. */
+  commentKeyword: z.string().regex(/^[A-Z0-9]+$/, "one word, capitals"),
+  commentPrompt: z.string(),
+  /** Moods to draw music from (music/library.json). */
+  musicMoods: z.array(z.string()).min(1),
   voice: z.object({
     maxWords: z.number().int().positive(),
     stability: z.number().min(0).max(1),

@@ -5,6 +5,40 @@ import { loadBatches } from "./batches.js";
 import type { Campaign } from "./calendar.js";
 import type { Site } from "../types.js";
 
+/** What the weekly learning step decided (brands/<id>/learning.json). Read here without importing the learner. */
+interface LearnedHooks {
+  hooks: Record<string, { status: "winner" | "active" | "retired" }>;
+}
+
+function loadLearning(brand: Brand): LearnedHooks | undefined {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(brandDir(brand), "learning.json"), "utf8")) as LearnedHooks;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * The order hooks are used in: retired hooks are dropped, and each winner gets a second
+ * turn halfway round, so it comes up twice as often.
+ */
+export function hookRotation(hooks: string[], learning: LearnedHooks | undefined): string[] {
+  if (!learning) return hooks;
+  const active = hooks.filter((h) => learning.hooks[h]?.status !== "retired");
+  const base = active.length ? active : hooks;
+  const winners = base.filter((h) => learning.hooks[h]?.status === "winner");
+  if (!winners.length) return base;
+  const half = Math.ceil(base.length / 2);
+  // Second turns are spread through the back half, each as far from its first turn as possible.
+  const out = [...base];
+  winners.forEach((w, i) => {
+    const first = out.indexOf(w);
+    const at = (first + half + i) % (out.length + 1);
+    out.splice(at, 0, w);
+  });
+  return out;
+}
+
 export const MAX_ATTEMPTS = 3;
 
 const sitesFile = (brand: Brand) => path.join(brandDir(brand), "sites.json");
@@ -25,14 +59,15 @@ export function nextPending(sites: Site[]): Site | undefined {
 }
 
 /**
- * The next `count` hooks, one per reel, in order. During a campaign its hooks are used first;
+ * The next `count` hooks, one per reel, in order (winners twice as often, retired hooks never). During a campaign its hooks are used first;
  * otherwise the brand's hooks.json. Each list keeps its own place and wraps after its last hook,
  * counted from the reels already made, so a dry run never uses one up.
  */
 export function nextHooks(brand: Brand, count: number, campaign: Campaign | undefined, fill: (h: string) => string): string[] {
   const batches = loadBatches(brand);
-  const brandHooks = fs.existsSync(hooksFile(brand)) ? (JSON.parse(fs.readFileSync(hooksFile(brand), "utf8")) as string[]) : [];
-  if (!brandHooks.length) throw new Error(`brands/${brand.id}/hooks.json is missing or empty`);
+  const written = fs.existsSync(hooksFile(brand)) ? (JSON.parse(fs.readFileSync(hooksFile(brand), "utf8")) as string[]) : [];
+  if (!written.length) throw new Error(`brands/${brand.id}/hooks.json is missing or empty`);
+  const brandHooks = hookRotation(written, loadLearning(brand));
   const campaignHooks = campaign?.hooks[brand.id] ?? [];
 
   const used = (pred: (campaignId: string | undefined) => boolean) =>

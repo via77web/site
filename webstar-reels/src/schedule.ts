@@ -5,6 +5,8 @@ import { log as writeLog, logError, step } from "./lib/log.js";
 import { loadBatches, saveBatch } from "./lib/batches.js";
 import { loadCalendar, localDate, slotsFor } from "./lib/calendar.js";
 import { resolveChannels, schedulePost, type Channel } from "./steps/post.js";
+import { captionFor } from "./lib/tracking.js";
+import { registerReel } from "./steps/leads.js";
 import { publishVideos } from "./steps/publish.js";
 import { VARIANT_LABEL, type Batch, type VariantId } from "./types.js";
 
@@ -99,13 +101,20 @@ export async function scheduleApproved(brand: Brand, { dryRun = false, now = new
         [v.videoUrl] = await step(`upload ${batch.id} ${v.id}`, () => publishVideos([file], batch.id, `Reels for ${batch.site.name}.`));
       }
       channels ??= await step(`Buffer channels for ${brand.id}`, () => resolveChannels(brand));
+      // The reel and its tracked link go into the leads table first, so the link works the moment the post is live.
+      await step(`register ${batch.id} ${v.id}`, () => registerReel(brand, batch, v, p.at)).catch(() => {});
       v.posts ??= {};
       // Save after each channel so a retry never double-posts one that already went through.
       for (const channel of channels) {
         if (v.posts[channel.id]) continue;
         const videoUrl = v.videoUrl;
         v.posts[channel.id] = await step(`Buffer ${channel.service} ${batch.id} ${v.id}`, () =>
-          schedulePost(brand, channel, { text: v.postText, videoUrl, dueAt: p.at, youtubeTitle: v.script.youtubeTitle }),
+          schedulePost(brand, channel, {
+            text: captionFor(channel.service, brand, batch, v, p.at),
+            videoUrl,
+            dueAt: p.at,
+            youtubeTitle: v.script.youtubeTitle,
+          }),
         );
         saveBatch(batch);
       }

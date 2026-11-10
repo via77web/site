@@ -88,9 +88,10 @@ test("approval commands", () => {
   assert.ok(batch.decidedAt);
 });
 
-test("concept sites are labelled in every caption", () => {
+test("captions: concepts are labelled, and every caption carries the comment prompt before the hashtags", () => {
   const s = { postCaption: "Bread worth getting up for.", hashtags: ["webdesign", "WebDesign"] } as VariantScript;
-  assert.equal(postText(s, true), "Concept · Bread worth getting up for.\n\n#webdesign");
-  assert.equal(postText({ ...s, postCaption: "Concept store for a bakery." }, true).startsWith("Concept store"), true);
-  assert.equal(postText(s, false).startsWith("Bread"), true);
+  const brand = { commentPrompt: "Comment WEBSITE and we'll send you the link." };
+  assert.equal(postText(s, true, undefined, brand), "Concept · Bread worth getting up for.\n\nComment WEBSITE and we'll send you the link.\n\n#webdesign");
+  assert.equal(postText({ ...s, postCaption: "Concept store for a bakery." }, true, undefined, brand).startsWith("Concept store"), true);
+  assert.equal(postText(s, false, undefined, brand).startsWith("Bread"), true);
 });

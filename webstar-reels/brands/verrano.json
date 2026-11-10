@@ -23,6 +23,12 @@
     "officefitout",
     "cabinetwrap"
   ],
+  "link": "https://verrano.com.au/",
+  "commentKeyword": "QUOTE",
+  "commentPrompt": "Comment QUOTE and we'll send you the link.",
+  "musicMoods": [
+    "upbeat"
+  ],
   "voice": {
     "maxWords": 32,
     "stability": 0.55,

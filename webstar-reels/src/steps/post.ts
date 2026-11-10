@@ -111,6 +111,45 @@ export async function schedulePost(
   return id;
 }
 
+export interface Metrics {
+  views?: number;
+  watchSeconds?: number;
+  shares?: number;
+  reactions?: number;
+  comments?: number;
+}
+
+/** Sort Buffer's metric names into the few the learning loop uses. Names vary by network. */
+export function readMetrics(list: { type?: string | null; name?: string | null; value?: number | string | null; unit?: string | null }[]): Metrics {
+  const out: Metrics = {};
+  const add = (k: keyof Metrics, v: number) => (out[k] = Math.max(out[k] ?? 0, v));
+  for (const m of list) {
+    const label = `${m.type ?? ""} ${m.name ?? ""}`.toLowerCase();
+    let value = Number(m.value);
+    if (!Number.isFinite(value)) continue;
+    if (/watch|view.?time|play.?time|duration/.test(label)) {
+      if (/min/.test(`${m.unit ?? ""} ${label}`)) value *= 60;
+      else if (/hour/.test(`${m.unit ?? ""} ${label}`)) value *= 3600;
+      else if (/ms|millisecond/.test(`${m.unit ?? ""}`)) value /= 1000;
+      add("watchSeconds", value);
+    } else if (/view|play|impression|reach/.test(label)) add("views", value);
+    else if (/share|repost|retweet/.test(label)) add("shares", value);
+    else if (/comment|repl/.test(label)) add("comments", value);
+    else if (/reaction|like|favou?rite/.test(label)) add("reactions", value);
+  }
+  return out;
+}
+
+/** Performance of one scheduled post, from Buffer's post metrics. */
+export async function postMetrics(brand: Brand, postId: string): Promise<Metrics> {
+  const data = await buffer<{ post: { metrics: { type: string; name: string; value: number; unit: string }[] | null } | null }>(
+    bufferToken(brand)!,
+    `query PostMetrics($input: PostInput!) { post(input: $input) { metrics { type name value unit } metricsUpdatedAt } }`,
+    { input: { id: postId } },
+  );
+  return readMetrics(data.post?.metrics ?? []);
+}
+
 // `npm run buffer:channels` (add `-- --brand via77` to use that brand's own Buffer token)
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href && process.argv.includes("--list-channels")) {
   const brandFlag = process.argv.indexOf("--brand");

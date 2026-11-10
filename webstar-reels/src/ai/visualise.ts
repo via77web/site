@@ -314,7 +314,7 @@ Leave rows empty.`,
     }),
   );
 
-  const caption = postText(script, false, opts.campaign);
+  const caption = postText(script, false, opts.campaign, brand);
   const batch: Batch = {
     id,
     brand: brand.id,

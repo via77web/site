@@ -19,6 +19,12 @@
     "shopify",
     "brandexperience"
   ],
+  "link": "https://www.via77.com.au/",
+  "commentKeyword": "STORE",
+  "commentPrompt": "Comment STORE and we'll send you the details.",
+  "musicMoods": [
+    "ambient"
+  ],
   "voice": {
     "maxWords": 32,
     "stability": 0.7,

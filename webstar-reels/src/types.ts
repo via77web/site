@@ -90,6 +90,10 @@ export interface BatchVariant {
   /** Public URL of the MP4. Buffer downloads from here. */
   videoUrl?: string;
   scheduledFor?: string;
+  /** The hook as written in hooks.json (before filling in names), so results can be credited to it. */
+  hookSource?: string;
+  /** Royalty-free track used, from music/library.json. */
+  music?: string;
   /** Local date (YYYY-MM-DD) the weekly plan gives this reel. */
   plannedFor?: string;
   /** Local date it was put up for approval. */

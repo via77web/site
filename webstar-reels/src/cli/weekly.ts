@@ -16,6 +16,7 @@ import { AI_CYCLE, produceAiReel } from "../ai/visualise.js";
 import { serveDir } from "../lib/serve.js";
 import { loadBriefs, loadSites, nextPending, saveBriefs, saveSites, MAX_ATTEMPTS } from "../lib/queue.js";
 import { ensureBriefs } from "../briefs.js";
+import { learn, loadLearning, weightedSequence, type Learning } from "../learn.js";
 import { makeSite } from "../make/index.js";
 import { findReferences } from "../refs/resolve.js";
 import { hasPlanned, noonOf, planSiteBatch, slotsOn, upcomingDates } from "../plan.js";
@@ -39,6 +40,18 @@ startLog("weekly");
 const cal = loadCalendar();
 const dates = upcomingDates(Number(flags.days), flags.start);
 log(`planning ${dates[0]} to ${dates[dates.length - 1]}`);
+
+// Learn from last week before building this one. Never blocks the build.
+const learned: Record<string, Learning | undefined> = {};
+for (const id of flags.brand ? flags.brand.split(",") : listBrandIds()) {
+  try {
+    const brand = loadBrand(id.trim());
+    learned[brand.id] = (await learn(brand, { mock })) ?? loadLearning(brand);
+  } catch (error) {
+    warn(`[${id}] learning step skipped: ${error instanceof Error ? error.message : error}`);
+  }
+}
+const weightsFor = (brandId: string) => Object.fromEntries(Object.entries(learned[brandId]?.variants ?? {}).map(([k, v]) => [k, v.weight]));
 
 async function siteDay(brand: Brand, date: string, dayIndex: number): Promise<void> {
   const campaign = activeCampaign(cal, brand.id, noonOf(date));
@@ -109,7 +122,7 @@ async function siteDay(brand: Brand, date: string, dayIndex: number): Promise<vo
     }
   }
   if (!dryRun) {
-    const v = planSiteBatch(batch, date, dayIndex);
+    const v = planSiteBatch(batch, date, dayIndex, weightsFor(brand.id));
     log(`[${brand.id}] ${date}: ${batch.site.name}, ${v?.id ?? "no"} reel planned; ${batch.variants.length - 1} spare`);
   }
 }
@@ -128,7 +141,9 @@ for (const id of flags.brand ? flags.brand.split(",") : listBrandIds()) {
         if (!hasLibrary(brand)) throw new Error(`no library yet; run npm run library:crawl -- --brand ${brand.id}`);
         const dayOfWeek = new Date(`${date}T12:00:00Z`).getUTCDay();
         const options = { dryRun, mock, plannedFor: date, campaign: activeCampaign(cal, brand.id, noonOf(date)) };
-        const standard = FORMAT_CYCLE[dayOfWeek % FORMAT_CYCLE.length];
+        // Formats rotate through the week, weighted towards what has worked.
+        const week = Math.floor(Date.parse(`${date}T12:00:00Z`) / 604_800_000);
+        const standard = weightedSequence(FORMAT_CYCLE, weightsFor(brand.id), 7)[(dayOfWeek + week) % 7];
         // AI visualisations take `perWeek` of the week's days, spread out, and need a fal key.
         const perWeek = brand.ai?.perWeek ?? 0;
         const aiDay =

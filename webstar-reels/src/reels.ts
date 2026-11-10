@@ -8,7 +8,7 @@ import { loadCalendar, localDate, type Campaign } from "./lib/calendar.js";
 import { nextHooks, slugify } from "./lib/queue.js";
 import { step } from "./lib/log.js";
 import { beforeFile, openSite, type ClipOptions } from "./steps/record.js";
-import { renderVariants, type RenderJob } from "./steps/render.js";
+import { musicFor, renderVariants, type RenderJob } from "./steps/render.js";
 import { mockScripts, writeScripts } from "./steps/script.js";
 import { mockVoice, synthesizeVoice } from "./steps/voice.js";
 import { VARIANT_LABEL, type Batch, type SiteVariant, type VariantScript, type WordTiming } from "./types.js";
@@ -36,12 +36,15 @@ export interface BatchOptions {
   campaign?: Campaign;
 }
 
-/** Caption and hashtags exactly as posted. Concepts are always labelled as such. */
-export function postText(script: VariantScript, concept: boolean, campaign?: Campaign): string {
+/**
+ * Caption exactly as posted: the copy, then the comment-to-DM prompt, then hashtags.
+ * Concepts are always labelled, and the prompt is always there: both are added here, not left to the script.
+ */
+export function postText(script: VariantScript, concept: boolean, campaign: Campaign | undefined, brand: Pick<Brand, "commentPrompt">): string {
   let caption = script.postCaption.trim();
   if (concept && !/^concept\b/i.test(caption)) caption = `Concept · ${caption}`;
   const tags = [...new Set([...script.hashtags, ...(campaign?.hashtags ?? [])].map((h) => h.toLowerCase()))];
-  return `${caption}\n\n${tags.map((h) => `#${h}`).join(" ")}`;
+  return `${caption}\n\n${brand.commentPrompt}\n\n${tags.map((h) => `#${h}`).join(" ")}`;
 }
 
 function batchId(brand: Brand, name: string): string {
@@ -75,9 +78,11 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
   const voices: Record<string, { words: WordTiming[]; duration: number }> = {};
   const totals: Record<string, number> = {};
   let scripts: VariantScript[];
+  let sources: string[] = [];
   try {
     log(`reels 2/5 Writing ${variants.length} scripts`);
-    const hooks = nextHooks(brand, variants.length, opts.campaign, fill);
+    sources = nextHooks(brand, variants.length, opts.campaign, (h) => h);
+    const hooks = sources.map(fill);
     const site = { name: input.name, niche: input.niche, url: input.publicUrl ?? input.url, concept: input.concept, brief: input.brief };
     scripts = opts.mock
       ? mockScripts(brand, site, variants, hooks)
@@ -125,6 +130,7 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
       outFile: file(`${id}-${s.variant}.mp4`),
     };
   });
+  const track = musicFor(brand);
   await step(`render ${input.name}`, () => renderVariants(brand, jobs, input.concept));
 
   const batch: Batch = {
@@ -147,7 +153,9 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
       id: s.variant,
       status: "ready",
       script: s,
-      postText: postText(s, input.concept, opts.campaign),
+      postText: postText(s, input.concept, opts.campaign, brand),
+      hookSource: sources[i],
+      music: track ?? undefined,
       seconds: totals[s.variant],
       file: path.relative(ROOT, jobs[i].outFile),
     })),

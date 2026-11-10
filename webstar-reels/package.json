@@ -18,7 +18,9 @@
     "studio": "remotion studio remotion/index.ts",
     "buffer:channels": "tsx src/steps/post.ts --list-channels",
     "typecheck": "tsc --noEmit",
-    "ai:test": "tsx src/cli/ai.ts"
+    "ai:test": "tsx src/cli/ai.ts",
+    "learn": "tsx src/cli/learn.ts",
+    "tracking:setup": "tsx src/cli/tracking.ts"
   },
   "engines": {
     "node": ">=20"

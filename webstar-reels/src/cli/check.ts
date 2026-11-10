@@ -5,7 +5,9 @@ import { z } from "zod";
 import { brandEnvName, listBrandIds, loadBrand } from "../lib/brand.js";
 import { env } from "../lib/env.js";
 import { generate, llmBackend } from "../lib/llm.js";
+import { loadMusic, pickTrack } from "../lib/music.js";
 import { referencesRoot } from "../refs/sync.js";
+import { leadsEnabled } from "../steps/leads.js";
 import { hasLibrary, loadLibrary } from "../stills/library.js";
 
 const live = process.argv.includes("--live");
@@ -46,6 +48,16 @@ for (const k of ["GEMINI_API_KEY", "VERCEL_TOKEN"]) env(k) ? ok(k) : note(`${k} 
 env("FAL_KEY") ? ok("FAL_KEY (AI visualisation reels)") : note("FAL_KEY empty: no AI visualisation reels; those days use real footage");
 env("RESEND_API_KEY") && env("NOTIFY_EMAIL") ? ok("email notifications") : note("no email notifications (optional)");
 env("NTFY_TOPIC") ? ok("phone notifications via ntfy") : note("no phone notifications (optional NTFY_TOPIC)");
+
+console.log("Leads and music");
+leadsEnabled() ? ok("lead tracking (Supabase)") : note("SUPABASE_URL / SUPABASE_SERVICE_KEY empty: no click, enquiry or deposit tracking (docs/lead-tracking.md)");
+env("TRACK_BASE_URL") ? ok("TRACK_BASE_URL (short tracked links)") : note("TRACK_BASE_URL empty: tracked links go straight to the site with UTM tags");
+{
+  const { tracks, unlisted } = loadMusic();
+  ok(`${tracks.length} licensed music track(s)`);
+  if (unlisted.length) note(`ignored, not in music/library.json: ${unlisted.join(", ")}`);
+  for (const id of listBrandIds()) if (!pickTrack(loadBrand(id), 0)) note(`${id} has no licensed track: its reels will have voice only`);
+}
 
 console.log("References");
 {

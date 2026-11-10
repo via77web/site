@@ -15,6 +15,12 @@
     "websitedesign",
     "smallbusiness"
   ],
+  "link": "https://shazilsohel.com/",
+  "commentKeyword": "WEBSITE",
+  "commentPrompt": "Comment WEBSITE and we'll send you the link.",
+  "musicMoods": [
+    "upbeat"
+  ],
   "voice": {
     "maxWords": 30,
     "stability": 0.4,

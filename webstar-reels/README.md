@@ -6,12 +6,13 @@ A content engine for **WEBSTAR**, **VIA77** and **VERRANO** that runs on your Ma
 - **Every day 6am**: picks today's reel for each brand, notifies you, and waits on a local approval page. Each reel you approve is scheduled to Instagram Reels, TikTok and YouTube Shorts at the brand's calendar slot. **Nothing posts without a yes.**
 - **Claude runs on your subscription.** Scripts, captions, site copy and briefs are written by Claude Code in headless mode (`claude -p`), not the API.
 - Every run is logged to `logs/`, failed steps are retried once, and errors notify you.
+- **It learns.** Every reel has a tracked link; clicks, enquiries and Stripe deposits are logged against it, and each Sunday the engine ranks hooks and formats and leans next week towards what worked.
 
 ## The week
 
 | When | Job | What happens |
 | --- | --- | --- |
-| Sunday 6:00 | `weekly` | For each of the next 7 days that has no reel yet: WEBSTAR and VIA77 make a site (the queue in `brands/<id>/sites.json` first, then the running campaign's briefs, then the brief backlog, topped up by Claude when it runs dry), record all four angles and pre-render them. One angle is planned for that day and the other three are kept as spares. VERRANO renders one reel per day, cycling through its five formats, with two days a week given to AI visualisations. |
+| Sunday 6:00 | `weekly` | First, the learning step: pull last week's numbers, rank hooks and formats, write `insights.md`, retire the weakest hooks. Then, for each of the next 7 days that has no reel yet: WEBSTAR and VIA77 make a site (the queue in `brands/<id>/sites.json` first, then the running campaign's briefs, then the brief backlog, topped up by Claude when it runs dry), record all four angles and pre-render them. One angle is planned for that day and the other three are kept as spares. VERRANO renders one reel per day, cycling through its five formats, with two days a week given to AI visualisations. |
 | Daily 6:00 | `daily` | Schedules anything approved earlier. Puts today's planned reels up for approval (one per brand per calendar slot, falling back to a spare if a day is missing), sends a notification, and serves the approval page at `http://localhost:4777`. Waits until 30 minutes before the day's first slot. Undecided reels don't post; they go back into the pool. |
 
 The Mac wakes at 5:55 every day (`pmset`), and each job keeps it awake while it runs (`caffeinate`). If the Mac was asleep at 6:00, launchd runs the job as soon as it wakes. If it was switched off, that run is missed; `pmset` powers on desktop Macs, and you can always run `./scripts/run-job.sh daily` by hand.
@@ -143,15 +144,30 @@ npm install -g @anthropic-ai/claude-code
 claude          # then /login with your Claude account, and /exit
 ```
 
-### 3. Keys
+### 3. Accounts (per brand)
+
+Do this once for WEBSTAR, VIA77 and VERRANO:
+
+- [ ] **Instagram**: create the account, then switch it to a **Business** account (Settings → Account type and tools) and connect it to a Facebook Page for the brand. Business, not Creator: Buffer's direct publishing and ManyChat's comment automation both need it.
+- [ ] **TikTok**: create the account and switch to a **Business Account** (Settings → Account). Business accounts can't use commercial sounds, which suits this setup: reels carry their own royalty-free audio.
+- [ ] **YouTube**: create a channel for the brand (a Brand Account lets you add managers later). Verify it by phone so uploads over 15 minutes and custom thumbnails aren't restricted. Vertical videos under three minutes are filed as Shorts automatically.
+- [ ] **Buffer**: Channels → Connect a channel, and connect all three for the brand. For Instagram choose the Business account through Facebook; for TikTok and YouTube approve posting on your behalf. Make sure your Buffer plan covers nine channels.
+- [ ] **Profile IDs**: run `npm run buffer:channels`, and copy each brand's three lines into `.env`:
+      `BUFFER_PROFILE_IDS_WEBSTAR=instagram:…,tiktok:…,youtube:…` (and `_VIA77`, `_VERRANO`).
+- [ ] **Voice**: pick an ElevenLabs voice for the brand and put its ID in `ELEVENLABS_VOICE_ID_<BRAND>`.
+- [ ] **Bio link**: after lead tracking is set up, put the brand's link-in-bio link (from `npm run tracking:setup`) in the Instagram and TikTok profiles and the YouTube channel links.
+- [ ] **ManyChat**: connect the brand's Instagram and add its keyword automation ([docs/manychat.md](docs/manychat.md)).
+- [ ] **Test**: approve one reel and check it arrives in Buffer's queue for all three channels at the brand's slot, with the right caption on each.
+
+### 4. Keys
 
 ```bash
 cp .env.example .env
 ```
 
-Fill in ElevenLabs, Buffer, `GITHUB_REPOSITORY`, and each brand's voice and Buffer channel IDs (`npm run buffer:channels` lists them; connect each brand's Instagram, TikTok and YouTube in Buffer first). Add `GEMINI_API_KEY` for generated-site images and `VERCEL_TOKEN` for preview links. Leave `ANTHROPIC_API_KEY` empty to run Claude on your subscription.
+Fill in ElevenLabs, Buffer, `GITHUB_REPOSITORY`, and each brand's voice and Buffer channel IDs from the checklist above. For lead tracking add `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` and `TRACK_BASE_URL` ([docs/lead-tracking.md](docs/lead-tracking.md)). Add `GEMINI_API_KEY` for generated-site images and `VERCEL_TOKEN` for preview links. Leave `ANTHROPIC_API_KEY` empty to run Claude on your subscription.
 
-### 4. Run the setup script
+### 5. Run the setup script
 
 ```bash
 ./scripts/setup-mac.sh
@@ -197,10 +213,41 @@ Each external step (Claude, images, Vercel, recording, ElevenLabs, rendering, up
 | `npm run library:crawl -- --brand verrano` | Refresh Verrano's photo library |
 | `npm run library:tag -- --brand verrano` | Have Claude look at and tag the photos |
 | `npm run ai:test -- --format imagine` | Make one AI visualisation reel now to check the fal preset, checks and cost (`--mock` is free) |
+| `npm run learn` | Pull results and rewrite each brand's `insights.md` now |
+| `npm run tracking:setup` | Save and print each brand's link-in-bio and ManyChat DM links |
 | `npm run check` | Is this Mac ready? (`-- --live` also tests Claude Code) |
 | `npm test` | Calendar, campaigns, slotting, daily picks, approval parsing, Verrano format fallbacks, design contrast |
 
 Add `--mock` to `weekly` or `make` for a free run: example site, placeholder images, canned scripts and a silent voice.
+
+## Leads, comments and the learning loop
+
+### Tracked links and the leads table
+
+Every reel gets a unique link when it is scheduled, tagged with the brand and day (`utm_campaign`), the variant (`utm_content`), the hook (`utm_term`) and the platform (`utm_source`), pointing at the brand's `link` in `brands/<id>.json`. With the `go` function deployed it is a short redirect that counts the click itself.
+
+Clicks, form submissions and Stripe deposits are logged against that link in Supabase, and the `reel_funnel` view shows each reel as **views → clicks → enquiries → deposits**. Setup (database, three small functions, a snippet for each site, the Stripe webhook) is in [docs/lead-tracking.md](docs/lead-tracking.md).
+
+Where the link appears: TikTok and YouTube captions carry it. Instagram captions can't hold a tappable link, so Instagram relies on the bio link and comment-to-DM below; `npm run tracking:setup` prints both links for each brand. Bio and DM clicks can't say which reel prompted them, so the weekly report credits them to the brand's most recent reel and says it has done so.
+
+### Comment-to-DM
+
+Every caption ends its copy with the brand's keyword prompt, added in code: "Comment WEBSITE" (WEBSTAR), "Comment STORE" (VIA77), "Comment QUOTE" (VERRANO). Hashtags follow it. The keyword and line are `commentKeyword` and `commentPrompt` in each brand config. [docs/manychat.md](docs/manychat.md) walks through the ManyChat automation that answers those comments with the tracked link.
+
+### Weekly learning loop
+
+Before the Sunday build (or any time with `npm run learn`), for each brand:
+
+1. **Gather.** For every reel posted in the last 60 days and live at least 48 hours: views, watch time, shares, reactions and comments from Buffer's post metrics, and clicks, enquiries and deposits from the leads table.
+2. **Score.** Each reel is scored 0–100 against the brand's best on each signal. A signal nobody has yet (no leads table, say) drops out and the others share its weight.
+3. **Rank** hooks, formats and angles, and design directions, and write `brands/<id>/insights.md` with the full table.
+4. **Bias next week.** The top 20% of hooks come up twice as often. The bottom 20% are retired, and Claude writes replacements in the style of the winners so the pool keeps its size. The best format is planned more often and the weakest less often.
+
+Guard rails, because early numbers are noisy: nothing is promoted or retired until at least 5 hooks have results; a brand never drops below 10 active hooks; formats are only re-weighted once three formats have two reels each, and the weakest format is used less, never dropped. Decisions are in `brands/<id>/learning.json`; delete it to reset, or edit a hook's status by hand.
+
+## Music
+
+Reels only use tracks from the local [`music/`](music/README.md) library, where every track is tagged by mood and brand and must be marked royalty-free with its licence. Each brand draws from its `musicMoods`. Unlisted files are ignored, a brand with no licensed track gets voice only, and nothing ever attaches a platform's trending or commercial audio. The two tracks included were generated for this project; add licensed ones as you get them.
 
 ## References (your Pinterest workflow)
 
@@ -247,7 +294,9 @@ All state is files in this folder, so back it up or commit it as you like:
 - `brands/<id>.json`: brand voice, look, CTA and rules
 - `brands/<id>/sites.json`: queue of existing sites
 - `brands/<id>/briefs.json`: backlog of briefs for concept sites
-- `brands/<id>/hooks.json`: hooks, used in order
+- `brands/<id>/hooks.json`: hooks, used in order (winners more often, retired ones skipped)
+- `brands/<id>/insights.md`, `learning.json`: last Sunday's results and what was decided from them
+- `music/`: the royalty-free music library
 - `brands/<id>/batches/*.json`: every reel: script, caption, status (`ready`, `awaiting`, `approved`, `scheduled`, `rejected`), planned day, slot, Buffer post IDs, photos used
 - `brands/verrano/library/`: crawled photos and `library.json`
 - `references/`: your saved screenshots, with each project's `brief.md`, `direction.json` and `comparison.md` (in iCloud Drive, not committed)
@@ -257,5 +306,5 @@ All state is files in this folder, so back it up or commit it as you like:
 
 - **Buffer's API fields** for Instagram Reels and YouTube Shorts (in `src/steps/post.ts`) haven't been checked against a live account. Approve one test reel and confirm it appears correctly in Buffer before relying on it.
 - **Verrano's look** in `brands/verrano.json` (charcoal with a copper accent) is a placeholder: the crawl lists the colours it found on the site under `brandColors`. Update the config to match.
-- **Verrano's music** is a copy of WEBSTAR's generated placeholder track; replace `public/brands/verrano/music.mp3` with a track you have the rights to.
+- **Buffer's metric names** vary by network. The learning step sorts them into views, watch time, shares, reactions and comments by name; check the first `insights.md` against Buffer's own numbers.
 - Remotion is free for individuals and companies of up to three people; larger companies need a [Remotion licence](https://www.remotion.dev/license).

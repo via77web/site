@@ -3,7 +3,9 @@ import path from "node:path";
 import { bundle } from "@remotion/bundler";
 import { renderMedia, selectComposition } from "@remotion/renderer";
 import { ROOT, type Brand } from "../lib/brand.js";
+import { loadBatches } from "../lib/batches.js";
 import { env } from "../lib/env.js";
+import { MUSIC_DIR, pickTrack } from "../lib/music.js";
 import type { ReelProps, VariantId, WordTiming } from "../types.js";
 
 const PUBLIC_DIR = path.join(ROOT, "public");
@@ -19,6 +21,20 @@ export interface RenderJob {
   captions: string[];
   words: WordTiming[];
   outFile: string;
+}
+
+/** The royalty-free track this brand's next reel uses (it rotates as reels are made). Null means no music. */
+export function musicFor(brand: Brand): string | null {
+  return pickTrack(brand, loadBatches(brand).length)?.file ?? null;
+}
+
+/** Copy the reel's track under public/ so Remotion can load it. Only tracks from music/library.json get here. */
+function stageMusic(brand: Brand): string | null {
+  const file = musicFor(brand);
+  if (!file) return null;
+  fs.mkdirSync(RUN_DIR, { recursive: true });
+  fs.copyFileSync(path.join(MUSIC_DIR, file), path.join(RUN_DIR, "music.mp3"));
+  return "run/music.mp3";
 }
 
 /** First of `names` that exists in public/brands/<id>/, as a path relative to public/. */
@@ -41,6 +57,7 @@ export async function renderVariants(brand: Brand, jobs: RenderJob[], concept: b
     if (job.beforeFile) fs.copyFileSync(job.beforeFile, path.join(dir, "before.mp4"));
   }
 
+  const musicSrc = stageMusic(brand);
   const serveUrl = await bundle({ entryPoint: path.join(ROOT, "remotion/index.ts"), publicDir: PUBLIC_DIR });
   const browserExecutable = env("CHROMIUM_PATH") ?? null;
   const [ctaLine, ctaAction = ""] = brand.cta.split(/\s+[—–]\s+/);
@@ -51,7 +68,7 @@ export async function renderVariants(brand: Brand, jobs: RenderJob[], concept: b
       recordingSrc: `run/${job.variant}/recording.mp4`,
       beforeSrc: job.beforeFile ? `run/${job.variant}/before.mp4` : null,
       voiceSrc: `run/${job.variant}/voice.mp3`,
-      musicSrc: brandAsset(brand, ["music.mp3"]),
+      musicSrc,
       logoSrc: brandAsset(brand, ["logo.svg", "logo.png", "logo.webp", "logo.jpg"]),
       brandName: brand.name,
       style: brand.style,
@@ -114,13 +131,14 @@ export async function renderStills(brand: Brand, job: StillsJob): Promise<void> 
   const shots = job.props.shots.map(restage);
   const pair = job.props.pair ? { before: restage(job.props.pair.before), after: restage(job.props.pair.after) } : null;
 
+  const musicSrc = stageMusic(brand);
   const [ctaLine, ctaAction = ""] = (job.cta ?? brand.cta).split(/\s+[—–]\s+/);
   const inputProps: import("../types.js").StillsProps = {
     ...job.props,
     shots,
     pair,
     voiceSrc: "run/stills/voice.mp3",
-    musicSrc: brandAsset(brand, ["music.mp3"]),
+    musicSrc,
     logoSrc: brandAsset(brand, ["logo.svg", "logo.png", "logo.webp", "logo.jpg"]),
     brandName: brand.name,
     style: brand.style,

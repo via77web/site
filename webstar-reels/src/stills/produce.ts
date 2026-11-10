@@ -13,7 +13,7 @@ import { log, step, warn } from "../lib/log.js";
 import { nextHooks } from "../lib/queue.js";
 import { postText } from "../reels.js";
 import { openSite } from "../steps/record.js";
-import { renderStills, renderVariants } from "../steps/render.js";
+import { musicFor, renderStills, renderVariants } from "../steps/render.js";
 import { mockScripts, scriptProblems } from "../steps/script.js";
 import { mockVoice, synthesizeVoice } from "../steps/voice.js";
 import { VARIANT_LABEL, type Batch, type Shot, type StillFormat, type VariantScript } from "../types.js";
@@ -252,6 +252,7 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
   const total = reelSeconds(voice.duration, brand.scroll.seconds, brand.style.endCardSeconds);
   const shown = brand.captionSpokenCta ? { words: voice.words, captions: script.captions } : dropTrailingPhrase(voice.words, script.captions, brand.spokenCta);
   const outFile = file(`${id}.mp4`);
+  const track = musicFor(brand);
   let aiDisclosure: string | null = null;
 
   if (format === "site-scroll") {
@@ -328,9 +329,11 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
         id: format,
         status: "ready",
         script: cleanScript,
-        postText: (aiDisclosure ? `${aiDisclosure} ` : "") + postText(cleanScript, false, opts.campaign),
+        postText: (aiDisclosure ? `${aiDisclosure} ` : "") + postText(cleanScript, false, opts.campaign, brand),
         seconds: total,
         file: path.relative(ROOT, outFile),
+        hookSource: hook,
+        music: track ?? undefined,
         plannedFor: opts.plannedFor,
         assets: [
           ...plan.images.map((i) => i.id),

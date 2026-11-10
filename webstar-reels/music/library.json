@@ -1,0 +1,23 @@
+{
+  "note": "The only music reels may use. Every track must be royalty-free and say where its licence comes from. Files in this folder that are not listed here are ignored. Never add trending or commercial audio.",
+  "tracks": [
+    {
+      "file": "upbeat-loop-01.mp3",
+      "title": "Upbeat loop 01",
+      "moods": ["upbeat", "energetic"],
+      "brands": ["webstar", "verrano"],
+      "royaltyFree": true,
+      "license": "Generated in-house for this project (synthesised with numpy and ffmpeg). No third-party rights.",
+      "source": "in-house"
+    },
+    {
+      "file": "ambient-pad-01.mp3",
+      "title": "Ambient pad 01",
+      "moods": ["ambient", "calm"],
+      "brands": ["via77"],
+      "royaltyFree": true,
+      "license": "Generated in-house for this project (synthesised with ffmpeg). No third-party rights.",
+      "source": "in-house"
+    }
+  ]
+}

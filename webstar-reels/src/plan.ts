@@ -1,6 +1,7 @@
 import type { Brand } from "./lib/brand.js";
 import { loadBatches, saveBatch } from "./lib/batches.js";
 import { loadCalendar, localDate, slotsFor, zonedTime } from "./lib/calendar.js";
+import { weightedSequence } from "./learn.js";
 import { VARIANTS, type Batch, type BatchVariant } from "./types.js";
 
 export interface Pick {
@@ -41,9 +42,14 @@ export function hasPlanned(brand: { id: string }, date: string): boolean {
   return loadBatches(brand).some((b) => b.variants.some((v) => v.plannedFor === date && v.status !== "rejected"));
 }
 
-/** Give one of a site batch's reels a day, rotating the angle by day so the feed varies. */
-export function planSiteBatch(batch: Batch, date: string, dayIndex: number): BatchVariant | undefined {
-  const order = [...VARIANTS.slice(dayIndex % VARIANTS.length), ...VARIANTS.slice(0, dayIndex % VARIANTS.length)];
+/**
+ * Give one of a site batch's reels a day. The angle follows a rotation weighted by what the
+ * learning loop found (even until there are results), so the feed varies and winners recur.
+ */
+export function planSiteBatch(batch: Batch, date: string, dayIndex: number, weights: Partial<Record<string, number>> = {}): BatchVariant | undefined {
+  const sequence = weightedSequence(VARIANTS, weights, 28);
+  const first = sequence[dayIndex % sequence.length];
+  const order = [first, ...VARIANTS.filter((v) => v !== first)];
   const v = order.map((id) => batch.variants.find((x) => x.id === id && x.status === "ready")).find(Boolean);
   if (v) {
     v.plannedFor = date;
