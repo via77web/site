@@ -67,6 +67,21 @@ const BrandSchema = z.object({
     sectionHold: z.number().min(0),
   }),
   style: StyleSchema,
+  /** AI visualisation reels (library brands). Omit to turn them off. */
+  ai: z
+    .object({
+      /** On-screen label shown for the full length of every reel containing AI footage. */
+      label: z.string().default("Visualisation"),
+      /** Sentence every AI reel's caption starts with. */
+      disclosure: z.string(),
+      cta: z.string(),
+      spokenCta: z.string(),
+      /** How many of the week's reels are AI visualisations. */
+      perWeek: z.number().int().min(0).max(7).default(2),
+      /** Finishes to visualise. `prompt` describes the surface for the image model. */
+      finishes: z.array(z.object({ name: z.string(), prompt: z.string() })).min(2),
+    })
+    .optional(),
 });
 
 export type Brand = z.infer<typeof BrandSchema>;

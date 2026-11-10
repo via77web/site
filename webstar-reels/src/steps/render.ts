@@ -93,6 +93,8 @@ export interface StillsJob {
   files: string[];
   voiceFile: string;
   outFile: string;
+  /** End card text for this reel, when it differs from the brand's usual call to action. */
+  cta?: string;
 }
 
 /** Render one photo-library reel with the "Stills" composition. */
@@ -112,7 +114,7 @@ export async function renderStills(brand: Brand, job: StillsJob): Promise<void> 
   const shots = job.props.shots.map(restage);
   const pair = job.props.pair ? { before: restage(job.props.pair.before), after: restage(job.props.pair.after) } : null;
 
-  const [ctaLine, ctaAction = ""] = brand.cta.split(/\s+[—–]\s+/);
+  const [ctaLine, ctaAction = ""] = (job.cta ?? brand.cta).split(/\s+[—–]\s+/);
   const inputProps: import("../types.js").StillsProps = {
     ...job.props,
     shots,

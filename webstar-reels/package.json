@@ -17,7 +17,8 @@
     "test": "tsx --test test/*.test.ts",
     "studio": "remotion studio remotion/index.ts",
     "buffer:channels": "tsx src/steps/post.ts --list-channels",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "ai:test": "tsx src/cli/ai.ts"
   },
   "engines": {
     "node": ">=20"

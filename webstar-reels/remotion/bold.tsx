@@ -148,7 +148,9 @@ const EndCard: Theme["EndCard"] = ({ ctaLine, ctaAction, brandName, logoSrc, sty
       <div
         style={{
           fontFamily: FONT_DISPLAY,
-          fontSize: 104,
+          // Longer lines step down so they stay within three lines.
+          fontSize: ctaLine.length > 22 ? 84 : 104,
+          lineHeight: 1.08,
           textTransform: "uppercase",
           letterSpacing: "0.02em",
           color: text,
@@ -167,9 +169,11 @@ const EndCard: Theme["EndCard"] = ({ ctaLine, ctaAction, brandName, logoSrc, sty
             color: background,
             fontFamily: FONT_HEAVY,
             fontWeight: 800,
-            fontSize: 76,
+            // Long actions shrink to fit the frame on one line.
+            fontSize: Math.min(76, Math.floor(1500 / Math.max(ctaAction.length + 2, 1))),
+            whiteSpace: "nowrap",
             textTransform: "uppercase",
-            padding: "34px 76px",
+            padding: ctaAction.length > 18 ? "28px 48px" : "34px 76px",
             borderRadius: 999,
             boxShadow: `0 20px 60px ${rgba(accent, 0.28)}`,
           }}

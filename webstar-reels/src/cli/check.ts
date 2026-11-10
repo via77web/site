@@ -41,6 +41,7 @@ if (llmBackend() === "claude-code") {
 console.log("Keys");
 for (const k of ["ELEVENLABS_API_KEY", "BUFFER_ACCESS_TOKEN", "GITHUB_REPOSITORY"]) env(k) ? ok(k) : bad(`${k} is empty`);
 for (const k of ["GEMINI_API_KEY", "VERCEL_TOKEN"]) env(k) ? ok(k) : note(`${k} empty: generated sites ${k.startsWith("GEMINI") ? "use placeholder images" : "get no preview link"}`);
+env("FAL_KEY") ? ok("FAL_KEY (AI visualisation reels)") : note("FAL_KEY empty: no AI visualisation reels; those days use real footage");
 env("RESEND_API_KEY") && env("NOTIFY_EMAIL") ? ok("email notifications") : note("no email notifications (optional)");
 env("NTFY_TOPIC") ? ok("phone notifications via ntfy") : note("no phone notifications (optional NTFY_TOPIC)");
 

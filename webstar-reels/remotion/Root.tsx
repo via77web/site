@@ -36,6 +36,7 @@ const stillsPreview: StillsProps = {
   pair: null,
   material: null,
   rows: null,
+  aiLabel: null,
   voiceSrc: previewProps.voiceSrc,
   musicSrc: null,
   logoSrc: null,

@@ -84,13 +84,18 @@ const ShotSequence: React.FC<{ shots: Shot[]; total: number; strength?: number; 
   labelStyle,
   labelDelay,
 }) => {
-  const per = Math.ceil(total / shots.length);
+  const { fps } = useVideoConfig();
+  // Shots with a length (clips) keep it; otherwise the time is shared equally.
+  const timed = shots.every((s) => s.seconds);
+  const lengths = shots.map((s) => (timed ? Math.round(s.seconds! * fps) : Math.ceil(total / shots.length)));
+  const starts = lengths.map((_, i) => lengths.slice(0, i).reduce((a, b) => a + b, 0));
   return (
     <>
       {shots.map((shot, i) => (
-        <Sequence key={i} from={Math.max(i * per - FADE, 0)} durationInFrames={per + FADE * 2}>
+        // The last shot runs to the end of the reel, so the end card always has something behind it.
+        <Sequence key={i} from={Math.max(starts[i] - FADE, 0)} durationInFrames={i === shots.length - 1 ? undefined : lengths[i] + FADE * 2}>
           <FadeIn first={i === 0}>
-            <Moving shot={shot} frames={per + FADE * 2} strength={strength} />
+            <Moving shot={shot} frames={lengths[i] + FADE * 2} strength={strength} />
           </FadeIn>
           {labelStyle && shot.label ? (
             // The first shot sits under the hook, so its label waits for the hook to clear.
@@ -136,6 +141,36 @@ const Label: React.FC<{ text: string; style: StillsProps["style"] }> = ({ text, 
     </div>
   );
 };
+
+/**
+ * Shown for the whole reel, over the hook and the end card too, whenever any footage is
+ * AI-generated, so a visualisation can never pass for a real job.
+ */
+const AiTag: React.FC<{ text: string; style: StillsProps["style"] }> = ({ text, style }) => (
+  <div
+    style={{
+      position: "absolute",
+      top: 120,
+      right: 60,
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      fontFamily: style.theme === "minimal" ? FONT_SANS : FONT_HEAVY,
+      fontWeight: style.theme === "minimal" ? 500 : 800,
+      fontSize: 30,
+      letterSpacing: "0.12em",
+      textTransform: "uppercase",
+      color: "#FFFFFF",
+      backgroundColor: "rgba(0,0,0,0.62)",
+      border: "2px solid rgba(255,255,255,0.55)",
+      padding: "10px 18px",
+      borderRadius: 999,
+    }}
+  >
+    <span style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: style.colors.accent }} />
+    {text}
+  </div>
+);
 
 /** finish: the material's name, set like a swatch label. */
 const MaterialCard: React.FC<{ name: string; note: string; style: StillsProps["style"] }> = ({ name, note, style }) => {
@@ -199,7 +234,7 @@ const Comparison: React.FC<{ rows: NonNullable<StillsProps["rows"]>; style: Stil
 };
 
 export const Stills: React.FC<StillsProps> = (props) => {
-  const { format, shots, pair, material, rows, style, voiceSrc, musicSrc, logoSrc, brandName, hook, captions, words, ctaLine, ctaAction } = props;
+  const { format, shots, pair, material, rows, aiLabel, style, voiceSrc, musicSrc, logoSrc, brandName, hook, captions, words, ctaLine, ctaAction } = props;
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const theme = THEMES[style.theme];
@@ -235,7 +270,7 @@ export const Stills: React.FC<StillsProps> = (props) => {
         shots={shots}
         total={endCardStart + FADE}
         strength={format === "finish" ? 2.4 : 1}
-        labelStyle={format === "showcase" ? style : undefined}
+        labelStyle={format === "finish" ? undefined : style}
         labelDelay={hookFrames}
       />
     );
@@ -264,6 +299,8 @@ export const Stills: React.FC<StillsProps> = (props) => {
       <Sequence from={endCardStart} durationInFrames={endCardFrames}>
         <theme.EndCard ctaLine={ctaLine} ctaAction={ctaAction} brandName={brandName} logoSrc={logoSrc} style={style} />
       </Sequence>
+
+      {aiLabel ? <AiTag text={aiLabel} style={style} /> : null}
 
       <Audio src={staticFile(voiceSrc)} />
       {musicSrc ? (

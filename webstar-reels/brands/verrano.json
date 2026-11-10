@@ -16,15 +16,57 @@
   "cta": "Get a quote — verrano.com.au",
   "spokenCta": "Get a quote at verrano dot com dot au.",
   "captionSpokenCta": false,
-  "hashtags": ["verrano", "surfacewrapping", "architecturalfilm", "officefitout", "cabinetwrap"],
-  "voice": { "maxWords": 32, "stability": 0.55, "similarityBoost": 0.8, "style": 0.2, "speed": 1 },
-  "scroll": { "seconds": 14, "heroHold": 1.8, "sectionHold": 0.7 },
+  "hashtags": [
+    "verrano",
+    "surfacewrapping",
+    "architecturalfilm",
+    "officefitout",
+    "cabinetwrap"
+  ],
+  "voice": {
+    "maxWords": 32,
+    "stability": 0.55,
+    "similarityBoost": 0.8,
+    "style": 0.2,
+    "speed": 1
+  },
+  "scroll": {
+    "seconds": 14,
+    "heroHold": 1.8,
+    "sectionHold": 0.7
+  },
   "style": {
     "theme": "bold",
     "hookSeconds": 1.8,
     "endCardSeconds": 2.6,
     "zoom": 0.035,
     "musicVolume": 0.11,
-    "colors": { "background": "#15171A", "text": "#F4F2EE", "accent": "#E8793A", "scrim": "#0E0F11" }
+    "colors": {
+      "background": "#15171A",
+      "text": "#F4F2EE",
+      "accent": "#E8793A",
+      "scrim": "#0E0F11"
+    }
+  },
+  "ai": {
+    "label": "Visualisation",
+    "disclosure": "AI visualisation of a Verrano finish.",
+    "cta": "Send us a photo of your space — we'll show you the result",
+    "spokenCta": "Send us a photo of your space. We'll show you the result.",
+    "perWeek": 2,
+    "finishes": [
+      {
+        "name": "Walnut",
+        "prompt": "a warm mid-brown walnut woodgrain architectural film with fine straight grain and a low-sheen finish"
+      },
+      {
+        "name": "Matte black",
+        "prompt": "a deep matte black architectural film, smooth and soft-touch with no gloss"
+      },
+      {
+        "name": "Stone",
+        "prompt": "a pale grey natural stone-look architectural film with soft veining and a honed finish"
+      }
+    ]
   }
 }

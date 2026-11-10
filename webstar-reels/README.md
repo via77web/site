@@ -11,7 +11,7 @@ A content engine for **WEBSTAR**, **VIA77** and **VERRANO** that runs on your Ma
 
 | When | Job | What happens |
 | --- | --- | --- |
-| Sunday 6:00 | `weekly` | For each of the next 7 days that has no reel yet: WEBSTAR and VIA77 make a site (the queue in `brands/<id>/sites.json` first, then the running campaign's briefs, then the brief backlog, topped up by Claude when it runs dry), record all four angles and pre-render them. One angle is planned for that day and the other three are kept as spares. VERRANO renders one reel per day, cycling through its five formats. |
+| Sunday 6:00 | `weekly` | For each of the next 7 days that has no reel yet: WEBSTAR and VIA77 make a site (the queue in `brands/<id>/sites.json` first, then the running campaign's briefs, then the brief backlog, topped up by Claude when it runs dry), record all four angles and pre-render them. One angle is planned for that day and the other three are kept as spares. VERRANO renders one reel per day, cycling through its five formats, with two days a week given to AI visualisations. |
 | Daily 6:00 | `daily` | Schedules anything approved earlier. Puts today's planned reels up for approval (one per brand per calendar slot, falling back to a spare if a day is missing), sends a notification, and serves the approval page at `http://localhost:4777`. Waits until 30 minutes before the day's first slot. Undecided reels don't post; they go back into the pool. |
 
 The Mac wakes at 5:55 every day (`pmset`), and each job keeps it awake while it runs (`caffeinate`). If the Mac was asleep at 6:00, launchd runs the job as soon as it wakes. If it was switched off, that run is missed; `pmset` powers on desktop Macs, and you can always run `./scripts/run-job.sh daily` by hand.
@@ -68,6 +68,37 @@ Concept sites carry an on-screen "Concept" tag, and every caption starts "Concep
 Photos used recently are avoided, so the feed doesn't repeat. Verrano scripts may only state facts found in the crawled site copy: any figure that doesn't appear there is sent back to Claude to remove. So the explainer stays qualitative ("Lower", "Faster") unless Verrano's site states a number.
 
 **Animated stills (optional):** set `ANIMATE_STILL_CMD` to your fal/Wan script, e.g. `python3 ~/scripts/wan.py --image {input} --out {output} --prompt {prompt}`. Showcase photos are then turned into short clips first, falling back to the still if a clip fails.
+
+## Verrano AI visualisations
+
+Two of Verrano's seven weekly reels (`ai.perWeek` in `brands/verrano.json`) are AI visualisations made from real library photos with fal. They need `FAL_KEY`; without it, or if a visualisation fails its checks or the budget, that day gets a real-footage reel instead.
+
+| Format | What it shows |
+| --- | --- |
+| `imagine` | "Imagine your space": one room re-finished in two or three finishes (walnut, matte black, stone by default), morphing from one to the next |
+| `visualised` | A real before photo, labelled "Before · real photo", morphing into an AI-rendered wrapped result |
+| `finish-mood` | Close, slow camera moves across a wrapped surface, showing texture |
+
+How a reel is made: the real photo is cropped to 9:16, an image model re-finishes the surfaces (for `imagine` and `visualised`), and an image-to-video model animates it with a slow dolly, push-in or pan. The prompt asks that only the camera moves, lines stay straight, lighting stays photoreal, and there are no people or text. Photos whose description mentions people are not used.
+
+**Always labelled.** Every reel containing AI footage shows a small "Visualisation" tag on screen from the first frame to the last, over the hook and the end card too, and its caption starts with "AI visualisation of a Verrano finish." Both are added in code, not left to the script. The script is told to write it as an invitation to imagine, and is sent back if it describes the visualisation as a completed job. The same label and caption line are applied to a showcase reel if `ANIMATE_STILL_CMD` animated any of its photos. AI-made images and clips are kept in the reel's own `out/` folder and never enter the photo library, so real-footage reels can't pick them up.
+
+**Call to action:** these reels end on "Send us a photo of your space — we'll show you the result" instead of the usual quote line.
+
+**Quality check.** Each clip must pass, or it is regenerated (two tries by default) and then dropped:
+
+- at least 1080×1920 (an optional fal upscaler can be configured for models that output less)
+- no flicker: frame-to-frame brightness must change smoothly
+- no glitches or cuts: no sudden brightness jump
+- Claude looks at frames from the clip beside the real photo and fails warped or melting geometry, distorted people, added or garbled text, popping light, or a room that no longer matches
+
+Edited images get the same visual check against the source. If a morph clip is dropped, the reel cross-fades between the visualised stills instead; if nothing usable is left, the day falls back to real footage.
+
+**Models and costs.** `ai.json` holds the fal presets (`kling`, `veo3`, `runway`), the image-edit model, quality thresholds and budgets. Pick the preset with `"video"` there or `FAL_VIDEO_MODEL` in `.env`. Every generation, including rejected ones, is logged to `logs/ai-costs.csv` (time, reel, model, request id, seconds, estimated cost, result, reason) and stored on the reel, and the review page shows each AI reel's estimated cost. Costs are estimates from the prices in `ai.json`, so keep those in line with fal's pricing pages. A reel stops generating at `maxUsdPerReel`, and no AI reels are made once the last 7 days reach `maxUsdPerWeek`.
+
+**Before relying on it,** run `npm run ai:test -- --format visualised` once per preset you plan to use: it makes one real reel (spending fal credit) without adding it to the queue, and prints each generation's cost and check result. The model ids and input field names in `ai.json` were written without access to fal, so expect to correct them against each model's page. Add `--mock` for a free run with stand-in footage.
+
+The finishes in `brands/verrano.json` are generic looks. Rename and re-describe them to match real catalogue finishes if the caption "a Verrano finish" should mean a specific product.
 
 ## Verrano's library
 
@@ -164,6 +195,7 @@ Each external step (Claude, images, Vercel, recording, ElevenLabs, rendering, up
 | `npm run schedule` | Schedule approved reels into their slots now |
 | `npm run library:crawl -- --brand verrano` | Refresh Verrano's photo library |
 | `npm run library:tag -- --brand verrano` | Have Claude look at and tag the photos |
+| `npm run ai:test -- --format imagine` | Make one AI visualisation reel now to check the fal preset, checks and cost (`--mock` is free) |
 | `npm run check` | Is this Mac ready? (`-- --live` also tests Claude Code) |
 | `npm test` | Calendar, campaigns, slotting, daily picks, approval parsing, Verrano format fallbacks, design contrast |
 

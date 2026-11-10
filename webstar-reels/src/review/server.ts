@@ -48,6 +48,7 @@ function card(i: Item, actions: string): string {
     <p class="caption">${esc(v.postText).replace(/\n/g, "<br>")}</p>
     <p class="small">YouTube: ${esc(s.youtubeTitle)}${i.batch.site.previewUrl ? ` · <a href="${esc(i.batch.site.previewUrl)}" target="_blank">site preview</a>` : ""}</p>
     ${audit}
+    ${v.ai ? `<p class="small">AI visualisation · labelled on screen · estimated cost $${v.ai.usd.toFixed(2)} (${v.ai.items.filter((x) => x.result === "rejected").length} rejected generation(s))</p>` : ""}
     ${status ? `<p class="status${v.error ? " warn" : ""}">${status}</p>` : ""}
     <div class="actions">${actions}</div>
   </div>

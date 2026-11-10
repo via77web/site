@@ -25,8 +25,12 @@ export type SiteVariant = (typeof VARIANTS)[number];
 export const STILL_FORMATS = ["transformation", "showcase", "finish", "explainer", "site-scroll"] as const;
 export type StillFormat = (typeof STILL_FORMATS)[number];
 
-export type VariantId = SiteVariant | StillFormat;
-export const ALL_VARIANTS: readonly VariantId[] = [...VARIANTS, ...STILL_FORMATS];
+/** AI visualisation formats: real library photos re-finished and animated with generative models. Always labelled. */
+export const AI_FORMATS = ["imagine", "visualised", "finish-mood"] as const;
+export type AiFormat = (typeof AI_FORMATS)[number];
+
+export type VariantId = SiteVariant | StillFormat | AiFormat;
+export const ALL_VARIANTS: readonly VariantId[] = [...VARIANTS, ...STILL_FORMATS, ...AI_FORMATS];
 
 export const VARIANT_LABEL: Record<VariantId, string> = {
   full: "Full scroll",
@@ -38,6 +42,9 @@ export const VARIANT_LABEL: Record<VariantId, string> = {
   finish: "Finish spotlight",
   explainer: "Wrap vs replace",
   "site-scroll": "Site scroll",
+  imagine: "Imagine your space (AI)",
+  visualised: "Before → visualised after (AI)",
+  "finish-mood": "Finish mood (AI)",
 };
 
 export interface VariantScript {
@@ -89,6 +96,8 @@ export interface BatchVariant {
   proposedOn?: string;
   /** Library images used (photo-library brands), so later reels can avoid repeating them. */
   assets?: string[];
+  /** AI reels: every generated clip and image with its model, cost and quality-check result. */
+  ai?: { usd: number; items: AiCost[] };
   /** Buffer post id per channel id. Lets a retry skip channels that already succeeded. */
   posts?: Record<string, string>;
   error?: string;
@@ -144,7 +153,9 @@ export interface Shot {
   src: string;
   width: number;
   height: number;
-  motion: "pan-left" | "pan-right" | "zoom-in" | "zoom-out";
+  motion: "pan-left" | "pan-right" | "zoom-in" | "zoom-out" | "none";
+  /** How long the shot runs. Clips use their real length; without it, shots share the time equally. */
+  seconds?: number;
   /** Where to aim, as fractions of the image (0-1). */
   focusX?: number;
   focusY?: number;
@@ -156,7 +167,9 @@ export interface Shot {
 
 /** Input props of the Remotion "Stills" composition (photo-library reels). */
 export type StillsProps = {
-  format: Exclude<StillFormat, "site-scroll">;
+  format: Exclude<StillFormat, "site-scroll"> | AiFormat;
+  /** Shown small on screen for the whole reel when any footage is AI-generated. Null for real footage only. */
+  aiLabel: string | null;
   shots: Shot[];
   pair: { before: Shot; after: Shot } | null;
   material: { name: string; note: string } | null;
@@ -173,3 +186,14 @@ export type StillsProps = {
   ctaLine: string;
   ctaAction: string;
 };
+
+/** One paid generation: a clip or an edited image. */
+export interface AiCost {
+  kind: "video" | "image" | "upscale";
+  model: string;
+  requestId: string;
+  seconds?: number;
+  usd: number;
+  result: "used" | "rejected";
+  reason?: string;
+}

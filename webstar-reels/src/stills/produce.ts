@@ -22,7 +22,7 @@ import { libraryDir, libraryText, loadLibrary, usableImages, type Library, type 
 /** Formats in the order the week cycles through them. */
 export const FORMAT_CYCLE: StillFormat[] = ["transformation", "showcase", "finish", "explainer", "site-scroll"];
 
-const ScriptSchema = z.object({
+export const ScriptSchema = z.object({
   hook: z.string(),
   voiceover: z.string().describe("Spoken script, starting with the hook"),
   captions: z.array(z.string()).describe("The voiceover split into consecutive 2-4 word phrases"),
@@ -44,7 +44,7 @@ interface Plan {
 }
 
 /** Library images and pages, least recently used first, so reels don't repeat photos. */
-function recency(brand: Brand): Map<string, number> {
+export function recency(brand: Brand): Map<string, number> {
   const last = new Map<string, number>();
   for (const b of loadBatches(brand)) {
     for (const v of b.variants) for (const a of v.assets ?? []) last.set(a, Math.max(last.get(a) ?? 0, Date.parse(b.createdAt)));
@@ -52,7 +52,7 @@ function recency(brand: Brand): Map<string, number> {
   return last;
 }
 
-const byRecency = <T>(items: T[], key: (t: T) => string, last: Map<string, number>) =>
+export const byRecency = <T>(items: T[], key: (t: T) => string, last: Map<string, number>) =>
   [...items].sort((a, b) => (last.get(key(a)) ?? 0) - (last.get(key(b)) ?? 0));
 
 const labelOf = (img: LibraryImage) => [img.spaces[0], img.materials[0]].filter(Boolean).join(" · ");
@@ -124,7 +124,7 @@ export function planReel(brand: Brand, lib: Library, format: StillFormat): Plan 
 
 const MOTIONS: Shot["motion"][] = ["zoom-in", "pan-left", "zoom-out", "pan-right"];
 
-function shotFor(brand: Brand, img: LibraryImage, i: number, label = true): Shot {
+export function shotFor(brand: Brand, img: LibraryImage, i: number, label = true): Shot {
   const landscape = img.width / img.height > 0.75;
   return {
     src: path.join(libraryDir(brand), img.file),
@@ -156,7 +156,7 @@ async function maybeAnimate(file: string, prompt: string, outDir: string): Promi
   }
 }
 
-function systemPrompt(brand: Brand, lib: Library, campaign?: Campaign): string {
+export function systemPrompt(brand: Brand, lib: Library, campaign?: Campaign): string {
   const services = lib.services.map((s) => `## ${s.title}\n${s.text}`).join("\n\n").slice(0, 9000);
   return `You write short-form video scripts for ${brand.name}. ${brand.about}
 
@@ -182,7 +182,7 @@ Materials and finishes named on the site: ${lib.materials.map((m) => m.name).joi
 }
 
 /** Every figure in the script must appear somewhere in the crawled site text. */
-function factProblems(texts: string[], lib: Library): string[] {
+export function factProblems(texts: string[], lib: Library): string[] {
   const source = libraryText(lib).toLowerCase();
   const figures = texts.join(" ").match(/\$?\d[\d,.]*\s?(%|percent|days?|weeks?|hours?|years?|x\b)?/gi) ?? [];
   return figures
@@ -252,6 +252,7 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
   const total = reelSeconds(voice.duration, brand.scroll.seconds, brand.style.endCardSeconds);
   const shown = brand.captionSpokenCta ? { words: voice.words, captions: script.captions } : dropTrailingPhrase(voice.words, script.captions, brand.spokenCta);
   const outFile = file(`${id}.mp4`);
+  let aiDisclosure: string | null = null;
 
   if (format === "site-scroll") {
     const session = await step("open site", () => openSite(plan.pageUrl!));
@@ -290,12 +291,16 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
       for (const [i, img] of plan.images.entries()) shots.push(await add(img, i, format === "showcase"));
       if (format === "finish") shots.forEach((s) => (s.motion = "zoom-in"));
     }
+    // Stills animated by a generative model are AI footage: the whole reel carries the label.
+    const animated = shots.some((s) => s.video);
+    if (animated) aiDisclosure = brand.ai?.disclosure ?? "Includes AI-animated footage.";
     await step("render", () =>
       renderStills(brand, {
         props: {
           format,
           shots,
           pair,
+          aiLabel: animated ? (brand.ai?.label ?? "Visualisation") : null,
           material: plan.material ? { name: plan.material, note: "Finish spotlight" } : null,
           rows: format === "explainer" ? (script.rows ?? null) : null,
           totalSeconds: total,
@@ -323,7 +328,7 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
         id: format,
         status: "ready",
         script: cleanScript,
-        postText: postText(cleanScript, false, opts.campaign),
+        postText: (aiDisclosure ? `${aiDisclosure} ` : "") + postText(cleanScript, false, opts.campaign),
         seconds: total,
         file: path.relative(ROOT, outFile),
         plannedFor: opts.plannedFor,

@@ -1,0 +1,45 @@
+{
+  "note": "fal models for Verrano AI visualisation reels. Model ids, input fields and prices change: check each model's page on fal.ai and edit here. `npm run ai:test` makes one clip to confirm a preset works. In inputs, {prompt} {negative} {image} {end_image} are filled in.",
+  "video": "kling",
+  "videoModels": {
+    "kling": {
+      "id": "fal-ai/kling-video/v2.6/pro/image-to-video",
+      "seconds": 5,
+      "usdPerSecond": 0.07,
+      "input": { "prompt": "{prompt}", "negative_prompt": "{negative}", "image_url": "{image}", "duration": "5" },
+      "endFrame": { "input": { "tail_image_url": "{end_image}" } }
+    },
+    "veo3": {
+      "id": "fal-ai/veo3.1/image-to-video",
+      "seconds": 8,
+      "usdPerSecond": 0.4,
+      "input": { "prompt": "{prompt}", "image_url": "{image}", "duration": "8s", "aspect_ratio": "9:16", "resolution": "1080p", "generate_audio": false },
+      "endFrame": {
+        "id": "fal-ai/veo3.1/first-last-frame-to-video",
+        "replace": true,
+        "input": { "prompt": "{prompt}", "first_frame_url": "{image}", "last_frame_url": "{end_image}", "duration": "8s", "aspect_ratio": "9:16", "resolution": "1080p", "generate_audio": false }
+      }
+    },
+    "runway": {
+      "id": "fal-ai/runway-gen4/turbo/image-to-video",
+      "seconds": 5,
+      "usdPerSecond": 0.05,
+      "input": { "prompt": "{prompt}", "image_url": "{image}", "duration": 5, "ratio": "720:1280" }
+    }
+  },
+  "imageEdit": {
+    "id": "fal-ai/nano-banana-2/edit",
+    "usdPerImage": 0.08,
+    "input": { "prompt": "{prompt}", "image_urls": ["{image}"], "aspect_ratio": "9:16", "resolution": "2K" }
+  },
+  "upscale": null,
+  "qc": {
+    "minWidth": 1080,
+    "minHeight": 1920,
+    "maxFlicker": 1.4,
+    "maxJump": 22,
+    "vision": true,
+    "attempts": 2
+  },
+  "budget": { "maxUsdPerReel": 8, "maxUsdPerWeek": 30 }
+}

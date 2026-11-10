@@ -10,7 +10,9 @@ import { parseArgs } from "node:util";
 import { listBrandIds, loadBrand, type Brand } from "../lib/brand.js";
 import { loadBatches } from "../lib/batches.js";
 import { activeCampaign, loadCalendar } from "../lib/calendar.js";
-import { currentLogFile, log, logError, loggedErrors, startLog } from "../lib/log.js";
+import { env } from "../lib/env.js";
+import { currentLogFile, log, logError, loggedErrors, startLog, warn } from "../lib/log.js";
+import { AI_CYCLE, produceAiReel } from "../ai/visualise.js";
 import { serveDir } from "../lib/serve.js";
 import { loadBriefs, loadSites, nextPending, saveBriefs, saveSites, MAX_ATTEMPTS } from "../lib/queue.js";
 import { ensureBriefs } from "../briefs.js";
@@ -121,12 +123,26 @@ for (const id of flags.brand ? flags.brand.split(",") : listBrandIds()) {
       if (brand.content === "library") {
         if (!hasLibrary(brand)) throw new Error(`no library yet; run npm run library:crawl -- --brand ${brand.id}`);
         const dayOfWeek = new Date(`${date}T12:00:00Z`).getUTCDay();
-        await produceStillReel(brand, FORMAT_CYCLE[dayOfWeek % FORMAT_CYCLE.length], {
-          dryRun,
-          mock,
-          plannedFor: date,
-          campaign: activeCampaign(cal, brand.id, noonOf(date)),
-        });
+        const options = { dryRun, mock, plannedFor: date, campaign: activeCampaign(cal, brand.id, noonOf(date)) };
+        const standard = FORMAT_CYCLE[dayOfWeek % FORMAT_CYCLE.length];
+        // AI visualisations take `perWeek` of the week's days, spread out, and need a fal key.
+        const perWeek = brand.ai?.perWeek ?? 0;
+        const aiDay =
+          perWeek > 0 &&
+          (mock || !!env("FAL_KEY")) &&
+          Math.floor(((i + 1) * perWeek) / dates.length) > Math.floor((i * perWeek) / dates.length);
+        if (aiDay) {
+          const done = loadBatches(brand).filter((b) => b.variants.some((v) => (AI_CYCLE as readonly string[]).includes(v.id))).length;
+          try {
+            await produceAiReel(brand, AI_CYCLE[done % AI_CYCLE.length], options);
+          } catch (error) {
+            // A day never goes empty because a visualisation failed: fall back to real footage.
+            warn(`[${brand.id}] ${date}: AI visualisation not made (${error instanceof Error ? error.message : error}); making a ${standard} reel instead`);
+            await produceStillReel(brand, standard, options);
+          }
+        } else {
+          await produceStillReel(brand, standard, options);
+        }
       } else {
         await siteDay(brand, date, i);
       }
