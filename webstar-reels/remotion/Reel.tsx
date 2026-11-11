@@ -1,7 +1,6 @@
 import React from "react";
 import {
   AbsoluteFill,
-  Audio,
   Easing,
   OffthreadVideo,
   Sequence,
@@ -14,6 +13,9 @@ import type { ReelProps } from "../src/types";
 import { EASE } from "../library/tokens/motion";
 import { FONT_HEAVY, FONT_SANS, clamp, rgba } from "./shared";
 import { THEMES } from "./themes";
+import { ReelAudio } from "./audio";
+import { LaptopIntro } from "./LaptopIntro";
+import { INTRO_FADE } from "./timing";
 
 /** The screen recording with a slow push-in and pull-out so the frame never sits still. */
 const Footage: React.FC<{
@@ -21,13 +23,15 @@ const Footage: React.FC<{
   zoom: number;
   overlay: string;
   background: string;
+  /** Seconds for one push-in and pull-out. Sixteen beats of the track, when there is music. */
+  period?: number;
   children?: React.ReactNode;
-}> = ({ src, zoom, overlay, background, children }) => {
+}> = ({ src, zoom, overlay, background, period: beatPeriod, children }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const t = frame / fps;
   // One slow breath every ~7s for a lively zoom, stretching to a single drift for a subtle one.
-  const period = zoom >= 0.04 ? 7 : durationInFrames / fps;
+  const period = zoom >= 0.04 ? (beatPeriod ?? 7) : durationInFrames / fps;
   const breathe = 0.5 - 0.5 * Math.cos((2 * Math.PI * t) / period);
   const settle = interpolate(t, [0, 1.5], [1, 0], clamp);
   const scale = 1 + zoom * 1.3 * settle * settle + zoom * breathe;
@@ -137,7 +141,10 @@ export const Reel: React.FC<ReelProps> = ({
   concept,
   recordingSrc,
   voiceSrc,
-  musicSrc,
+  music,
+  voiceStart,
+  revealSeconds,
+  intro,
   logoSrc,
   brandName,
   style,
@@ -150,25 +157,41 @@ export const Reel: React.FC<ReelProps> = ({
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const theme = THEMES[style.theme];
-  const hookFrames = Math.round(style.hookSeconds * fps);
+  // On a laptop-zoom reel the hook sits over the whole intro; otherwise for the brand's hook time.
+  const introFrames = intro ? Math.round(intro.seconds * fps) : 0;
+  const hookFrames = intro ? introFrames : Math.round(style.hookSeconds * fps);
   const endCardFrames = Math.round(style.endCardSeconds * fps);
   const endCardStart = durationInFrames - endCardFrames;
   // Detail and interaction footage already moves in the recording, so the frame stays still.
   const zoom = variant === "detail" || variant === "interaction" ? 0 : style.zoom;
-  const wipeStart = Math.round(hookFrames + (endCardStart - hookFrames) * 0.38);
+  const wipeStart = Math.round(revealSeconds * fps);
+  // The site recording starts as the laptop screen fills the frame, and fades in over it.
+  const footageFrom = intro ? introFrames - Math.round(INTRO_FADE * fps) : 0;
+  const footageIn = intro ? interpolate(frame, [footageFrom, introFrames], [0, 1], clamp) : 1;
 
   return (
     <AbsoluteFill style={{ backgroundColor: style.colors.scrim }}>
-      <Footage src={recordingSrc} zoom={zoom} overlay={theme.footageOverlay(style)} background={style.colors.scrim}>
-        {variant === "before-after" && beforeSrc ? (
-          <BeforeAfterLayer beforeSrc={beforeSrc} wipeStart={wipeStart} style={style} />
-        ) : null}
-      </Footage>
+      {intro && frame < introFrames ? <LaptopIntro intro={intro} /> : null}
+      <Sequence from={footageFrom}>
+        <AbsoluteFill style={{ opacity: footageIn }}>
+          <Footage
+            src={recordingSrc}
+            zoom={zoom}
+            overlay={theme.footageOverlay(style)}
+            background={style.colors.scrim}
+            period={music ? music.beatSeconds * 16 : undefined}
+          >
+            {variant === "before-after" && beforeSrc ? (
+              <BeforeAfterLayer beforeSrc={beforeSrc} wipeStart={wipeStart} style={style} />
+            ) : null}
+          </Footage>
+        </AbsoluteFill>
+      </Sequence>
 
       {concept && frame >= hookFrames && frame < endCardStart ? <ConceptTag style={style} /> : null}
 
       <Sequence from={0} durationInFrames={hookFrames}>
-        <theme.Hook text={hook} brandName={brandName} style={style} />
+        <theme.Hook text={hook} brandName={brandName} style={style} light={!!intro} />
       </Sequence>
 
       {/* Captions take over once the hook clears, and stop for the end card. */}
@@ -180,17 +203,7 @@ export const Reel: React.FC<ReelProps> = ({
         <theme.EndCard ctaLine={ctaLine} ctaAction={ctaAction} brandName={brandName} logoSrc={logoSrc} style={style} />
       </Sequence>
 
-      <Audio src={staticFile(voiceSrc)} />
-      {musicSrc ? (
-        <Audio
-          src={staticFile(musicSrc)}
-          loop
-          volume={(f) =>
-            style.musicVolume *
-            interpolate(f, [0, fps * 0.5, durationInFrames - fps, durationInFrames], [0, 1, 1, 0], clamp)
-          }
-        />
-      ) : null}
+      <ReelAudio voiceSrc={voiceSrc} voiceStart={voiceStart} music={music} words={words} />
     </AbsoluteFill>
   );
 };

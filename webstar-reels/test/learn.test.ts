@@ -123,7 +123,9 @@ test("every brand has a comment keyword and a licensed, royalty-free track in it
     const brand = loadBrand(id);
     assert.equal(brand.commentKeyword, keyword);
     assert.ok(brand.commentPrompt.includes(`Comment ${keyword}`));
-    const track = pickTrack(brand, 0);
-    assert.ok(track && track.moods.some((m) => brand.musicMoods.includes(m)), `${id} has a track in its mood`);
+    const track = pickTrack(brand);
+    assert.ok(track && track.moods.some((m) => brand.music.moods.includes(m)), `${id} has a track in its mood`);
+    assert.ok(track.bpm >= brand.music.bpm[0] && track.bpm <= brand.music.bpm[1], `${id}'s track is in its tempo range`);
+    assert.ok(track.source.length > 1, "every track names where its licence comes from");
   }
 });

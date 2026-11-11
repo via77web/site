@@ -1,11 +1,13 @@
 /** npm run check [-- --live]: is this Mac ready to run the jobs? --live also makes one tiny Claude Code call. */
+import { imageKeyName, imageProvider } from "../make/images.js";
+import { loadIntroIndex } from "../lib/intros.js";
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import { z } from "zod";
 import { brandEnvName, listBrandIds, loadBrand } from "../lib/brand.js";
 import { env } from "../lib/env.js";
 import { generate, llmBackend } from "../lib/llm.js";
-import { loadMusic, pickTrack } from "../lib/music.js";
+import { loadMusic } from "../lib/music.js";
 import { referencesRoot } from "../refs/sync.js";
 import { leadsEnabled } from "../steps/leads.js";
 import { hasLibrary, loadLibrary } from "../stills/library.js";
@@ -44,7 +46,11 @@ if (llmBackend() === "claude-code") {
 
 console.log("Keys");
 for (const k of ["ELEVENLABS_API_KEY", "BUFFER_ACCESS_TOKEN", "GITHUB_REPOSITORY"]) env(k) ? ok(k) : bad(`${k} is empty`);
-for (const k of ["GEMINI_API_KEY", "VERCEL_TOKEN"]) env(k) ? ok(k) : note(`${k} empty: generated sites ${k.startsWith("GEMINI") ? "use placeholder images" : "get no preview link"}`);
+{
+  const key = imageKeyName(imageProvider());
+  env(key) ? ok(`${key} (site images via ${imageProvider()})`) : note(`${key} empty: generated sites use placeholder images`);
+}
+env("VERCEL_TOKEN") ? ok("VERCEL_TOKEN") : note("VERCEL_TOKEN empty: generated sites get no preview link");
 env("FAL_KEY") ? ok("FAL_KEY (AI visualisation reels)") : note("FAL_KEY empty: no AI visualisation reels; those days use real footage");
 env("RESEND_API_KEY") && env("NOTIFY_EMAIL") ? ok("email notifications") : note("no email notifications (optional)");
 env("NTFY_TOPIC") ? ok("phone notifications via ntfy") : note("no phone notifications (optional NTFY_TOPIC)");
@@ -56,7 +62,13 @@ env("TRACK_BASE_URL") ? ok("TRACK_BASE_URL (short tracked links)") : note("TRACK
   const { tracks, unlisted } = loadMusic();
   ok(`${tracks.length} licensed music track(s)`);
   if (unlisted.length) note(`ignored, not in music/library.json: ${unlisted.join(", ")}`);
-  for (const id of listBrandIds()) if (!pickTrack(loadBrand(id), 0)) note(`${id} has no licensed track: its reels will have voice only`);
+  for (const id of listBrandIds()) if (!tracks.some((t) => t.brands.includes(id))) note(`${id} has no licensed track: its reels will have voice only`);
+}
+
+console.log("Laptop-zoom intros");
+for (const id of listBrandIds()) {
+  const n = loadIntroIndex().filter((c) => c.brand === id).length;
+  n ? ok(`${id}: ${n} intro clip(s) (\`npm run intros\` checks them)`) : note(`${id} has no intro clips: no laptop-zoom reels (see intros/README.md)`);
 }
 
 console.log("References");

@@ -1,6 +1,7 @@
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { chromium, type CDPSession, type Page } from "playwright";
 import { env } from "../lib/env.js";
+import { snapToBeat, type Beat } from "../lib/music.js";
 import type { PageInfo, SiteVariant } from "../types.js";
 
 // 360x640 CSS px captured at 3x = exactly 1080x1920, so the reel is pixel-sharp.
@@ -51,6 +52,8 @@ export interface ClipOptions {
   sectionHold: number;
   /** Seconds to rest at the end (the end card covers this part). */
   footerHold: number;
+  /** The music's beat grid in reel time. Cuts between detail shots land on it. */
+  beat?: Beat | null;
 }
 
 export interface SiteSession {
@@ -149,11 +152,13 @@ class Clip {
     private page: Page,
     private cdp: CDPSession,
     file: string,
+    private view = VIEW,
+    private scale = SCALE,
   ) {
     this.ffmpeg = spawn("ffmpeg", [
       "-y", "-loglevel", "error",
       "-f", "image2pipe", "-framerate", String(FPS), "-c:v", "mjpeg", "-i", "-",
-      "-vf", `scale=${VIEW.width * SCALE}:${VIEW.height * SCALE}:flags=lanczos`,
+      "-vf", `scale=${view.width * scale}:${view.height * scale}:flags=lanczos`,
       "-c:v", "libx264", "-preset", "medium", "-crf", "17", "-pix_fmt", "yuv420p",
       "-g", String(FPS), "-movflags", "+faststart",
       file,
@@ -172,7 +177,9 @@ class Clip {
    * Capture one frame. `y` scrolls first (null leaves the scroll alone). `zoom` and the focus
    * point (viewport pixels) crop into the view; the crop is re-rendered, not upscaled.
    */
-  async frame(y: number | null, zoom = 1, focusX = VIEW.width / 2, focusY = VIEW.height / 2): Promise<void> {
+  async frame(y: number | null, zoom = 1, focusX = this.view.width / 2, focusY = this.view.height / 2): Promise<void> {
+    const VIEW = this.view;
+    const SCALE = this.scale;
     const scrollY = (await this.page.evaluate(
       ([y, ms]) => (window as any).__reel.step(y, ms),
       [y, FRAME_MS] as const,
@@ -390,9 +397,9 @@ async function recordDetail(page: Page, cdp: CDPSession, o: ClipOptions, shots: 
   const clip = new Clip(page, cdp, o.file);
   // The first shot carries the hook and the last sits under the end card, so both run longer.
   const body = Math.max(o.duration - o.heroHold - o.footerHold, shots.length);
-  const lengths = shots.map(
-    (_, i) => body / shots.length + (i === 0 ? o.heroHold : 0) + (i === shots.length - 1 ? o.footerHold : 0),
-  );
+  // Each cut lands on a beat of the music.
+  const cuts = shots.map((_, i) => (i === shots.length - 1 ? o.duration : snapToBeat(o.heroHold + (body * (i + 1)) / shots.length, o.beat ?? null)));
+  const lengths = cuts.map((t, i) => t - (cuts[i - 1] ?? 0));
   for (const [i, shot] of shots.entries()) {
     await settle(page, shot.scrollY);
     const n = frames(lengths[i]);
@@ -596,6 +603,7 @@ export async function openSite(url: string, beforeUrl?: string): Promise<SiteSes
       // Order matters: the interaction taps change the page, and "before" replaces it,
       // so the untouched passes go first.
       if (clips.full) await recordFull(page, cdp, clips.full);
+      if (clips["laptop-zoom"]) await recordFull(page, cdp, clips["laptop-zoom"]);
       if (clips.detail) await recordDetail(page, cdp, clips.detail, plan.details);
       if (clips["before-after"]) await recordSweep(page, cdp, clips["before-after"].file, clips["before-after"]);
       if (clips.interaction && plan.interactions.length) {
@@ -612,5 +620,31 @@ export async function openSite(url: string, beforeUrl?: string): Promise<SiteSes
   } catch (error) {
     await browser.close();
     throw error;
+  }
+}
+
+const DESKTOP = { width: 1440, height: 900 };
+
+/**
+ * A short desktop recording of the site, for the laptop screen in a laptop-zoom intro:
+ * the top of the page, with its own motion playing and a slow drift down.
+ */
+export async function recordDesktop(url: string, file: string, seconds: number): Promise<void> {
+  const browser = await chromium.launch({ executablePath: env("CHROMIUM_PATH") });
+  try {
+    const context = await browser.newContext({ viewport: DESKTOP, deviceScaleFactor: 2, reducedMotion: "no-preference" });
+    await context.addInitScript(PAGE_HELPERS);
+    const page = await context.newPage();
+    await loadPage(page, url);
+    const cdp = await context.newCDPSession(page);
+    const { maxScroll } = await measure(page);
+    const drift = Math.min(maxScroll, 220);
+    await settle(page, 0);
+    const clip = new Clip(page, cdp, file, DESKTOP, 2);
+    const n = frames(seconds);
+    for (let f = 0; f < n; f++) await clip.frame(drift * easeInOut(clamp((f / n - 0.25) / 0.75, 0, 1)));
+    await clip.finish();
+  } finally {
+    await browser.close();
   }
 }

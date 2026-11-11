@@ -1,3 +1,4 @@
+import { logMusicUse } from "./lib/music.js";
 import fs from "node:fs";
 import path from "node:path";
 import { ROOT, type Brand } from "./lib/brand.js";
@@ -122,6 +123,8 @@ export async function scheduleApproved(brand: Brand, { dryRun = false, now = new
       v.scheduledFor = p.at.toISOString();
       delete v.error;
       saveBatch(batch);
+      // The licence record: which track went out on which reel, and under what licence.
+      if (v.music) logMusicUse({ date: p.at.toISOString(), brand: brand.id, reel: `${batch.id}/${v.id}`, platforms: channels.map((c) => c.service).join(" "), music: v.music });
       done++;
       log(`scheduled ${batch.site.name} ${VARIANT_LABEL[v.id]} for ${when(p.at)} on ${channels.map((c) => c.service).join(", ")}`);
     } catch (error) {

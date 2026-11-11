@@ -26,9 +26,23 @@
   "link": "https://verrano.com.au/",
   "commentKeyword": "QUOTE",
   "commentPrompt": "Comment QUOTE and we'll send you the link.",
-  "musicMoods": [
-    "upbeat"
-  ],
+  "music": {
+    "genres": [
+      "tech house"
+    ],
+    "bpm": [
+      122,
+      126
+    ],
+    "moods": [
+      "punchy",
+      "confident",
+      "satisfying"
+    ],
+    "drops": "clear",
+    "level": 0.8
+  },
+  "introScene": "A modern office or boardroom with sleek wrapped cabinetry in matte timber and stone finishes behind the desk, clean even light.",
   "voice": {
     "maxWords": 32,
     "stability": 0.55,
@@ -46,7 +60,6 @@
     "hookSeconds": 1.8,
     "endCardSeconds": 2.6,
     "zoom": 0.035,
-    "musicVolume": 0.11,
     "colors": {
       "background": "#15171A",
       "text": "#F4F2EE",

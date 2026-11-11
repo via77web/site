@@ -9,7 +9,7 @@ import { step } from "../lib/log.js";
 import { auditSite, type AuditReport } from "./audit.js";
 import { buildSite } from "./build.js";
 import { deployPreview } from "./deploy.js";
-import { makeImages } from "./images.js";
+import { makeImages, type Placement } from "./images.js";
 import { saveDirection } from "../../library/index.js";
 import { analyseReferences, saveBrief, type ReferenceBrief } from "../refs/analyse.js";
 import { compareWithReferences, comparisonMarkdown, refineBrief } from "../refs/compare.js";
@@ -44,7 +44,7 @@ export interface MadeSite {
 export interface MakeOptions {
   /** No API calls: the example spec and placeholder images. */
   mock: boolean;
-  /** Use placeholder images even when GEMINI_API_KEY is set. */
+  /** Use placeholder images even when an image API key is set. */
   placeholders: boolean;
   /** Build and audit, but don't deploy a preview. */
   noDeploy: boolean;
@@ -97,9 +97,17 @@ export async function makeSite(brand: Brand, brief: string, opts: MakeOptions): 
 
   const build = async () => {
     log("make 2/5 Generating images");
+    // Heroes are generated portrait (they open every reel), product cards square.
+    const spec = result.spec as { hero?: { imageId?: string }; products?: { imageId?: string }[] };
+    const placements: Record<string, Placement> = {};
+    for (const p of spec.products ?? []) if (p.imageId) placements[p.imageId] = "product";
+    if (spec.hero?.imageId) placements[spec.hero.imageId] = "hero";
     const images = await makeImages(result.spec.images, result.direction, path.join(dir, "img"), {
       placeholders: opts.mock || opts.placeholders,
+      placements,
+      costKey: `${brand.id}/${path.basename(dir)}`,
     });
+    if (images.usd) log(`   images cost $${images.usd.toFixed(2)}`);
     log("make 3/5 Building");
     buildSite(dir, brand, result.layout, result.spec, result.direction, images.paths);
     return images;

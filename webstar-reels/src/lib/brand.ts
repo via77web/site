@@ -16,7 +16,6 @@ const StyleSchema = z.object({
   endCardSeconds: z.number().positive(),
   /** How far the footage slowly pushes in, as a fraction (0.04 = 4%). */
   zoom: z.number().min(0).max(0.2),
-  musicVolume: z.number().min(0).max(1),
   colors: z.object({
     /** End card background. */
     background: hex,
@@ -58,8 +57,19 @@ const BrandSchema = z.object({
   /** Comment-to-DM: the word people comment, and the caption line that asks for it. ManyChat replies with the link. */
   commentKeyword: z.string().regex(/^[A-Z0-9]+$/, "one word, capitals"),
   commentPrompt: z.string(),
-  /** Moods to draw music from (music/library.json). */
-  musicMoods: z.array(z.string()).min(1),
+  /** The brand's music brief. Tracks in music/library.json are matched against it. */
+  music: z.object({
+    genres: z.array(z.string()).min(1),
+    /** Tempo range in BPM. */
+    bpm: z.tuple([z.number(), z.number()]),
+    moods: z.array(z.string()).min(1),
+    /** "clear": the reveal lands on a pronounced drop. "soft": no harsh drops; the music rises gently into the reveal. */
+    drops: z.enum(["clear", "soft"]),
+    /** Music level between lines, 0 to 1. It drops 12 dB under the voice. */
+    level: z.number().min(0).max(1),
+  }),
+  /** The room for generated laptop-zoom intro clips (`npm run intros:generate`). */
+  introScene: z.string().optional(),
   voice: z.object({
     maxWords: z.number().int().positive(),
     stability: z.number().min(0).max(1),

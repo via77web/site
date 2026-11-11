@@ -1,14 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
 import { dropTrailingPhrase } from "../remotion/captions.js";
-import { reelSeconds } from "../remotion/timing.js";
+import { INTRO_FADE } from "../remotion/timing.js";
 import { ROOT, type Brand } from "./lib/brand.js";
 import { loadBatches, saveBatch } from "./lib/batches.js";
 import { loadCalendar, localDate, type Campaign } from "./lib/calendar.js";
 import { nextHooks, slugify } from "./lib/queue.js";
 import { step } from "./lib/log.js";
-import { beforeFile, openSite, type ClipOptions } from "./steps/record.js";
-import { musicFor, renderVariants, type RenderJob } from "./steps/render.js";
+import { pickIntro, type PreparedIntro } from "./lib/intros.js";
+import { planTimeline, type Timeline } from "./lib/timeline.js";
+import { beforeFile, openSite, recordDesktop, type ClipOptions } from "./steps/record.js";
+import { renderVariants, type RenderJob } from "./steps/render.js";
 import { mockScripts, writeScripts } from "./steps/script.js";
 import { mockVoice, synthesizeVoice } from "./steps/voice.js";
 import { VARIANT_LABEL, type Batch, type SiteVariant, type VariantScript, type WordTiming } from "./types.js";
@@ -72,11 +74,20 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
   log(`Reels for ${input.name} (${input.publicUrl ?? input.url})${opts.dryRun ? " [dry run]" : ""}${opts.mock ? " [mock]" : ""}`);
   log("reels 1/5 Opening site and planning shots");
   const session = await step(`open ${input.name}`, () => openSite(input.url, input.beforeUrl));
-  const variants = session.variants;
-  if (!variants.includes("interaction")) log("   nothing tappable found, so no interaction reel");
+  if (!session.variants.includes("interaction")) log("   nothing tappable found, so no interaction reel");
+  // The laptop-zoom reel needs an intro clip this brand hasn't opened with in the last five days.
+  let intro: PreparedIntro | null = null;
+  try {
+    intro = await pickIntro(brand);
+  } catch (error) {
+    log(`   intro clips unavailable: ${error instanceof Error ? error.message : error}`);
+  }
+  const variants: SiteVariant[] = intro ? [...session.variants, "laptop-zoom"] : session.variants;
+  if (!intro) log("   no intro clip available, so no laptop-zoom reel");
 
   const voices: Record<string, { words: WordTiming[]; duration: number }> = {};
-  const totals: Record<string, number> = {};
+  const timelines: Record<string, Timeline> = {};
+  const usedTracks = new Set<string>();
   let scripts: VariantScript[];
   let sources: string[] = [];
   try {
@@ -97,19 +108,28 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
       voices[s.variant] = opts.mock
         ? await mockVoice(s.voiceover, out, brand)
         : await step(`voice ${s.variant}`, () => synthesizeVoice(s.voiceover, out, brand));
-      totals[s.variant] = reelSeconds(voices[s.variant].duration, scroll.seconds, style.endCardSeconds);
+      // Each reel gets its own track, with the drop on its reveal and the end card on a beat.
+      timelines[s.variant] = await planTimeline(brand, {
+        voiceSeconds: voices[s.variant].duration,
+        reveal: s.variant === "laptop-zoom" ? intro!.seconds : s.variant === "before-after" ? "wipe" : "hook",
+        avoid: usedTracks,
+      });
     }
 
     // Record last, each at its reel's exact length, so footage fits the voice with no speed change.
     log("reels 4/5 Recording");
     const clip = (v: SiteVariant): ClipOptions => ({
       file: file(`${v}-recording.mp4`),
-      duration: totals[v],
-      heroHold: Math.max(scroll.heroHold, style.hookSeconds),
+      // After a laptop-zoom intro the recording starts as the screen fills the frame, already moving.
+      duration: v === "laptop-zoom" ? timelines[v].totalSeconds - intro!.seconds + INTRO_FADE : timelines[v].totalSeconds,
+      heroHold: v === "laptop-zoom" ? 1 : Math.max(scroll.heroHold, style.hookSeconds),
       sectionHold: scroll.sectionHold,
       footerHold: style.endCardSeconds,
+      beat: timelines[v].beat,
     });
     await step(`record ${input.name}`, () => session.record(Object.fromEntries(variants.map((v) => [v, clip(v)]))));
+    // The laptop's screen shows the real site too: a desktop recording, never a generated one.
+    if (intro) await step(`record ${input.name} for the laptop screen`, () => recordDesktop(input.url, file("laptop-zoom-desktop.mp4"), intro!.seconds));
   } finally {
     await session.close();
   }
@@ -123,14 +143,17 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
       recordingFile: file(`${s.variant}-recording.mp4`),
       beforeFile: s.variant === "before-after" ? beforeFile(file(`${s.variant}-recording.mp4`)) : undefined,
       voiceFile: file(`${s.variant}-voice.mp3`),
-      totalSeconds: totals[s.variant],
+      totalSeconds: timelines[s.variant].totalSeconds,
+      voiceStart: timelines[s.variant].voiceStart,
+      revealSeconds: timelines[s.variant].revealSeconds,
+      music: timelines[s.variant].music,
+      intro: s.variant === "laptop-zoom" && intro ? { clip: intro, desktopFile: file("laptop-zoom-desktop.mp4") } : undefined,
       hook: s.hook,
       captions: shown.captions,
       words: shown.words,
       outFile: file(`${id}-${s.variant}.mp4`),
     };
   });
-  const track = musicFor(brand);
   await step(`render ${input.name}`, () => renderVariants(brand, jobs, input.concept));
 
   const batch: Batch = {
@@ -155,8 +178,9 @@ export async function produceBatch(brand: Brand, input: BatchInput, opts: BatchO
       script: s,
       postText: postText(s, input.concept, opts.campaign, brand),
       hookSource: sources[i],
-      music: track ?? undefined,
-      seconds: totals[s.variant],
+      music: timelines[s.variant].music ?? undefined,
+      intro: s.variant === "laptop-zoom" ? intro?.clip.file : undefined,
+      seconds: timelines[s.variant].totalSeconds,
       file: path.relative(ROOT, jobs[i].outFile),
     })),
   };

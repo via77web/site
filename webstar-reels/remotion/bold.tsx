@@ -5,21 +5,22 @@ import { FONT_DISPLAY, FONT_HEAVY, clamp, rgba, type Theme } from "./shared";
 
 /** Loud and fast: uppercase display type, words that pop, a bouncing button. */
 
-const Hook: Theme["Hook"] = ({ text, style }) => {
+const Hook: Theme["Hook"] = ({ text, style, light }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const words = text.replace(/[.]+$/, "").split(/\s+/);
   const fadeOut = interpolate(frame, [durationInFrames - 6, durationInFrames], [1, 0], clamp);
   // Shrink the type for longer hooks so it always fits in four or five lines.
-  const fontSize = words.length <= 6 ? 168 : words.length <= 9 ? 142 : 118;
+  const fontSize = (words.length <= 6 ? 168 : words.length <= 9 ? 142 : 118) * (light ? 0.74 : 1);
   return (
     <AbsoluteFill
       style={{
         opacity: fadeOut,
-        backgroundColor: rgba(style.colors.scrim, 0.58),
-        justifyContent: "center",
+        backgroundColor: rgba(style.colors.scrim, light ? 0.3 : 0.58),
+        // Over a laptop-zoom intro the hook sits in the top third, clear of the laptop.
+        justifyContent: light ? "flex-start" : "center",
         alignItems: "center",
-        padding: "0 80px",
+        padding: light ? "210px 80px 0" : "0 80px",
       }}
     >
       <div

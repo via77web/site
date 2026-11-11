@@ -42,6 +42,8 @@ function footage(variant: SiteVariant, plan: SitePlan): string {
       return `A finger taps through the site's interactions: ${plan.interactions
         .map((i) => `${i.kind} ("${i.label}")`)
         .join(", ")}. Talk about how it feels to use.`;
+    case "laptop-zoom":
+      return "Opens on someone at a laptop with this site on its screen. The hook is on screen as text only, with no voice, while the camera pushes into the laptop until the site fills the frame; then it scrolls the site on a phone. The voiceover starts at that moment. For this reel only, do NOT open the voiceover with the hook: start with what the viewer now sees.";
   }
 }
 
@@ -155,6 +157,7 @@ export function mockScripts(brand: Brand, site: ScriptSite, variants: VariantId[
     detail: "Look closer. The detail is where trust is built.",
     "before-after": "Same words. Now watch what design does to them.",
     interaction: "Tap it. Everything answers straight away.",
+    "laptop-zoom": "This is what your customers see the second it loads.",
   };
   return variants.map((variant, i) => {
     const hook = hooks[i];
@@ -162,7 +165,7 @@ export function mockScripts(brand: Brand, site: ScriptSite, variants: VariantId[
     return {
       variant,
       hook,
-      voiceover: `${opener} ${bodies[variant] ?? "Watch it come together, start to finish."} ${brand.spokenCta}`,
+      voiceover: `${variant === "laptop-zoom" ? "" : `${opener} `}${bodies[variant] ?? "Watch it come together, start to finish."} ${brand.spokenCta}`,
       captions: [],
       postCaption: `${site.name}: ${site.niche.split(",")[0]}, by ${brand.name}.`,
       hashtags: brand.hashtags,

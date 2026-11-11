@@ -20,7 +20,9 @@
     "typecheck": "tsc --noEmit",
     "ai:test": "tsx src/cli/ai.ts",
     "learn": "tsx src/cli/learn.ts",
-    "tracking:setup": "tsx src/cli/tracking.ts"
+    "tracking:setup": "tsx src/cli/tracking.ts",
+    "intros": "tsx src/cli/intros.ts",
+    "intros:generate": "tsx src/cli/intros.ts generate"
   },
   "engines": {
     "node": ">=20"

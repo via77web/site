@@ -2,7 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
 import { dropTrailingPhrase } from "../../remotion/captions.js";
-import { reelSeconds } from "../../remotion/timing.js";
 import { ROOT, type Brand } from "../lib/brand.js";
 import { loadBatches, saveBatch } from "../lib/batches.js";
 import type { Campaign } from "../lib/calendar.js";
@@ -13,10 +12,15 @@ import { log, step, warn } from "../lib/log.js";
 import { nextHooks } from "../lib/queue.js";
 import { postText } from "../reels.js";
 import { openSite } from "../steps/record.js";
-import { musicFor, renderStills, renderVariants } from "../steps/render.js";
+import { renderStills, renderVariants } from "../steps/render.js";
+import { INTRO_FADE } from "../../remotion/timing.js";
+import { pickIntro } from "../lib/intros.js";
+import { snapToBeat } from "../lib/music.js";
+import { planTimeline } from "../lib/timeline.js";
+import { recordDesktop } from "../steps/record.js";
 import { mockScripts, scriptProblems } from "../steps/script.js";
 import { mockVoice, synthesizeVoice } from "../steps/voice.js";
-import { VARIANT_LABEL, type Batch, type Shot, type StillFormat, type VariantScript } from "../types.js";
+import { VARIANT_LABEL, type Batch, type Shot, type StillFormat, type VariantId, type VariantScript } from "../types.js";
 import { libraryDir, libraryText, loadLibrary, usableImages, type Library, type LibraryImage } from "./library.js";
 
 /** Formats in the order the week cycles through them. */
@@ -249,10 +253,16 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
   const voice = opts.mock
     ? await mockVoice(script.voiceover, voiceFile, brand)
     : await step(`voice ${format}`, () => synthesizeVoice(script.voiceover, voiceFile, brand));
-  const total = reelSeconds(voice.duration, brand.scroll.seconds, brand.style.endCardSeconds);
+  // A site-scroll day opens as a laptop zoom when the brand has an intro clip it hasn't used lately.
+  const intro = format === "site-scroll" ? await pickIntro(brand).catch(() => null) : null;
+  const timeline = await planTimeline(brand, {
+    voiceSeconds: voice.duration,
+    reveal: intro ? intro.seconds : format === "transformation" ? "wipe" : "hook",
+  });
+  const total = timeline.totalSeconds;
+  const variantId: VariantId = intro ? "laptop-zoom" : format;
   const shown = brand.captionSpokenCta ? { words: voice.words, captions: script.captions } : dropTrailingPhrase(voice.words, script.captions, brand.spokenCta);
   const outFile = file(`${id}.mp4`);
-  const track = musicFor(brand);
   let aiDisclosure: string | null = null;
 
   if (format === "site-scroll") {
@@ -260,14 +270,40 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
     try {
       await step("record site", () =>
         session.record({
-          full: { file: file("full-recording.mp4"), duration: total, heroHold: Math.max(brand.scroll.heroHold, brand.style.hookSeconds), sectionHold: brand.scroll.sectionHold, footerHold: brand.style.endCardSeconds },
+          full: {
+            file: file("full-recording.mp4"),
+            duration: intro ? total - intro.seconds + INTRO_FADE : total,
+            heroHold: intro ? 1 : Math.max(brand.scroll.heroHold, brand.style.hookSeconds),
+            sectionHold: brand.scroll.sectionHold,
+            footerHold: brand.style.endCardSeconds,
+          },
         }),
       );
+      if (intro) await step("record site for the laptop screen", () => recordDesktop(plan.pageUrl!, file("desktop.mp4"), intro.seconds));
     } finally {
       await session.close();
     }
     await step("render", () =>
-      renderVariants(brand, [{ variant: "full", recordingFile: file("full-recording.mp4"), voiceFile, totalSeconds: total, hook: script.hook, captions: shown.captions, words: shown.words, outFile }], false),
+      renderVariants(
+        brand,
+        [
+          {
+            variant: intro ? "laptop-zoom" : "full",
+            recordingFile: file("full-recording.mp4"),
+            voiceFile,
+            totalSeconds: total,
+            voiceStart: timeline.voiceStart,
+            revealSeconds: timeline.revealSeconds,
+            music: timeline.music,
+            intro: intro ? { clip: intro, desktopFile: file("desktop.mp4") } : undefined,
+            hook: script.hook,
+            captions: shown.captions,
+            words: shown.words,
+            outFile,
+          },
+        ],
+        false,
+      ),
     );
   } else {
     const shots: Shot[] = [];
@@ -294,6 +330,12 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
     }
     // Stills animated by a generative model are AI footage: the whole reel carries the label.
     const animated = shots.some((s) => s.video);
+    // Cuts between photos land on beats of the music.
+    if (timeline.beat && shots.length > 1) {
+      const end = total - brand.style.endCardSeconds;
+      const cuts = shots.map((_, i) => (i === shots.length - 1 ? total : snapToBeat((end * (i + 1)) / shots.length, timeline.beat)));
+      shots.forEach((s, i) => (s.seconds = cuts[i] - (cuts[i - 1] ?? 0)));
+    }
     if (animated) aiDisclosure = brand.ai?.disclosure ?? "Includes AI-animated footage.";
     await step("render", () =>
       renderStills(brand, {
@@ -305,6 +347,7 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
           material: plan.material ? { name: plan.material, note: "Finish spotlight" } : null,
           rows: format === "explainer" ? (script.rows ?? null) : null,
           totalSeconds: total,
+          revealSeconds: timeline.revealSeconds,
           hook: script.hook,
           captions: shown.captions,
           words: shown.words,
@@ -312,6 +355,7 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
         files,
         voiceFile,
         outFile,
+        music: timeline.music,
       }),
     );
   }
@@ -326,14 +370,15 @@ Hook: ${hook}${plan.material ? `\nThe finish on screen is ${plan.material}; name
     campaign: opts.campaign?.id,
     variants: [
       {
-        id: format,
+        id: variantId,
         status: "ready",
-        script: cleanScript,
+        script: { ...cleanScript, variant: variantId },
         postText: (aiDisclosure ? `${aiDisclosure} ` : "") + postText(cleanScript, false, opts.campaign, brand),
         seconds: total,
         file: path.relative(ROOT, outFile),
         hookSource: hook,
-        music: track ?? undefined,
+        music: timeline.music ?? undefined,
+        intro: intro?.clip.file,
         plannedFor: opts.plannedFor,
         assets: [
           ...plan.images.map((i) => i.id),

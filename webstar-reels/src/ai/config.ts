@@ -26,6 +26,15 @@ const AiConfigSchema = z.object({
   /** Which entry of videoModels to use. FAL_VIDEO_MODEL in .env overrides it. */
   video: z.string(),
   videoModels: z.record(z.string(), VideoModel),
+  /** Which entry of introModels `npm run intros:generate` uses. FAL_INTRO_MODEL in .env overrides it. */
+  intro: z.string(),
+  /** Text-to-video presets for laptop-zoom intro clips. Inputs take {prompt} and {negative}. */
+  introModels: z.record(z.string(), VideoModel),
+  /** Prices for the OpenAI image step of `npm run make`, for the cost log. */
+  openaiImages: z.object({
+    usdPerImage: z.record(z.string(), z.record(z.string(), z.number())),
+    usdPerMillionTokens: z.object({ textIn: z.number(), imageIn: z.number(), imageOut: z.number() }),
+  }),
   imageEdit: z.object({ id: z.string(), usdPerImage: z.number().min(0), input: Input }),
   /** Optional fal video upscaler for models that can't output 1080x1920: { id, usdPerSecond, input } with {video}. */
   upscale: z.object({ id: z.string(), usdPerSecond: z.number().min(0), input: Input }).nullable().default(null),

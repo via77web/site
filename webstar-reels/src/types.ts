@@ -17,8 +17,8 @@ export interface Site {
   batch?: string;
 }
 
-/** The four reels made from every site. */
-export const VARIANTS = ["full", "detail", "before-after", "interaction"] as const;
+/** The reels made from every site. "laptop-zoom" is only made when the brand has a usable intro clip in intros/. */
+export const VARIANTS = ["full", "detail", "before-after", "interaction", "laptop-zoom"] as const;
 export type SiteVariant = (typeof VARIANTS)[number];
 
 /** Reel formats for brands whose content is a photo library (Verrano), not websites. */
@@ -37,6 +37,7 @@ export const VARIANT_LABEL: Record<VariantId, string> = {
   detail: "Detail zooms",
   "before-after": "Before / after",
   interaction: "Interaction demo",
+  "laptop-zoom": "Laptop zoom",
   transformation: "Transformation",
   showcase: "Project showcase",
   finish: "Finish spotlight",
@@ -92,8 +93,10 @@ export interface BatchVariant {
   scheduledFor?: string;
   /** The hook as written in hooks.json (before filling in names), so results can be credited to it. */
   hookSource?: string;
-  /** Royalty-free track used, from music/library.json. */
-  music?: string;
+  /** Royalty-free track used, with its licence, from music/library.json. */
+  music?: import("./lib/music.js").ReelMusic;
+  /** Intro clip used by a laptop-zoom reel. */
+  intro?: string;
   /** Local date (YYYY-MM-DD) the weekly plan gives this reel. */
   plannedFor?: string;
   /** Local date it was put up for approval. */
@@ -130,6 +133,51 @@ export interface Batch {
   variants: BatchVariant[];
 }
 
+/** The reel's music, lined up so its drop lands on the reveal. */
+export type MusicProps = {
+  src: string;
+  /** Seconds into the track where playback starts. */
+  startAt: number;
+  /** Seconds into the reel before the music comes in. */
+  delay: number;
+  /** Level between lines, 0 to 1. It sits 12 dB lower under the voice. */
+  level: number;
+  /** Length of one beat, for moves that keep time with the track. */
+  beatSeconds: number;
+};
+
+export type ReelAudioProps = {
+  voiceSrc: string;
+  /** When the voiceover starts, in reel time. */
+  voiceStart: number;
+  music: MusicProps | null;
+  /** Word timings in reel time. */
+  words: WordTiming[];
+};
+
+/** A laptop-zoom opening: a clip of someone at a laptop, with the real site recording pinned to its screen. */
+export type IntroProps = {
+  /** The clip as filmed or generated. */
+  src: string;
+  /** The same clip with its green screen keyed out (transparent), so hands and objects stay in front of the screen. */
+  keyedSrc: string | null;
+  /** Real desktop recording of the site, shown on the laptop screen. */
+  desktopSrc: string;
+  width: number;
+  height: number;
+  /** The screen's corners in clip pixels: top-left, top-right, bottom-right, bottom-left. */
+  corners: [number, number][];
+  seconds: number;
+  /** Length of the push-in at the end of the intro. */
+  zoomSeconds: number;
+  /** Dims the pinned recording to match the room's light, 0.8 to 1. */
+  screenBrightness: number;
+  /** Average colour of the room, laid faintly over the screen so it takes on the room's light. */
+  tint: string;
+  /** Shown during the intro when the clip is AI-generated and the brand labels AI footage. */
+  aiLabel: string | null;
+};
+
 /** Input props of the Remotion composition. Asset paths are relative to public/. */
 export type ReelProps = {
   variant: VariantId;
@@ -137,13 +185,19 @@ export type ReelProps = {
   /** before-after only: the "before" footage, scrolled in step with the main recording. */
   beforeSrc: string | null;
   voiceSrc: string;
-  musicSrc: string | null;
+  music: MusicProps | null;
+  /** When the voiceover starts (after the intro on a laptop-zoom reel, otherwise 0). */
+  voiceStart: number;
+  /** The reveal the music drop lands on: hook clearing, the before-after wipe, or the end of the laptop zoom. */
+  revealSeconds: number;
+  intro: IntroProps | null;
   logoSrc: string | null;
   brandName: string;
   style: BrandStyle;
   totalSeconds: number;
   hook: string;
   captions: string[];
+  /** Word timings in reel time. */
   words: WordTiming[];
   /** End card headline and the action line under it. */
   ctaLine: string;
@@ -179,7 +233,9 @@ export type StillsProps = {
   material: { name: string; note: string } | null;
   rows: { label: string; wrap: string; replace: string }[] | null;
   voiceSrc: string;
-  musicSrc: string | null;
+  music: MusicProps | null;
+  /** The reveal the music drop lands on (the wipe on a transformation, otherwise the hook clearing). */
+  revealSeconds: number;
   logoSrc: string | null;
   brandName: string;
   style: BrandStyle;

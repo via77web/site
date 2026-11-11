@@ -22,9 +22,25 @@
   "link": "https://www.via77.com.au/",
   "commentKeyword": "STORE",
   "commentPrompt": "Comment STORE and we'll send you the details.",
-  "musicMoods": [
-    "ambient"
-  ],
+  "music": {
+    "genres": [
+      "minimal house",
+      "melodic house"
+    ],
+    "bpm": [
+      115,
+      120
+    ],
+    "moods": [
+      "polished",
+      "warm",
+      "airy",
+      "luxurious"
+    ],
+    "drops": "soft",
+    "level": 0.65
+  },
+  "introScene": "A calm, premium design studio in neutral tones with soft diffused light, a ceramic cup of coffee on a pale timber desk, uncluttered.",
   "voice": {
     "maxWords": 32,
     "stability": 0.7,
@@ -42,7 +58,6 @@
     "hookSeconds": 2.4,
     "endCardSeconds": 3,
     "zoom": 0.025,
-    "musicVolume": 0.1,
     "colors": {
       "background": "#F6F5F1",
       "text": "#20221F",

@@ -16,6 +16,7 @@ import type { StillsProps, Shot } from "../src/types";
 import { BeforeAfterLayer } from "./Reel";
 import { FONT_DISPLAY, FONT_HEAVY, FONT_SANS, clamp, rgba } from "./shared";
 import { THEMES } from "./themes";
+import { ReelAudio } from "./audio";
 
 const build = Easing.bezier(...EASE.build);
 const FADE = 10;
@@ -234,7 +235,7 @@ const Comparison: React.FC<{ rows: NonNullable<StillsProps["rows"]>; style: Stil
 };
 
 export const Stills: React.FC<StillsProps> = (props) => {
-  const { format, shots, pair, material, rows, aiLabel, style, voiceSrc, musicSrc, logoSrc, brandName, hook, captions, words, ctaLine, ctaAction } = props;
+  const { format, shots, pair, material, rows, aiLabel, style, voiceSrc, music, revealSeconds, logoSrc, brandName, hook, captions, words, ctaLine, ctaAction } = props;
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const theme = THEMES[style.theme];
@@ -245,7 +246,7 @@ export const Stills: React.FC<StillsProps> = (props) => {
 
   let visual: React.ReactNode = null;
   if (format === "transformation" && pair) {
-    const wipeStart = Math.round(hookFrames + body * 0.38);
+    const wipeStart = Math.round(revealSeconds * fps);
     visual = (
       <AbsoluteFill>
         <Moving shot={pair.after} frames={durationInFrames} strength={0.5} />
@@ -302,14 +303,7 @@ export const Stills: React.FC<StillsProps> = (props) => {
 
       {aiLabel ? <AiTag text={aiLabel} style={style} /> : null}
 
-      <Audio src={staticFile(voiceSrc)} />
-      {musicSrc ? (
-        <Audio
-          src={staticFile(musicSrc)}
-          loop
-          volume={(f) => style.musicVolume * interpolate(f, [0, fps * 0.5, durationInFrames - fps, durationInFrames], [0, 1, 1, 0], clamp)}
-        />
-      ) : null}
+      <ReelAudio voiceSrc={voiceSrc} voiceStart={0} music={music} words={words} />
     </AbsoluteFill>
   );
 };

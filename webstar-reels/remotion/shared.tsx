@@ -23,7 +23,8 @@ export function rgba(hex: string, alpha: number): string {
 export interface Theme {
   /** Gradient laid over the footage for the whole reel, so captions stay readable. */
   footageOverlay: (style: BrandStyle) => string;
-  Hook: React.FC<{ text: string; brandName: string; style: BrandStyle }>;
+  /** `light`: a thinner scrim, for hooks shown over a laptop-zoom intro. */
+  Hook: React.FC<{ text: string; brandName: string; style: BrandStyle; light?: boolean }>;
   Captions: React.FC<{ words: WordTiming[]; captions: string[]; style: BrandStyle }>;
   EndCard: React.FC<{
     ctaLine: string;

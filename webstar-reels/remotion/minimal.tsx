@@ -8,7 +8,7 @@ import { FONT_SANS, clamp, rgba, type Theme } from "./shared";
 const ease = { ...clamp, easing: Easing.out(Easing.cubic) };
 const type = { fontFamily: FONT_SANS, fontWeight: 500, letterSpacing: "-0.045em" } as const;
 
-const Hook: Theme["Hook"] = ({ text, brandName, style }) => {
+const Hook: Theme["Hook"] = ({ text, brandName, style, light }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const { background: paper, accent, scrim } = style.colors;
@@ -16,14 +16,14 @@ const Hook: Theme["Hook"] = ({ text, brandName, style }) => {
   const rule = interpolate(frame, [4, 4 + fps * 0.9], [0, 1], ease);
   // Hooks are often two short sentences; give each its own line group and let the second arrive later.
   const sentences = text.match(/[^.!?]+[.!?]*/g)?.map((s) => s.trim()).filter(Boolean) ?? [text];
-  const fontSize = text.length <= 30 ? 112 : text.length <= 48 ? 96 : 82;
+  const fontSize = (text.length <= 30 ? 112 : text.length <= 48 ? 96 : 82) * (light ? 0.8 : 1);
   return (
     <AbsoluteFill
       style={{
         opacity: fadeOut,
-        backgroundColor: rgba(scrim, 0.74),
-        justifyContent: "center",
-        padding: "0 96px",
+        backgroundColor: rgba(scrim, light ? 0.42 : 0.74),
+        justifyContent: light ? "flex-start" : "center",
+        padding: light ? "220px 96px 0" : "0 96px",
       }}
     >
       <div

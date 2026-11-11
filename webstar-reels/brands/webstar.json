@@ -18,9 +18,25 @@
   "link": "https://shazilsohel.com/",
   "commentKeyword": "WEBSITE",
   "commentPrompt": "Comment WEBSITE and we'll send you the link.",
-  "musicMoods": [
-    "upbeat"
-  ],
+  "music": {
+    "genres": [
+      "deep house",
+      "future house"
+    ],
+    "bpm": [
+      120,
+      125
+    ],
+    "moods": [
+      "bright",
+      "bouncy",
+      "friendly",
+      "energetic"
+    ],
+    "drops": "clear",
+    "level": 0.8
+  },
+  "introScene": "A bright, friendly home office or café table in natural daylight, plants and a notebook nearby, warm and casual.",
   "voice": {
     "maxWords": 30,
     "stability": 0.4,
@@ -38,7 +54,6 @@
     "hookSeconds": 1.5,
     "endCardSeconds": 2.5,
     "zoom": 0.045,
-    "musicVolume": 0.12,
     "colors": {
       "background": "#0B0B10",
       "text": "#FFFFFF",

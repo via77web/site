@@ -1,36 +1,124 @@
 {
-  "note": "fal models for Verrano AI visualisation reels. Model ids, input fields and prices change: check each model's page on fal.ai and edit here. `npm run ai:test` makes one clip to confirm a preset works. In inputs, {prompt} {negative} {image} {end_image} are filled in.",
+  "note": "fal models for Verrano AI visualisation reels. Model ids, input fields and prices change: check each model's page on fal.ai and edit here. `npm run ai:test` makes one clip to confirm a preset works. In inputs, {prompt} {negative} {image} {end_image} are filled in. introModels are text-to-video presets for laptop-zoom intro clips (npm run intros:generate).",
   "video": "kling",
   "videoModels": {
     "kling": {
       "id": "fal-ai/kling-video/v2.6/pro/image-to-video",
       "seconds": 5,
       "usdPerSecond": 0.07,
-      "input": { "prompt": "{prompt}", "negative_prompt": "{negative}", "image_url": "{image}", "duration": "5" },
-      "endFrame": { "input": { "tail_image_url": "{end_image}" } }
+      "input": {
+        "prompt": "{prompt}",
+        "negative_prompt": "{negative}",
+        "image_url": "{image}",
+        "duration": "5"
+      },
+      "endFrame": {
+        "input": {
+          "tail_image_url": "{end_image}"
+        }
+      }
     },
     "veo3": {
       "id": "fal-ai/veo3.1/image-to-video",
       "seconds": 8,
       "usdPerSecond": 0.4,
-      "input": { "prompt": "{prompt}", "image_url": "{image}", "duration": "8s", "aspect_ratio": "9:16", "resolution": "1080p", "generate_audio": false },
+      "input": {
+        "prompt": "{prompt}",
+        "image_url": "{image}",
+        "duration": "8s",
+        "aspect_ratio": "9:16",
+        "resolution": "1080p",
+        "generate_audio": false
+      },
       "endFrame": {
         "id": "fal-ai/veo3.1/first-last-frame-to-video",
         "replace": true,
-        "input": { "prompt": "{prompt}", "first_frame_url": "{image}", "last_frame_url": "{end_image}", "duration": "8s", "aspect_ratio": "9:16", "resolution": "1080p", "generate_audio": false }
+        "input": {
+          "prompt": "{prompt}",
+          "first_frame_url": "{image}",
+          "last_frame_url": "{end_image}",
+          "duration": "8s",
+          "aspect_ratio": "9:16",
+          "resolution": "1080p",
+          "generate_audio": false
+        }
       }
     },
     "runway": {
       "id": "fal-ai/runway-gen4/turbo/image-to-video",
       "seconds": 5,
       "usdPerSecond": 0.05,
-      "input": { "prompt": "{prompt}", "image_url": "{image}", "duration": 5, "ratio": "720:1280" }
+      "input": {
+        "prompt": "{prompt}",
+        "image_url": "{image}",
+        "duration": 5,
+        "ratio": "720:1280"
+      }
     }
   },
   "imageEdit": {
     "id": "fal-ai/nano-banana-2/edit",
     "usdPerImage": 0.08,
-    "input": { "prompt": "{prompt}", "image_urls": ["{image}"], "aspect_ratio": "9:16", "resolution": "2K" }
+    "input": {
+      "prompt": "{prompt}",
+      "image_urls": [
+        "{image}"
+      ],
+      "aspect_ratio": "9:16",
+      "resolution": "2K"
+    }
+  },
+  "intro": "veo3",
+  "introModels": {
+    "veo3": {
+      "id": "fal-ai/veo3.1",
+      "seconds": 4,
+      "usdPerSecond": 0.4,
+      "input": {
+        "prompt": "{prompt}",
+        "negative_prompt": "{negative}",
+        "aspect_ratio": "9:16",
+        "duration": "4s",
+        "resolution": "1080p",
+        "generate_audio": false
+      }
+    },
+    "kling": {
+      "id": "fal-ai/kling-video/v2.6/pro/text-to-video",
+      "seconds": 5,
+      "usdPerSecond": 0.07,
+      "input": {
+        "prompt": "{prompt}",
+        "negative_prompt": "{negative}",
+        "aspect_ratio": "9:16",
+        "duration": "5"
+      }
+    }
+  },
+  "openaiImages": {
+    "note": "USD per image by quality and size, used for the cost log when the API reports no token usage. Check platform.openai.com/docs/pricing.",
+    "usdPerImage": {
+      "high": {
+        "1024x1024": 0.17,
+        "1024x1536": 0.25,
+        "1536x1024": 0.25
+      },
+      "medium": {
+        "1024x1024": 0.04,
+        "1024x1536": 0.06,
+        "1536x1024": 0.06
+      },
+      "low": {
+        "1024x1024": 0.011,
+        "1024x1536": 0.016,
+        "1536x1024": 0.016
+      }
+    },
+    "usdPerMillionTokens": {
+      "textIn": 5,
+      "imageIn": 10,
+      "imageOut": 40
+    }
   },
   "upscale": null,
   "qc": {
@@ -41,5 +129,8 @@
     "vision": true,
     "attempts": 2
   },
-  "budget": { "maxUsdPerReel": 8, "maxUsdPerWeek": 30 }
+  "budget": {
+    "maxUsdPerReel": 8,
+    "maxUsdPerWeek": 30
+  }
 }

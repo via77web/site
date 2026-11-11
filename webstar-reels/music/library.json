@@ -1,23 +1,58 @@
 {
-  "note": "The only music reels may use. Every track must be royalty-free and say where its licence comes from. Files in this folder that are not listed here are ignored. Never add trending or commercial audio.",
+  "note": "The only music reels may use. Every track is tagged with its brands, BPM, genre, moods and where its licence comes from, and must be royalty-free. Files in this folder that are not listed here are ignored. Never add trending or commercial audio.",
   "tracks": [
     {
-      "file": "upbeat-loop-01.mp3",
-      "title": "Upbeat loop 01",
-      "moods": ["upbeat", "energetic"],
-      "brands": ["webstar", "verrano"],
+      "file": "bright-bounce-124.mp3",
+      "title": "Bright Bounce",
+      "brands": [
+        "webstar"
+      ],
+      "bpm": 124,
+      "genre": "future house",
+      "moods": [
+        "bright",
+        "bouncy",
+        "friendly",
+        "energetic"
+      ],
       "royaltyFree": true,
-      "license": "Generated in-house for this project (synthesised with numpy and ffmpeg). No third-party rights.",
-      "source": "in-house"
+      "source": "In-house",
+      "license": "Generated in-house for this project (synthesised with numpy and ffmpeg). No third-party rights. Placeholder: replace with licensed tracks."
     },
     {
-      "file": "ambient-pad-01.mp3",
-      "title": "Ambient pad 01",
-      "moods": ["ambient", "calm"],
-      "brands": ["via77"],
+      "file": "warm-air-118.mp3",
+      "title": "Warm Air",
+      "brands": [
+        "via77"
+      ],
+      "bpm": 118,
+      "genre": "melodic house",
+      "moods": [
+        "polished",
+        "warm",
+        "airy",
+        "luxurious"
+      ],
       "royaltyFree": true,
-      "license": "Generated in-house for this project (synthesised with ffmpeg). No third-party rights.",
-      "source": "in-house"
+      "source": "In-house",
+      "license": "Generated in-house for this project (synthesised with numpy and ffmpeg). No third-party rights. Placeholder: replace with licensed tracks."
+    },
+    {
+      "file": "punch-groove-125.mp3",
+      "title": "Punch Groove",
+      "brands": [
+        "verrano"
+      ],
+      "bpm": 125,
+      "genre": "tech house",
+      "moods": [
+        "punchy",
+        "confident",
+        "satisfying"
+      ],
+      "royaltyFree": true,
+      "source": "In-house",
+      "license": "Generated in-house for this project (synthesised with numpy and ffmpeg). No third-party rights. Placeholder: replace with licensed tracks."
     }
   ]
 }

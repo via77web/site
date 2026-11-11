@@ -6,3 +6,5 @@ node_modules/
 out/
 public/run/
 references
+intros/.cache/
+music/analysis.json

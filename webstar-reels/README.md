@@ -45,7 +45,7 @@ Other ways in:
 
 ## Reels
 
-### WEBSTAR and VIA77: four angles per site
+### WEBSTAR and VIA77: four angles per site, plus laptop zoom
 
 | Angle | Footage |
 | --- | --- |
@@ -155,6 +155,8 @@ Do this once for WEBSTAR, VIA77 and VERRANO:
 - [ ] **Profile IDs**: run `npm run buffer:channels`, and copy each brand's three lines into `.env`:
       `BUFFER_PROFILE_IDS_WEBSTAR=instagram:…,tiktok:…,youtube:…` (and `_VIA77`, `_VERRANO`).
 - [ ] **Voice**: pick an ElevenLabs voice for the brand and put its ID in `ELEVENLABS_VOICE_ID_<BRAND>`.
+- [ ] **Music**: download at least 8 tracks in the brand's genre and tempo from your royalty-free library (for example Epidemic Sound), put them in `music/` and list each in `music/library.json` with its BPM and licence ([music/README.md](music/README.md)).
+- [ ] **Intro clips**: film or generate 5 to 8 laptop clips into `intros/<brand>/` and run `npm run intros` ([intros/README.md](intros/README.md)).
 - [ ] **Bio link**: after lead tracking is set up, put the brand's link-in-bio link (from `npm run tracking:setup`) in the Instagram and TikTok profiles and the YouTube channel links.
 - [ ] **ManyChat**: connect the brand's Instagram and add its keyword automation ([docs/manychat.md](docs/manychat.md)).
 - [ ] **Test**: approve one reel and check it arrives in Buffer's queue for all three channels at the brand's slot, with the right caption on each.
@@ -165,7 +167,7 @@ Do this once for WEBSTAR, VIA77 and VERRANO:
 cp .env.example .env
 ```
 
-Fill in ElevenLabs, Buffer, `GITHUB_REPOSITORY`, and each brand's voice and Buffer channel IDs from the checklist above. For lead tracking add `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` and `TRACK_BASE_URL` ([docs/lead-tracking.md](docs/lead-tracking.md)). Add `GEMINI_API_KEY` for generated-site images and `VERCEL_TOKEN` for preview links. Leave `ANTHROPIC_API_KEY` empty to run Claude on your subscription.
+Fill in ElevenLabs, Buffer, `GITHUB_REPOSITORY`, and each brand's voice and Buffer channel IDs from the checklist above. For lead tracking add `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` and `TRACK_BASE_URL` ([docs/lead-tracking.md](docs/lead-tracking.md)). Add `OPENAI_API_KEY` for generated-site images and `VERCEL_TOKEN` for preview links. Leave `ANTHROPIC_API_KEY` empty to run Claude on your subscription.
 
 ### 5. Run the setup script
 
@@ -207,6 +209,8 @@ Each external step (Claude, images, Vercel, recording, ElevenLabs, rendering, up
 | `npm run weekly -- --brand verrano --days 3` | Make the next 3 days for one brand (`--start YYYY-MM-DD`, `--mock`, `--dry-run`) |
 | `npm run daily -- --no-wait` | Offer today's reels without waiting (approve later with `npm run review`) |
 | `npm run review` | Open the approval page |
+| `npm run intros` | Check every laptop-zoom intro clip and register new files in `intros/<brand>/` |
+| `npm run intros:generate -- --brand webstar` | Generate intro clips with fal (spends fal credit; `--mock` is free) |
 | `npm run make "<brief>" --brand=webstar` | One concept site and its four reels now, designed from `references/` (left ready; approve on the review page). `--refs=<folder>` names the folder; `-- --no-refs` skips references |
 | `npm run approve -- <batch-id> all` | Approve from the terminal |
 | `npm run schedule` | Schedule approved reels into their slots now |
@@ -247,7 +251,30 @@ Guard rails, because early numbers are noisy: nothing is promoted or retired unt
 
 ## Music
 
-Reels only use tracks from the local [`music/`](music/README.md) library, where every track is tagged by mood and brand and must be marked royalty-free with its licence. Each brand draws from its `musicMoods`. Unlisted files are ignored, a brand with no licensed track gets voice only, and nothing ever attaches a platform's trending or commercial audio. The two tracks included were generated for this project; add licensed ones as you get them.
+Reels only use tracks from the local [`music/`](music/README.md) library: royalty-free only (for example Epidemic Sound), each tagged with its brands, BPM, genre, moods and licence source. Each brand has a `music` block in its config:
+
+| Brand | Music |
+| --- | --- |
+| WEBSTAR | deep house / future house, 120-125 BPM, bright and bouncy, clear drops |
+| VIA77 | minimal / melodic house, 115-120 BPM, polished and warm, no harsh drops |
+| VERRANO | groovy tech house, 122-126 BPM, punchy and confident |
+
+For every reel the engine picks the best-fitting track the brand hasn't used in the last 7 days, detects its beats and drop, starts it so **the drop lands on the reveal**, moves cuts and the end card onto beats, and ducks the music 12 dB under the voiceover. When a reel is scheduled, the track and its licence are written to `music/usage-log.csv`. Unlisted files are ignored, a brand with no licensed track gets voice only, and nothing ever attaches a platform's trending or commercial audio.
+
+The three tracks included were generated for this project as placeholders, one per brand. With one track per brand the 7-day rule can't hold (the log says so each run): add at least 8 licensed tracks per brand. See [`music/README.md`](music/README.md).
+
+## Laptop-zoom reels
+
+A fifth angle for every site: the reel opens on someone at a MacBook with the site on its screen, the hook sits over the shot, the camera pushes in for about 1.8 seconds until the screen fills the frame, and it cross-fades into the full-quality recording. The voiceover starts on that reveal, and so does the music drop.
+
+- **The site is always the real recording.** A desktop recording of the site is corner-pinned onto the laptop screen, dimmed and tinted to the room's light, with a faint glow and reflection. Intro clips only supply the room and the laptop; a generated clip that shows anything but a blank green screen is rejected.
+- **Intro clips** live in `intros/<brand>/`, 5 to 8 per brand, 3 to 4 seconds each, camera locked off, laptop screen green or blank. Film your own, or generate them with fal: `npm run intros:generate -- --brand webstar` (per-brand rooms are set by `introScene` in each brand config). `npm run intros` checks every clip and registers new files.
+- **The screen's corners** are found automatically on a green screen. If that fails, add four points to `intros/intros.json`.
+- **Rotation.** A clip isn't reused by a brand within 5 days. With no clip available, the site simply gets no laptop-zoom reel.
+- **Learning loop.** Laptop zoom is a variant like the others (`laptop-zoom`), so its results are ranked against the other angles and it is promoted or retired on the same rules.
+- Verrano's site-scroll day opens as a laptop zoom when it has a clip free. A generated clip carries Verrano's "Visualisation" label while it is on screen.
+
+See [`intros/README.md`](intros/README.md) for filming and generating clips.
 
 ## References (your Pinterest workflow)
 
@@ -285,7 +312,7 @@ Reference analysis runs on Claude Code (it reads the image files), so it needs t
 
 ## Generated sites
 
-When references exist the direction comes from them (above). Otherwise Claude picks one of the brand's design directions from [`library/`](library/README.md), writes the site, images come from Nano Banana 2, and the site is built on the motion-system tokens (WEBSTAR one-page sites; VIA77 demo stores on store-kit). It is then audited (axe-core, clipped controls, sideways scroll, alt text, concept label, banned phrases, motion easings), fixed once by Claude if needed, and deployed as a Vercel preview. Reels are recorded from the local build.
+When references exist the direction comes from them (above). Otherwise Claude picks one of the brand's design directions from [`library/`](library/README.md), writes the site, images come from the OpenAI Images API (photoreal, high quality, portrait for heroes and square for product cards; set `IMAGE_PROVIDER=nano-banana` to use Google's model instead; each image's cost is logged in `logs/ai-costs.csv`), and the site is built on the motion-system tokens (WEBSTAR one-page sites; VIA77 demo stores on store-kit). It is then audited (axe-core, clipped controls, sideways scroll, alt text, concept label, banned phrases, motion easings), fixed once by Claude if needed, and deployed as a Vercel preview. Reels are recorded from the local build.
 
 ## State
 
@@ -296,7 +323,8 @@ All state is files in this folder, so back it up or commit it as you like:
 - `brands/<id>/briefs.json`: backlog of briefs for concept sites
 - `brands/<id>/hooks.json`: hooks, used in order (winners more often, retired ones skipped)
 - `brands/<id>/insights.md`, `learning.json`: last Sunday's results and what was decided from them
-- `music/`: the royalty-free music library
+- `music/`: the royalty-free music library, and `music/usage-log.csv`, the track and licence for every scheduled reel
+- `intros/`: laptop-zoom intro clips and `intros.json`
 - `brands/<id>/batches/*.json`: every reel: script, caption, status (`ready`, `awaiting`, `approved`, `scheduled`, `rejected`), planned day, slot, Buffer post IDs, photos used
 - `brands/verrano/library/`: crawled photos and `library.json`
 - `references/`: your saved screenshots, with each project's `brief.md`, `direction.json` and `comparison.md` (in iCloud Drive, not committed)

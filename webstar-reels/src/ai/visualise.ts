@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-import { reelSeconds } from "../../remotion/timing.js";
 import { ROOT, type Brand } from "../lib/brand.js";
 import { loadBatches, saveBatch } from "../lib/batches.js";
 import { run } from "../lib/exec.js";
@@ -9,6 +8,7 @@ import { log, step, warn } from "../lib/log.js";
 import { nextHooks } from "../lib/queue.js";
 import { postText } from "../reels.js";
 import { renderStills } from "../steps/render.js";
+import { planTimeline } from "../lib/timeline.js";
 import { mockScripts, scriptProblems } from "../steps/script.js";
 import { mockVoice, synthesizeVoice } from "../steps/voice.js";
 import { libraryDir, loadLibrary, usableImages, type LibraryImage } from "../stills/library.js";
@@ -301,15 +301,17 @@ Leave rows empty.`,
 
   // Clips play at their real length; the last still fills whatever time is left.
   const fixed = built.shots.reduce((sum, s) => sum + (s.seconds ?? 0), 0);
-  const total = Math.max(reelSeconds(voice.duration, brand.scroll.seconds, brand.style.endCardSeconds), fixed + 0.8 + brand.style.endCardSeconds);
+  const timeline = await planTimeline(brand, { voiceSeconds: voice.duration, reveal: "hook", minEndCardStart: fixed + 0.8 });
+  const total = timeline.totalSeconds;
   built.shots[built.shots.length - 1].seconds = total - fixed;
   const outFile = file(`${id}.mp4`);
   await step("render", () =>
     renderStills(brand, {
-      props: { format, shots: built.shots, pair: null, material: null, rows: null, aiLabel: ai.label, totalSeconds: total, hook: script.hook, captions: script.captions, words: voice.words },
+      props: { format, shots: built.shots, pair: null, material: null, rows: null, aiLabel: ai.label, totalSeconds: total, revealSeconds: timeline.revealSeconds, hook: script.hook, captions: script.captions, words: voice.words },
       files: built.files,
       voiceFile,
       outFile,
+      music: timeline.music,
       cta: ai.cta,
     }),
   );
@@ -330,6 +332,7 @@ Leave rows empty.`,
         // The disclosure always opens the caption, whatever the script wrote.
         postText: caption.includes(ai.disclosure) ? caption : `${ai.disclosure} ${caption}`,
         seconds: total,
+        music: timeline.music ?? undefined,
         file: path.relative(ROOT, outFile),
         plannedFor: opts.plannedFor,
         assets: built.sources.map((i) => i.id),
